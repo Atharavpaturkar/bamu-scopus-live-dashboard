@@ -98,11 +98,7 @@ theme = st.session_state.theme
 st.markdown(get_custom_css(theme), unsafe_allow_html=True)
 
 # Scopus Gateway Panel & Controls
-data_mode = st.sidebar.radio(
-    "📡 Data Engine Mode",
-    ["Live Scopus API (Auto-Sync)", "Benchmark Offline Demo (~2,500 Papers)"],
-    index=0
-)
+data_mode = "Live Scopus API (Auto-Sync)"
 
 # Manual Sync Button in Scopus Gateway Panel
 force_refresh = st.sidebar.button("🔄 Sync Scopus Now", use_container_width=True, type="primary")
@@ -830,15 +826,15 @@ with tab5:
             r1 = leaderboard_df.iloc[0]
             with pod1:
                 st.markdown(f"""
-                <div style="background: rgba(245, 158, 11, 0.12); border: 2px solid #F59E0B; border-radius: 16px; padding: 1.2rem; text-align: center; box-shadow: 0 8px 24px rgba(245, 158, 11, 0.2);">
+                <div style="background: rgba(234, 179, 8, 0.15); border: 2px solid #EAB308; border-radius: 16px; padding: 1.2rem; text-align: center; box-shadow: 0 8px 24px rgba(234, 179, 8, 0.25);">
                     <div style="font-size: 2.2rem; margin-bottom: 0.2rem;">🥇</div>
-                    <div style="font-size: 0.8rem; font-weight: 700; color: #F59E0B; text-transform: uppercase; letter-spacing: 0.08em;">RANK #1 PODIUM</div>
+                    <div style="font-size: 0.8rem; font-weight: 800; color: #EAB308; text-transform: uppercase; letter-spacing: 0.08em;">RANK #1 PODIUM</div>
                     <div style="font-size: 1.35rem; font-weight: 800; color: {text_primary}; margin: 0.3rem 0;">{r1['author']}</div>
                     <div style="font-size: 0.82rem; color: #0284C7; font-weight: 600; margin-bottom: 0.8rem;">{r1['primary_department']}</div>
                     <div style="display: flex; justify-content: space-around; background: {pod_stat_bg}; padding: 0.6rem; border-radius: 10px;">
                         <div><span style="font-size: 0.75rem; opacity: 0.85;">Papers</span><br><b style="color: {text_primary};">{r1['paper_count']}</b></div>
                         <div><span style="font-size: 0.75rem; opacity: 0.85;">Citations</span><br><b style="color: #0284C7;">{r1['total_citations']:,}</b></div>
-                        <div><span style="font-size: 0.75rem; opacity: 0.85;">h-Index</span><br><b style="color: #F59E0B;">h-{r1['h_index']}</b></div>
+                        <div><span style="font-size: 0.75rem; opacity: 0.85;">h-Index</span><br><b style="color: #EAB308;">h-{r1['h_index']}</b></div>
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
@@ -849,13 +845,13 @@ with tab5:
                 st.markdown(f"""
                 <div style="background: {pod_r2_bg}; border: 2px solid {pod_r2_border}; border-radius: 16px; padding: 1.2rem; text-align: center; box-shadow: 0 8px 24px rgba(148, 163, 184, 0.15);">
                     <div style="font-size: 2.2rem; margin-bottom: 0.2rem;">🥈</div>
-                    <div style="font-size: 0.8rem; font-weight: 700; color: {pod_r2_border}; text-transform: uppercase; letter-spacing: 0.08em;">RANK #2 PODIUM</div>
+                    <div style="font-size: 0.8rem; font-weight: 800; color: {pod_r2_border}; text-transform: uppercase; letter-spacing: 0.08em;">RANK #2 PODIUM</div>
                     <div style="font-size: 1.35rem; font-weight: 800; color: {text_primary}; margin: 0.3rem 0;">{r2['author']}</div>
                     <div style="font-size: 0.82rem; color: #0284C7; font-weight: 600; margin-bottom: 0.8rem;">{r2['primary_department']}</div>
                     <div style="display: flex; justify-content: space-around; background: {pod_stat_bg}; padding: 0.6rem; border-radius: 10px;">
                         <div><span style="font-size: 0.75rem; opacity: 0.85;">Papers</span><br><b style="color: {text_primary};">{r2['paper_count']}</b></div>
                         <div><span style="font-size: 0.75rem; opacity: 0.85;">Citations</span><br><b style="color: #0284C7;">{r2['total_citations']:,}</b></div>
-                        <div><span style="font-size: 0.75rem; opacity: 0.85;">h-Index</span><br><b style="color: #F59E0B;">h-{r2['h_index']}</b></div>
+                        <div><span style="font-size: 0.75rem; opacity: 0.85;">h-Index</span><br><b style="color: #94A3B8;">h-{r2['h_index']}</b></div>
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
@@ -864,21 +860,21 @@ with tab5:
             r3 = leaderboard_df.iloc[2]
             with pod3:
                 st.markdown(f"""
-                <div style="background: rgba(217, 119, 6, 0.12); border: 2px solid #D97706; border-radius: 16px; padding: 1.2rem; text-align: center; box-shadow: 0 8px 24px rgba(217, 119, 6, 0.15);">
+                <div style="background: rgba(194, 65, 12, 0.12); border: 2px solid #C2410C; border-radius: 16px; padding: 1.2rem; text-align: center; box-shadow: 0 8px 24px rgba(194, 65, 12, 0.15);">
                     <div style="font-size: 2.2rem; margin-bottom: 0.2rem;">🥉</div>
-                    <div style="font-size: 0.8rem; font-weight: 700; color: #D97706; text-transform: uppercase; letter-spacing: 0.08em;">RANK #3 PODIUM</div>
+                    <div style="font-size: 0.8rem; font-weight: 800; color: #C2410C; text-transform: uppercase; letter-spacing: 0.08em;">RANK #3 PODIUM</div>
                     <div style="font-size: 1.35rem; font-weight: 800; color: {text_primary}; margin: 0.3rem 0;">{r3['author']}</div>
                     <div style="font-size: 0.82rem; color: #0284C7; font-weight: 600; margin-bottom: 0.8rem;">{r3['primary_department']}</div>
                     <div style="display: flex; justify-content: space-around; background: {pod_stat_bg}; padding: 0.6rem; border-radius: 10px;">
                         <div><span style="font-size: 0.75rem; opacity: 0.85;">Papers</span><br><b style="color: {text_primary};">{r3['paper_count']}</b></div>
                         <div><span style="font-size: 0.75rem; opacity: 0.85;">Citations</span><br><b style="color: #0284C7;">{r3['total_citations']:,}</b></div>
-                        <div><span style="font-size: 0.75rem; opacity: 0.85;">h-Index</span><br><b style="color: #F59E0B;">h-{r3['h_index']}</b></div>
+                        <div><span style="font-size: 0.75rem; opacity: 0.85;">h-Index</span><br><b style="color: #C2410C;">h-{r3['h_index']}</b></div>
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
 
         st.markdown("<br>", unsafe_allow_html=True)
-        with st.expander("📋 View Complete Faculty Leaderboard Table"):
+        with st.expander("View Complete Faculty Leaderboard Table"):
             st.dataframe(
                 leaderboard_df,
                 column_config={
