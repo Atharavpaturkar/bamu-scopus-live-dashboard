@@ -351,36 +351,64 @@ def get_custom_css(theme="dark"):
         box-shadow: 0 6px 20px rgba(2, 132, 199, 0.2) !important;
     }}
 
-    /* Streamlit Tabs Styling */
+    /* Streamlit Tabs Navigation Styling & Alignment Fix */
+    .stTabs {{
+        background: transparent !important;
+    }}
+
     .stTabs [data-baseweb="tab-list"] {{
-        gap: 8px;
-        background-color: {tab_bg};
-        padding: 6px;
-        border-radius: 12px;
-        border: {card_border};
+        gap: 6px !important;
+        background-color: {tab_bg} !important;
+        padding: 6px 10px !important;
+        border-radius: 14px !important;
+        border: {card_border} !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        flex-wrap: nowrap !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: auto !important;
+        margin-bottom: 1rem !important;
+        box-shadow: {card_shadow} !important;
+    }}
+
+    .stTabs [data-baseweb="tab-border"] {{
+        display: none !important;
+    }}
+
+    .stTabs [data-baseweb="tab-highlight"] {{
+        display: none !important;
     }}
 
     .stTabs [data-baseweb="tab"] {{
-        height: 42px;
-        border-radius: 8px;
-        color: {text_secondary};
-        font-weight: 600;
-        font-size: 0.9rem;
-        padding: 0 16px;
+        height: 38px !important;
+        line-height: 38px !important;
+        border-radius: 10px !important;
+        color: {text_secondary} !important;
+        font-weight: 600 !important;
+        font-size: 0.88rem !important;
+        padding: 0 16px !important;
         border: 1px solid transparent !important;
-        transition: all 0.25s ease !important;
+        background: transparent !important;
+        transition: all 0.2s ease-in-out !important;
+        white-space: nowrap !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
     }}
 
     .stTabs [data-baseweb="tab"]:hover {{
+        color: {primary_blue} !important;
         border: {card_border_hover} !important;
+        background: {subtle_bg} !important;
     }}
 
     .stTabs [aria-selected="true"] {{
         background-color: {tab_active} !important;
         color: {primary_blue} !important;
         border: {card_border_hover} !important;
-        box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3);
-        font-weight: 700;
+        box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35) !important;
+        font-weight: 700 !important;
     }}
 
     /* Custom Scrollbar */
