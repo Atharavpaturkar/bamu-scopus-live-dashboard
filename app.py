@@ -311,15 +311,62 @@ def get_plotly_layout(theme_mode="dark"):
     paper_bg = "rgba(14, 23, 42, 0.5)" if is_dark else "#FFFFFF"
     plot_bg = "rgba(0, 0, 0, 0)"
     font_color = "#F8FAFC" if is_dark else "#0F172A"
-    grid_color = "rgba(255, 255, 255, 0.14)" if is_dark else "rgba(15, 23, 42, 0.15)"
+    sub_font_color = "#94A3B8" if is_dark else "#475569"
+    grid_color = "rgba(255, 255, 255, 0.14)" if is_dark else "rgba(15, 23, 42, 0.12)"
     zeroline_color = "rgba(56, 189, 248, 0.3)" if is_dark else "rgba(2, 132, 199, 0.3)"
+    hover_bg = "#0E172A" if is_dark else "#FFFFFF"
+    hover_border = "#38BDF8" if is_dark else "#0284C7"
+    hover_text = "#F8FAFC" if is_dark else "#0F172A"
+    land_color = "#1E293B" if is_dark else "#E2E8F0"
+    ocean_color = "#0B1329" if is_dark else "#F1F5F9"
 
     return {
         "paper_bgcolor": paper_bg,
         "plot_bgcolor": plot_bg,
-        "font": dict(family="Inter, sans-serif", color=font_color),
-        "xaxis": dict(gridcolor=grid_color, zerolinecolor=zeroline_color),
-        "yaxis": dict(gridcolor=grid_color, zerolinecolor=zeroline_color),
+        "font": dict(family="Inter, sans-serif", color=font_color, size=12),
+        "title": dict(font=dict(family="Outfit, sans-serif", color=font_color, size=16)),
+        "xaxis": dict(
+            gridcolor=grid_color,
+            zerolinecolor=zeroline_color,
+            tickfont=dict(color=font_color, family="Inter, sans-serif", size=11),
+            title=dict(font=dict(color=font_color, family="Inter, sans-serif", size=12))
+        ),
+        "yaxis": dict(
+            gridcolor=grid_color,
+            zerolinecolor=zeroline_color,
+            tickfont=dict(color=font_color, family="Inter, sans-serif", size=11),
+            title=dict(font=dict(color=font_color, family="Inter, sans-serif", size=12))
+        ),
+        "legend": dict(
+            font=dict(color=font_color, family="Inter, sans-serif", size=11),
+            bgcolor="rgba(0,0,0,0)"
+        ),
+        "hoverlabel": dict(
+            bgcolor=hover_bg,
+            bordercolor=hover_border,
+            font=dict(color=hover_text, family="Inter, sans-serif", size=12)
+        ),
+        "geo": dict(
+            showframe=False,
+            showcoastlines=True,
+            coastlinecolor=grid_color,
+            showland=True,
+            landcolor=land_color,
+            showocean=True,
+            oceancolor=ocean_color,
+            projection_type="natural earth",
+            bgcolor=paper_bg
+        ),
+        "polar": dict(
+            radialaxis=dict(visible=True, range=[0, 100], gridcolor=grid_color, tickfont=dict(color=font_color, size=10)),
+            angularaxis=dict(gridcolor=grid_color, tickfont=dict(color=font_color, size=11, family="Inter, sans-serif")),
+            bgcolor=paper_bg
+        ),
+        "coloraxis_colorbar": dict(
+            tickfont=dict(color=font_color, family="Inter, sans-serif", size=11),
+            title=dict(font=dict(color=font_color, family="Inter, sans-serif", size=12))
+        ),
+        "annotation_font": dict(color=font_color, family="Inter, sans-serif", size=11),
         "margin": dict(l=40, r=40, t=50, b=40)
     }
 
@@ -380,12 +427,13 @@ with tab1:
             font=layout_opts["font"],
             height=420,
             hovermode="x unified",
-            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+            hoverlabel=layout_opts["hoverlabel"],
+            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1, font=layout_opts["legend"]["font"]),
             margin=dict(l=40, r=40, t=50, b=40)
         )
-        fig_dual.update_xaxes(title_text="Publication Year", gridcolor=layout_opts["xaxis"]["gridcolor"])
-        fig_dual.update_yaxes(title_text="Annual Output (Papers)", secondary_y=False, gridcolor=layout_opts["yaxis"]["gridcolor"])
-        fig_dual.update_yaxes(title_text="Cumulative Output", secondary_y=True, showgrid=False)
+        fig_dual.update_xaxes(title_text="Publication Year", gridcolor=layout_opts["xaxis"]["gridcolor"], tickfont=layout_opts["xaxis"]["tickfont"], title_font=layout_opts["xaxis"]["title"]["font"])
+        fig_dual.update_yaxes(title_text="Annual Output (Papers)", secondary_y=False, gridcolor=layout_opts["yaxis"]["gridcolor"], tickfont=layout_opts["yaxis"]["tickfont"], title_font=layout_opts["yaxis"]["title"]["font"])
+        fig_dual.update_yaxes(title_text="Cumulative Output", secondary_y=True, showgrid=False, tickfont=layout_opts["yaxis"]["tickfont"], title_font=layout_opts["yaxis"]["title"]["font"])
 
         st.plotly_chart(fig_dual, use_container_width=True)
 
@@ -402,13 +450,14 @@ with tab1:
 
     month_df = get_publications_by_month(df_filtered, selected_m_year)
     if not month_df.empty:
+        bar_color = "#0284C7" if theme.lower() == "light" else "#38BDF8"
         fig_month = go.Figure()
         fig_month.add_trace(
             go.Bar(
                 x=month_df['month'],
                 y=month_df['publication_count'],
                 name="Monthly Papers",
-                marker=dict(color="#38BDF8", cornerradius=4),
+                marker=dict(color=bar_color, cornerradius=4),
                 hovertemplate="<b>%{x}</b><br>Publications: %{y}<extra></extra>"
             )
         )
@@ -418,8 +467,9 @@ with tab1:
             plot_bgcolor=layout_opts["plot_bgcolor"],
             font=layout_opts["font"],
             height=340,
-            xaxis=dict(title="Month", gridcolor=layout_opts["xaxis"]["gridcolor"]),
-            yaxis=dict(title="Indexed Publications", gridcolor=layout_opts["yaxis"]["gridcolor"]),
+            hoverlabel=layout_opts["hoverlabel"],
+            xaxis=dict(title="Month", gridcolor=layout_opts["xaxis"]["gridcolor"], tickfont=layout_opts["xaxis"]["tickfont"], title_font=layout_opts["xaxis"]["title"]["font"]),
+            yaxis=dict(title="Indexed Publications", gridcolor=layout_opts["yaxis"]["gridcolor"], tickfont=layout_opts["yaxis"]["tickfont"], title_font=layout_opts["yaxis"]["title"]["font"]),
             margin=dict(l=40, r=40, t=40, b=40)
         )
         st.plotly_chart(fig_month, use_container_width=True)
@@ -456,8 +506,9 @@ with tab2:
                 plot_bgcolor=layout_opts["plot_bgcolor"],
                 font=layout_opts["font"],
                 height=360,
-                xaxis=dict(title="Year", gridcolor=layout_opts["xaxis"]["gridcolor"]),
-                yaxis=dict(title="Citations Accrued", gridcolor=layout_opts["yaxis"]["gridcolor"]),
+                hoverlabel=layout_opts["hoverlabel"],
+                xaxis=dict(title="Year", gridcolor=layout_opts["xaxis"]["gridcolor"], tickfont=layout_opts["xaxis"]["tickfont"], title_font=layout_opts["xaxis"]["title"]["font"]),
+                yaxis=dict(title="Citations Accrued", gridcolor=layout_opts["yaxis"]["gridcolor"], tickfont=layout_opts["yaxis"]["tickfont"], title_font=layout_opts["yaxis"]["title"]["font"]),
                 margin=dict(l=40, r=40, t=40, b=40)
             )
             st.plotly_chart(fig_acc, use_container_width=True)
@@ -485,8 +536,9 @@ with tab2:
             plot_bgcolor=layout_opts["plot_bgcolor"],
             font=layout_opts["font"],
             height=360,
-            xaxis=dict(title="Total Citations", gridcolor=layout_opts["xaxis"]["gridcolor"]),
-            yaxis=dict(gridcolor=layout_opts["yaxis"]["gridcolor"]),
+            hoverlabel=layout_opts["hoverlabel"],
+            xaxis=dict(title="Total Citations", gridcolor=layout_opts["xaxis"]["gridcolor"], tickfont=layout_opts["xaxis"]["tickfont"], title_font=layout_opts["xaxis"]["title"]["font"]),
+            yaxis=dict(gridcolor=layout_opts["yaxis"]["gridcolor"], tickfont=layout_opts["yaxis"]["tickfont"]),
             margin=dict(l=40, r=40, t=40, b=40)
         )
         st.plotly_chart(fig_dept_bar, use_container_width=True)
@@ -560,12 +612,9 @@ with tab3:
             paper_bgcolor=layout_opts["paper_bgcolor"],
             plot_bgcolor=layout_opts["plot_bgcolor"],
             font=layout_opts["font"],
-            geo=dict(
-                showframe=False,
-                showcoastlines=True,
-                projection_type='natural earth',
-                bgcolor=layout_opts["paper_bgcolor"]
-            ),
+            hoverlabel=layout_opts["hoverlabel"],
+            coloraxis_colorbar=layout_opts["coloraxis_colorbar"],
+            geo=layout_opts["geo"],
             height=440,
             margin=dict(l=0, r=0, t=20, b=0)
         )
@@ -591,6 +640,7 @@ with tab3:
             fig_tree.update_layout(
                 paper_bgcolor=layout_opts["paper_bgcolor"],
                 font=layout_opts["font"],
+                hoverlabel=layout_opts["hoverlabel"],
                 height=380,
                 margin=dict(l=10, r=10, t=30, b=10)
             )
@@ -615,9 +665,10 @@ with tab3:
         fig_ind.update_layout(
             paper_bgcolor=layout_opts["paper_bgcolor"],
             font=layout_opts["font"],
+            hoverlabel=layout_opts["hoverlabel"],
             height=380,
             margin=dict(l=20, r=20, t=30, b=20),
-            legend=dict(orientation="h", yanchor="bottom", y=-0.1, xanchor="center", x=0.5)
+            legend=dict(orientation="h", yanchor="bottom", y=-0.1, xanchor="center", x=0.5, font=layout_opts["legend"]["font"])
         )
         st.plotly_chart(fig_ind, use_container_width=True)
         st.markdown("</div>", unsafe_allow_html=True)
@@ -648,9 +699,10 @@ with tab4:
         fig_q.update_layout(
             paper_bgcolor=layout_opts["paper_bgcolor"],
             font=layout_opts["font"],
+            hoverlabel=layout_opts["hoverlabel"],
             height=380,
             margin=dict(l=10, r=10, t=30, b=10),
-            legend=dict(orientation="h", yanchor="bottom", y=-0.15, xanchor="center", x=0.5)
+            legend=dict(orientation="h", yanchor="bottom", y=-0.15, xanchor="center", x=0.5, font=layout_opts["legend"]["font"])
         )
         st.plotly_chart(fig_q, use_container_width=True)
         st.markdown("</div>", unsafe_allow_html=True)
@@ -685,25 +737,27 @@ with tab4:
                 }
             )
 
+            layout_opts = get_plotly_layout(theme)
             fig_bubble.add_hline(
                 y=overall_avg_cpp,
                 line_dash="dash",
                 line_color="#F59E0B",
                 annotation_text=f"Univ Avg CPP ({overall_avg_cpp})",
-                annotation_position="bottom right"
+                annotation_position="bottom right",
+                annotation_font=layout_opts["annotation_font"]
             )
 
-            layout_opts = get_plotly_layout(theme)
             fig_bubble.update_layout(
                 paper_bgcolor=layout_opts["paper_bgcolor"],
                 plot_bgcolor=layout_opts["plot_bgcolor"],
                 font=layout_opts["font"],
+                hoverlabel=layout_opts["hoverlabel"],
                 height=380,
                 margin=dict(l=40, r=40, t=40, b=40),
                 showlegend=False
             )
-            fig_bubble.update_xaxes(gridcolor=layout_opts["xaxis"]["gridcolor"])
-            fig_bubble.update_yaxes(gridcolor=layout_opts["yaxis"]["gridcolor"])
+            fig_bubble.update_xaxes(gridcolor=layout_opts["xaxis"]["gridcolor"], tickfont=layout_opts["xaxis"]["tickfont"], title_font=layout_opts["xaxis"]["title"]["font"])
+            fig_bubble.update_yaxes(gridcolor=layout_opts["yaxis"]["gridcolor"], tickfont=layout_opts["yaxis"]["tickfont"], title_font=layout_opts["yaxis"]["title"]["font"])
 
             st.plotly_chart(fig_bubble, use_container_width=True)
         st.markdown("</div>", unsafe_allow_html=True)
@@ -744,14 +798,11 @@ with tab4:
         fig_radar.update_layout(
             paper_bgcolor=layout_opts["paper_bgcolor"],
             font=layout_opts["font"],
-            polar=dict(
-                radialaxis=dict(visible=True, range=[0, 100], gridcolor=layout_opts["xaxis"]["gridcolor"]),
-                angularaxis=dict(gridcolor=layout_opts["xaxis"]["gridcolor"]),
-                bgcolor=layout_opts["paper_bgcolor"]
-            ),
+            hoverlabel=layout_opts["hoverlabel"],
+            polar=layout_opts["polar"],
             height=440,
             margin=dict(l=40, r=40, t=40, b=40),
-            legend=dict(orientation="h", yanchor="bottom", y=-0.15, xanchor="center", x=0.5)
+            legend=dict(orientation="h", yanchor="bottom", y=-0.15, xanchor="center", x=0.5, font=layout_opts["legend"]["font"])
         )
         st.plotly_chart(fig_radar, use_container_width=True)
 
@@ -767,6 +818,9 @@ with tab5:
 
     leaderboard_df = get_top_authors_leaderboard(df_filtered, top_n=50)
     text_primary = "#F8FAFC" if theme.lower() == "dark" else "#0F172A"
+    pod_stat_bg = "rgba(0, 0, 0, 0.25)" if theme.lower() == "dark" else "rgba(2, 132, 199, 0.08)"
+    pod_r2_bg = "rgba(148, 163, 184, 0.12)" if theme.lower() == "dark" else "rgba(100, 116, 139, 0.08)"
+    pod_r2_border = "#94A3B8" if theme.lower() == "dark" else "#64748B"
 
     if not leaderboard_df.empty:
         # Podium Cards for Top 3
@@ -781,10 +835,10 @@ with tab5:
                     <div style="font-size: 0.8rem; font-weight: 700; color: #F59E0B; text-transform: uppercase; letter-spacing: 0.08em;">RANK #1 PODIUM</div>
                     <div style="font-size: 1.35rem; font-weight: 800; color: {text_primary}; margin: 0.3rem 0;">{r1['author']}</div>
                     <div style="font-size: 0.82rem; color: #0284C7; font-weight: 600; margin-bottom: 0.8rem;">{r1['primary_department']}</div>
-                    <div style="display: flex; justify-content: space-around; background: rgba(0,0,0,0.2); padding: 0.6rem; border-radius: 10px;">
-                        <div><span style="font-size: 0.75rem; opacity: 0.8;">Papers</span><br><b>{r1['paper_count']}</b></div>
-                        <div><span style="font-size: 0.75rem; opacity: 0.8;">Citations</span><br><b style="color: #0284C7;">{r1['total_citations']:,}</b></div>
-                        <div><span style="font-size: 0.75rem; opacity: 0.8;">h-Index</span><br><b style="color: #F59E0B;">h-{r1['h_index']}</b></div>
+                    <div style="display: flex; justify-content: space-around; background: {pod_stat_bg}; padding: 0.6rem; border-radius: 10px;">
+                        <div><span style="font-size: 0.75rem; opacity: 0.85;">Papers</span><br><b style="color: {text_primary};">{r1['paper_count']}</b></div>
+                        <div><span style="font-size: 0.75rem; opacity: 0.85;">Citations</span><br><b style="color: #0284C7;">{r1['total_citations']:,}</b></div>
+                        <div><span style="font-size: 0.75rem; opacity: 0.85;">h-Index</span><br><b style="color: #F59E0B;">h-{r1['h_index']}</b></div>
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
@@ -793,15 +847,15 @@ with tab5:
             r2 = leaderboard_df.iloc[1]
             with pod2:
                 st.markdown(f"""
-                <div style="background: rgba(148, 163, 184, 0.12); border: 2px solid #94A3B8; border-radius: 16px; padding: 1.2rem; text-align: center; box-shadow: 0 8px 24px rgba(148, 163, 184, 0.15);">
+                <div style="background: {pod_r2_bg}; border: 2px solid {pod_r2_border}; border-radius: 16px; padding: 1.2rem; text-align: center; box-shadow: 0 8px 24px rgba(148, 163, 184, 0.15);">
                     <div style="font-size: 2.2rem; margin-bottom: 0.2rem;">🥈</div>
-                    <div style="font-size: 0.8rem; font-weight: 700; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.08em;">RANK #2 PODIUM</div>
+                    <div style="font-size: 0.8rem; font-weight: 700; color: {pod_r2_border}; text-transform: uppercase; letter-spacing: 0.08em;">RANK #2 PODIUM</div>
                     <div style="font-size: 1.35rem; font-weight: 800; color: {text_primary}; margin: 0.3rem 0;">{r2['author']}</div>
                     <div style="font-size: 0.82rem; color: #0284C7; font-weight: 600; margin-bottom: 0.8rem;">{r2['primary_department']}</div>
-                    <div style="display: flex; justify-content: space-around; background: rgba(0,0,0,0.2); padding: 0.6rem; border-radius: 10px;">
-                        <div><span style="font-size: 0.75rem; opacity: 0.8;">Papers</span><br><b>{r2['paper_count']}</b></div>
-                        <div><span style="font-size: 0.75rem; opacity: 0.8;">Citations</span><br><b style="color: #0284C7;">{r2['total_citations']:,}</b></div>
-                        <div><span style="font-size: 0.75rem; opacity: 0.8;">h-Index</span><br><b style="color: #F59E0B;">h-{r2['h_index']}</b></div>
+                    <div style="display: flex; justify-content: space-around; background: {pod_stat_bg}; padding: 0.6rem; border-radius: 10px;">
+                        <div><span style="font-size: 0.75rem; opacity: 0.85;">Papers</span><br><b style="color: {text_primary};">{r2['paper_count']}</b></div>
+                        <div><span style="font-size: 0.75rem; opacity: 0.85;">Citations</span><br><b style="color: #0284C7;">{r2['total_citations']:,}</b></div>
+                        <div><span style="font-size: 0.75rem; opacity: 0.85;">h-Index</span><br><b style="color: #F59E0B;">h-{r2['h_index']}</b></div>
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
@@ -815,10 +869,10 @@ with tab5:
                     <div style="font-size: 0.8rem; font-weight: 700; color: #D97706; text-transform: uppercase; letter-spacing: 0.08em;">RANK #3 PODIUM</div>
                     <div style="font-size: 1.35rem; font-weight: 800; color: {text_primary}; margin: 0.3rem 0;">{r3['author']}</div>
                     <div style="font-size: 0.82rem; color: #0284C7; font-weight: 600; margin-bottom: 0.8rem;">{r3['primary_department']}</div>
-                    <div style="display: flex; justify-content: space-around; background: rgba(0,0,0,0.2); padding: 0.6rem; border-radius: 10px;">
-                        <div><span style="font-size: 0.75rem; opacity: 0.8;">Papers</span><br><b>{r3['paper_count']}</b></div>
-                        <div><span style="font-size: 0.75rem; opacity: 0.8;">Citations</span><br><b style="color: #0284C7;">{r3['total_citations']:,}</b></div>
-                        <div><span style="font-size: 0.75rem; opacity: 0.8;">h-Index</span><br><b style="color: #F59E0B;">h-{r3['h_index']}</b></div>
+                    <div style="display: flex; justify-content: space-around; background: {pod_stat_bg}; padding: 0.6rem; border-radius: 10px;">
+                        <div><span style="font-size: 0.75rem; opacity: 0.85;">Papers</span><br><b style="color: {text_primary};">{r3['paper_count']}</b></div>
+                        <div><span style="font-size: 0.75rem; opacity: 0.85;">Citations</span><br><b style="color: #0284C7;">{r3['total_citations']:,}</b></div>
+                        <div><span style="font-size: 0.75rem; opacity: 0.85;">h-Index</span><br><b style="color: #F59E0B;">h-{r3['h_index']}</b></div>
                     </div>
                 </div>
                 """, unsafe_allow_html=True)

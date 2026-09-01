@@ -20,6 +20,12 @@ def get_custom_css(theme="dark"):
         subtle_bg = "rgba(2, 132, 199, 0.08)"
         tab_bg = "#F1F5F9"
         tab_active = "#FFFFFF"
+        hero_bg = "linear-gradient(135deg, rgba(2, 132, 199, 0.08) 0%, rgba(241, 245, 249, 0.95) 100%)"
+        badge_bg = "rgba(2, 132, 199, 0.12)"
+        badge_text = "#0284C7"
+        input_bg = "#FFFFFF"
+        input_border = "#CBD5E1"
+        radio_bg = "#FFFFFF"
     else:  # Dark mode default
         bg_color = "#070D1E"
         text_primary = "#F8FAFC"
@@ -32,6 +38,12 @@ def get_custom_css(theme="dark"):
         subtle_bg = "rgba(2, 132, 199, 0.15)"
         tab_bg = "#0E172A"
         tab_active = "#1E293B"
+        hero_bg = "linear-gradient(135deg, rgba(2, 132, 199, 0.15) 0%, rgba(15, 23, 42, 0.4) 100%)"
+        badge_bg = "rgba(56, 189, 248, 0.15)"
+        badge_text = "#38BDF8"
+        input_bg = "#0E172A"
+        input_border = "rgba(56, 189, 248, 0.35)"
+        radio_bg = "rgba(14, 23, 42, 0.5)"
 
     primary_blue = UNIVERSITY_CONFIG.get("primary_color", "#0284C7")
     accent_gold = UNIVERSITY_CONFIG.get("accent_color", "#F59E0B")
@@ -108,28 +120,32 @@ def get_custom_css(theme="dark"):
     }}
 
     /* Active Theme Button (Primary) */
-    [data-testid="stSidebar"] [data-testid="stButton"] button[kind="primary"] {{
+    [data-testid="stSidebar"] [data-testid="stButton"] button[kind="primary"],
+    [data-testid="stSidebar"] [data-testid="stButton"] button[data-testid="baseButton-primary"] {{
         background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%) !important;
         color: #FFFFFF !important;
         border: 1px solid #38BDF8 !important;
         box-shadow: 0 4px 14px rgba(2, 132, 199, 0.45) !important;
     }}
 
-    [data-testid="stSidebar"] [data-testid="stButton"] button[kind="primary"]:hover {{
+    [data-testid="stSidebar"] [data-testid="stButton"] button[kind="primary"]:hover,
+    [data-testid="stSidebar"] [data-testid="stButton"] button[data-testid="baseButton-primary"]:hover {{
         transform: translateY(-2px) !important;
         box-shadow: 0 6px 20px rgba(2, 132, 199, 0.7) !important;
         border-color: #7DD3FC !important;
     }}
 
     /* Inactive Theme Button (Secondary) */
-    [data-testid="stSidebar"] [data-testid="stButton"] button[kind="secondary"] {{
+    [data-testid="stSidebar"] [data-testid="stButton"] button[kind="secondary"],
+    [data-testid="stSidebar"] [data-testid="stButton"] button[data-testid="baseButton-secondary"] {{
         background: transparent !important;
         color: {"#94A3B8" if theme.lower()=="dark" else "#64748B"} !important;
         border: 1px solid transparent !important;
         box-shadow: none !important;
     }}
 
-    [data-testid="stSidebar"] [data-testid="stButton"] button[kind="secondary"]:hover {{
+    [data-testid="stSidebar"] [data-testid="stButton"] button[kind="secondary"]:hover,
+    [data-testid="stSidebar"] [data-testid="stButton"] button[data-testid="baseButton-secondary"]:hover {{
         background: {"rgba(255, 255, 255, 0.08)" if theme.lower()=="dark" else "rgba(15, 23, 42, 0.05)"} !important;
         color: {text_primary} !important;
     }}
@@ -169,10 +185,30 @@ def get_custom_css(theme="dark"):
         margin-bottom: 0.35rem;
     }}
 
+    /* FIX: Sidebar Radio Buttons Styling */
+    [data-testid="stSidebar"] [data-testid="stRadio"] label {{
+        color: {text_primary} !important;
+        font-size: 0.85rem !important;
+        font-weight: 600 !important;
+    }}
+
+    [data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label {{
+        background: {radio_bg} !important;
+        border: 1px solid {input_border} !important;
+        border-radius: 8px !important;
+        padding: 0.4rem 0.65rem !important;
+        margin-bottom: 0.35rem !important;
+        transition: all 0.2s ease !important;
+    }}
+
+    [data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label:hover {{
+        border-color: {primary_blue} !important;
+    }}
+
     /* FIX: Number Inputs styling & hide step buttons */
     [data-testid="stSidebar"] [data-testid="stNumberInput"] div[data-baseweb="input"] {{
-        background-color: {"#0E172A" if theme.lower()=="dark" else "#FFFFFF"} !important;
-        border: 1px solid {"rgba(56, 189, 248, 0.35)" if theme.lower()=="dark" else "#CBD5E1"} !important;
+        background-color: {input_bg} !important;
+        border: 1px solid {input_border} !important;
         border-radius: 9px !important;
         padding: 3px 6px !important;
         transition: all 0.25s ease !important;
@@ -197,34 +233,49 @@ def get_custom_css(theme="dark"):
     /* FIX: Dropdowns / Multiselects Border & Control Box */
     [data-testid="stSidebar"] [data-testid="stMultiSelect"] div[data-baseweb="select"] > div,
     [data-testid="stSidebar"] [data-testid="stSelectbox"] div[data-baseweb="select"] > div,
-    [data-testid="stSidebar"] div[data-baseweb="select"] > div {{
-        background-color: {"#0E172A" if theme.lower()=="dark" else "#FFFFFF"} !important;
-        border: 1px solid {"rgba(56, 189, 248, 0.35)" if theme.lower()=="dark" else "#CBD5E1"} !important;
+    [data-testid="stSidebar"] div[data-baseweb="select"] > div,
+    div[data-baseweb="select"] > div {{
+        background-color: {input_bg} !important;
+        border: 1px solid {input_border} !important;
         border-radius: 10px !important;
         min-height: 42px !important;
         padding: 3px 8px !important;
         transition: all 0.25s ease !important;
     }}
 
-    [data-testid="stSidebar"] div[data-baseweb="select"] > div:hover {{
+    div[data-baseweb="select"] > div:hover {{
         border-color: {"#38BDF8" if theme.lower()=="dark" else "#0284C7"} !important;
         box-shadow: 0 0 12px {"rgba(2, 132, 199, 0.35)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.2)"} !important;
     }}
 
-    [data-testid="stSidebar"] div[data-baseweb="select"] span {{
+    div[data-baseweb="select"] span {{
         color: {text_primary} !important;
         font-size: 0.88rem !important;
         font-weight: 600 !important;
     }}
 
-    [data-testid="stSidebar"] div[data-baseweb="select"] [data-aria-hidden="true"] {{
+    div[data-baseweb="select"] [data-aria-hidden="true"] {{
         color: {"#94A3B8" if theme.lower()=="dark" else "#64748B"} !important;
         font-weight: 500 !important;
     }}
 
-    [data-testid="stSidebar"] div[data-baseweb="select"] svg {{
+    div[data-baseweb="select"] svg {{
         fill: {"#38BDF8" if theme.lower()=="dark" else "#0284C7"} !important;
         color: {"#38BDF8" if theme.lower()=="dark" else "#0284C7"} !important;
+    }}
+
+    /* FIX: Multiselect Tag Chips */
+    [data-baseweb="tag"] {{
+        background-color: {"rgba(2, 132, 199, 0.22)" if theme.lower()=="dark" else "#E2E8F0"} !important;
+        border: 1px solid {"rgba(56, 189, 248, 0.4)" if theme.lower()=="dark" else "#CBD5E1"} !important;
+        border-radius: 6px !important;
+        padding: 2px 6px !important;
+    }}
+
+    [data-baseweb="tag"] span {{
+        color: {text_primary} !important;
+        font-weight: 600 !important;
+        font-size: 0.8rem !important;
     }}
 
     /* FIX: Slider Track Red Accent Override */
@@ -332,7 +383,7 @@ def get_custom_css(theme="dark"):
     .kpi-subtext {{
         font-size: 0.78rem;
         color: {primary_blue};
-        font-weight: 500;
+        font-weight: 600;
         margin-top: 0.3rem;
     }}
 
@@ -379,11 +430,11 @@ def get_custom_css(theme="dark"):
 
     .icare-subtext {{
         font-size: 0.72rem;
-        background: rgba(56, 189, 248, 0.15);
-        color: #38BDF8;
+        background: {badge_bg};
+        color: {badge_text};
         padding: 0.15rem 0.45rem;
         border-radius: 4px;
-        font-weight: 600;
+        font-weight: 700;
         margin-left: 0.4rem;
     }}
 
@@ -405,7 +456,7 @@ def get_custom_css(theme="dark"):
 
     /* Hero Dossier Banner */
     .hero-banner {{
-        background: linear-gradient(135deg, rgba(2, 132, 199, 0.15) 0%, rgba(15, 23, 42, 0.4) 100%);
+        background: {hero_bg};
         border: {card_border};
         border-left: 5px solid {primary_blue};
         border-radius: 18px;
@@ -440,6 +491,7 @@ def get_custom_css(theme="dark"):
         font-family: 'Outfit', sans-serif;
         font-size: 2.2rem;
         font-weight: 800;
+        color: {text_primary};
         background: linear-gradient(135deg, {text_primary} 30%, {primary_blue} 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -449,13 +501,13 @@ def get_custom_css(theme="dark"):
 
     .rank-box {{
         background: {card_bg};
-        border: 1px solid rgba(245, 158, 11, 0.3);
+        border: 1px solid rgba(245, 158, 11, 0.35);
         border-radius: 12px;
         padding: 0.8rem 1.4rem;
         display: inline-flex;
         align-items: center;
         gap: 1.2rem;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
     }}
 
     .rank-num {{
@@ -472,16 +524,79 @@ def get_custom_css(theme="dark"):
         text-transform: uppercase;
     }}
 
+    /* Streamlit Metric Styling */
+    [data-testid="stMetric"] {{
+        background: {card_bg} !important;
+        border: {card_border} !important;
+        border-radius: 12px !important;
+        padding: 0.8rem 1rem !important;
+        box-shadow: {card_shadow} !important;
+    }}
+
+    [data-testid="stMetricLabel"] {{
+        color: {text_secondary} !important;
+        font-size: 0.82rem !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+    }}
+
+    [data-testid="stMetricValue"] {{
+        color: {text_primary} !important;
+        font-family: 'Outfit', sans-serif !important;
+        font-weight: 700 !important;
+    }}
+
     /* Streamlit Containers, DataFrames & Expanders Borders */
     [data-testid="stDataFrame"], .stExpander {{
+        background: {card_bg} !important;
         border: {card_border} !important;
         border-radius: 12px !important;
         transition: all 0.3s ease !important;
     }}
 
+    .stExpander summary span {{
+        color: {text_primary} !important;
+        font-weight: 700 !important;
+    }}
+
     [data-testid="stDataFrame"]:hover, .stExpander:hover {{
         border: {card_border_hover} !important;
         box-shadow: 0 6px 20px rgba(2, 132, 199, 0.2) !important;
+    }}
+
+    /* Buttons Styling (Main Area) */
+    .stButton button[kind="primary"],
+    button[data-testid="baseButton-primary"] {{
+        background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%) !important;
+        color: #FFFFFF !important;
+        border: 1px solid #38BDF8 !important;
+        border-radius: 10px !important;
+        font-weight: 700 !important;
+        box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35) !important;
+        transition: all 0.25s ease !important;
+    }}
+
+    .stButton button[kind="primary"]:hover,
+    button[data-testid="baseButton-primary"]:hover {{
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 20px rgba(2, 132, 199, 0.6) !important;
+    }}
+
+    .stButton button[kind="secondary"],
+    button[data-testid="baseButton-secondary"] {{
+        background: {card_bg} !important;
+        color: {text_primary} !important;
+        border: 1px solid {input_border} !important;
+        border-radius: 10px !important;
+        font-weight: 600 !important;
+        transition: all 0.25s ease !important;
+    }}
+
+    .stButton button[kind="secondary"]:hover,
+    button[data-testid="baseButton-secondary"]:hover {{
+        border-color: {primary_blue} !important;
+        color: {primary_blue} !important;
+        background: {subtle_bg} !important;
     }}
 
     /* Streamlit Tabs Navigation Styling & Alignment Fix */
@@ -544,6 +659,25 @@ def get_custom_css(theme="dark"):
         font-weight: 700 !important;
     }}
 
+    /* AI Copilot Chat Inputs & Messages Styling */
+    [data-testid="stChatInput"] {{
+        background: {input_bg} !important;
+        border: 1px solid {input_border} !important;
+        border-radius: 14px !important;
+    }}
+
+    [data-testid="stChatInput"] textarea {{
+        color: {text_primary} !important;
+    }}
+
+    [data-testid="stChatMessage"] {{
+        background: {subtle_bg} !important;
+        border: {card_border} !important;
+        border-radius: 14px !important;
+        padding: 1rem !important;
+        margin-bottom: 0.8rem !important;
+    }}
+
     /* Custom Scrollbar */
     ::-webkit-scrollbar {{
         width: 8px;
@@ -598,7 +732,7 @@ def render_icare_topbar(theme="dark"):
             </div>
         </div>
         <div style="text-align: right;">
-            <span style="font-size: 0.8rem; font-weight: 600; opacity: 0.8; display: inline-flex; align-items: center; gap: 0.4rem;">
+            <span style="font-size: 0.8rem; font-weight: 600; opacity: 0.85; display: inline-flex; align-items: center; gap: 0.4rem;">
                 <span style="height: 9px; width: 9px; background-color: #10B981; border-radius: 50%; display: inline-block;"></span>
                 Live Scopus API Engine Active
             </span>
@@ -615,6 +749,7 @@ def render_icare_hero(total_pubs, total_cites, theme="dark"):
     status_tag = UNIVERSITY_CONFIG.get("status_tag", "🏛 State Public University (Estd. 1958)")
     naac_badge = UNIVERSITY_CONFIG.get("naac_badge", "⭐ NAAC A+ (CGPA 3.38)")
     app_title = UNIVERSITY_CONFIG.get("app_title", "BAMU Live Scopus Intelligence Dashboard")
+    divider_bg = "rgba(255, 255, 255, 0.15)" if theme.lower() == "dark" else "rgba(15, 23, 42, 0.15)"
 
     html = f"""
     <div class="hero-banner">
@@ -634,7 +769,7 @@ def render_icare_hero(total_pubs, total_cites, theme="dark"):
                     <div class="rank-num">#{total_pubs:,}</div>
                     <div class="rank-label">Indexed Papers</div>
                 </div>
-                <div style="height: 30px; width: 1px; background: rgba(255,255,255,0.15);"></div>
+                <div style="height: 30px; width: 1px; background: {divider_bg};"></div>
                 <div>
                     <div class="rank-num" style="color: #0284C7;">{total_cites:,}</div>
                     <div class="rank-label">Total Citations</div>
@@ -648,3 +783,4 @@ def render_icare_hero(total_pubs, total_cites, theme="dark"):
 
 if __name__ == "__main__":
     print("styles.py component ready.")
+
