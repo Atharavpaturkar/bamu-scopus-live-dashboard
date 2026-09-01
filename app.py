@@ -1032,7 +1032,7 @@ with tab5:
 
             st.markdown("<br>", unsafe_allow_html=True)
             # Targeted Print Capability
-            print_btn = st.button("🖨️ Print Author Dossier / Save PDF", type="primary", use_container_width=True, key="btn_print_author_dossier")
+            print_btn = st.button("🖨️ Print Author List / Save PDF", type="primary", use_container_width=False, key="btn_print_author_dossier")
             if print_btn:
                 print_html = generate_author_print_html(auth_profile, author_papers)
                 b64_html = base64.b64encode(print_html.encode('utf-8')).decode('utf-8')

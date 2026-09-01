@@ -101,7 +101,6 @@ def get_custom_css(theme="dark"):
         font-weight: 700 !important;
         font-size: 0.92rem !important;
         transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        width: 100% !important;
         padding: 0.65rem 1.25rem !important;
         margin: 0 !important;
         display: inline-flex !important;
