@@ -340,27 +340,27 @@ def get_custom_css(theme="dark"):
     }}
 
     /* Streamlit Containers, DataFrames & Expanders Borders */
-    [data-testid="stDataFrame"], .stExpander {
+    [data-testid="stDataFrame"], .stExpander {{
         border: {card_border} !important;
         border-radius: 12px !important;
         transition: all 0.3s ease !important;
-    }
+    }}
 
-    [data-testid="stDataFrame"]:hover, .stExpander:hover {
+    [data-testid="stDataFrame"]:hover, .stExpander:hover {{
         border: {card_border_hover} !important;
         box-shadow: 0 6px 20px rgba(2, 132, 199, 0.2) !important;
-    }
+    }}
 
     /* Streamlit Tabs Styling */
-    .stTabs [data-baseweb="tab-list"] {
+    .stTabs [data-baseweb="tab-list"] {{
         gap: 8px;
         background-color: {tab_bg};
         padding: 6px;
         border-radius: 12px;
         border: {card_border};
-    }
+    }}
 
-    .stTabs [data-baseweb="tab"] {
+    .stTabs [data-baseweb="tab"] {{
         height: 42px;
         border-radius: 8px;
         color: {text_secondary};
@@ -369,19 +369,19 @@ def get_custom_css(theme="dark"):
         padding: 0 16px;
         border: 1px solid transparent !important;
         transition: all 0.25s ease !important;
-    }
+    }}
 
-    .stTabs [data-baseweb="tab"]:hover {
+    .stTabs [data-baseweb="tab"]:hover {{
         border: {card_border_hover} !important;
-    }
+    }}
 
-    .stTabs [aria-selected="true"] {
+    .stTabs [aria-selected="true"] {{
         background-color: {tab_active} !important;
         color: {primary_blue} !important;
         border: {card_border_hover} !important;
         box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3);
         font-weight: 700;
-    }
+    }}
 
     /* Custom Scrollbar */
     ::-webkit-scrollbar {{
