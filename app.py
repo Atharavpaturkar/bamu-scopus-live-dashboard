@@ -6,6 +6,7 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
 import base64
+import io
 import streamlit.components.v1 as components
 
 from config import UNIVERSITY_CONFIG
@@ -21,6 +22,7 @@ from data_processor import (
     export_to_bibtex,
     generate_author_print_html
 )
+from ai_copilot import query_ai_copilot
 from styles import get_custom_css, render_icare_topbar, render_icare_hero
 
 # Page Configuration
@@ -230,13 +232,15 @@ def get_plotly_layout(theme_mode="dark"):
         "margin": dict(l=40, r=40, t=50, b=40)
     }
 
-# Render Main Dashboard Tabs 1 to 5
-tab1, tab2, tab3, tab4, tab5 = st.tabs([
+# Render Main Dashboard Tabs 1 to 7
+tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
     "📈 Trends & Output Velocity",
     "🎯 Research Impact & Landmark Papers",
     "🌐 Global & Industry Collaboration",
     "🏆 Quality Benchmarks & Quadrants",
-    "👥 Faculty & Author Profiles"
+    "👥 Faculty & Author Profiles",
+    "📡 Live Feed & Data Export",
+    "🤖 AI Research Copilot"
 ])
 
 # -----------------------------------------------------------------------------
@@ -913,5 +917,165 @@ with tab5:
                 """
                 components.html(js_print_code, height=0, width=0)
                 st.success(f"Preparing official print dossier for {auth_profile['author_name']}...")
+
+    st.markdown("</div>", unsafe_allow_html=True)
+
+
+# -----------------------------------------------------------------------------
+# TAB 6: 📡 LIVE FEED & DATA EXPORT
+# -----------------------------------------------------------------------------
+with tab6:
+    st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
+    st.subheader("📡 Live Scopus Indexed Feed & Multiformat Data Exporter")
+
+    search_query = st.text_input(
+        "🔎 Search Publications Feed",
+        placeholder="Type keyword, title, author name, journal, department, or DOI..."
+    )
+
+    if search_query:
+        sq = search_query.lower()
+        df_feed = df_filtered[
+            df_filtered['title'].str.lower().str.contains(sq, na=False) |
+            df_filtered['primary_author'].str.lower().str.contains(sq, na=False) |
+            df_filtered['department'].str.lower().str.contains(sq, na=False) |
+            df_filtered['journal'].str.lower().str.contains(sq, na=False) |
+            df_filtered['doi'].str.lower().str.contains(sq, na=False)
+        ].copy()
+    else:
+        df_feed = df_filtered.copy()
+
+    st.markdown(f"Displaying **{len(df_feed):,}** indexed publications matching current filters.")
+
+    # Export Buttons Row
+    exp_col1, exp_col2 = st.columns(2)
+
+    with exp_col1:
+        # Excel Export
+        excel_data = io.BytesIO()
+        export_excel_df = df_feed[['scopus_id', 'title', 'primary_author', 'department', 'journal', 'year', 'citations', 'quartile', 'doi']].copy()
+        export_excel_df.columns = ['Scopus ID', 'Title', 'Primary Author', 'Department', 'Journal', 'Year', 'Citations', 'Quartile', 'DOI']
+        with pd.ExcelWriter(excel_data, engine='openpyxl') as writer:
+            export_excel_df.to_excel(writer, index=False, sheet_name='BAMU Scopus Publications')
+        
+        st.download_button(
+            label="📊 Export Excel (.xlsx)",
+            data=excel_data.getvalue(),
+            file_name="BAMU_Scopus_Publications.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            use_container_width=True
+        )
+
+    with exp_col2:
+        # BibTeX Export
+        bib_data = export_to_bibtex(df_feed)
+        st.download_button(
+            label="📑 Export BibTeX (.bib)",
+            data=bib_data,
+            file_name="BAMU_Scopus_Publications.bib",
+            mime="text/plain",
+            use_container_width=True
+        )
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # Interactive Table
+    if not df_feed.empty:
+        df_feed_display = df_feed.copy()
+        df_feed_display['DOI Link'] = df_feed_display['doi'].apply(lambda d: f"https://doi.org/{d}" if d else "#")
+
+        st.dataframe(
+            df_feed_display[['scopus_id', 'title', 'primary_author', 'department', 'journal', 'year', 'citations', 'quartile', 'DOI Link']],
+            column_config={
+                "scopus_id": "Scopus ID",
+                "title": "Publication Title",
+                "primary_author": "Primary Author",
+                "department": "Department",
+                "journal": "Journal",
+                "year": st.column_config.NumberColumn("Year", format="%d"),
+                "citations": st.column_config.NumberColumn("Citations", format="%d 📈"),
+                "quartile": "Quartile",
+                "DOI Link": st.column_config.LinkColumn("DOI Link", display_text="↗ View")
+            },
+            use_container_width=True,
+            hide_index=True
+        )
+    else:
+        st.info("No publications found matching search query.")
+
+    st.markdown("</div>", unsafe_allow_html=True)
+
+
+# -----------------------------------------------------------------------------
+# TAB 7: 🤖 AI RESEARCH COPILOT
+# -----------------------------------------------------------------------------
+with tab7:
+    st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
+    st.subheader("🤖 BAMU Scopus AI Research Copilot")
+    st.caption("Fast built-in Python/Pandas natural language research assistant. Zero external API keys required.")
+
+    # Initialize chat history
+    if "messages" not in st.session_state:
+        st.session_state.messages = [
+            {
+                "role": "assistant",
+                "content": "👋 Hello! I am your **BAMU Scopus AI Research Copilot**. Select a prompt chip below or type any question to analyze BAMU's research output, top faculty, department rankings, or Q1 journal quality!"
+            }
+        ]
+
+    # Action Bar: Prompt Chips & Clear History
+    chip_col1, chip_col2, chip_col3, chip_col4, clear_col = st.columns([1, 1, 1, 1, 1])
+
+    prompt_to_send = None
+
+    with chip_col1:
+        if st.button("📊 Executive Dossier", use_container_width=True):
+            prompt_to_send = "Executive Dossier"
+    with chip_col2:
+        if st.button("🏛 Dept Rankings", use_container_width=True):
+            prompt_to_send = "Dept Rankings"
+    with chip_col3:
+        if st.button("🏆 Q1 Quality Analysis", use_container_width=True):
+            prompt_to_send = "Q1 Quality Analysis"
+    with chip_col4:
+        if st.button("👥 Top Authors", use_container_width=True):
+            prompt_to_send = "Top Authors"
+    with clear_col:
+        if st.button("🗑 Clear Chat History", use_container_width=True):
+            st.session_state.messages = [
+                {
+                    "role": "assistant",
+                    "content": "👋 Chat history cleared. Ask me any research question about BAMU!"
+                }
+            ]
+            st.rerun()
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # Render Chat History
+    for msg in st.session_state.messages:
+        with st.chat_message(msg["role"]):
+            st.markdown(msg["content"])
+
+    # Chat Input Box
+    user_input = st.chat_input("Ask BAMU AI Copilot (e.g. 'Show department rankings', 'Top Q1 papers')...")
+
+    if user_input:
+        prompt_to_send = user_input
+
+    if prompt_to_send:
+        # Add user message to history
+        st.session_state.messages.append({"role": "user", "content": prompt_to_send})
+        with st.chat_message("user"):
+            st.markdown(prompt_to_send)
+
+        # Generate response using AI Copilot Pandas engine
+        with st.spinner("AI Copilot analyzing research dataset..."):
+            response_md = query_ai_copilot(df_filtered, prompt_to_send)
+
+        # Add assistant response to history
+        st.session_state.messages.append({"role": "assistant", "content": response_md})
+        with st.chat_message("assistant"):
+            st.markdown(response_md)
 
     st.markdown("</div>", unsafe_allow_html=True)
