@@ -5,6 +5,9 @@ import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
+import base64
+import streamlit.components.v1 as components
+
 from config import UNIVERSITY_CONFIG
 from scopus_api import get_scopus_publications
 from mock_data import load_or_generate_mock_data, BAMU_DEPARTMENTS
@@ -15,7 +18,8 @@ from data_processor import (
     get_top_authors_leaderboard,
     get_author_profile_metrics,
     filter_publications,
-    export_to_bibtex
+    export_to_bibtex,
+    generate_author_print_html
 )
 from styles import get_custom_css, render_icare_topbar, render_icare_hero
 
@@ -226,12 +230,13 @@ def get_plotly_layout(theme_mode="dark"):
         "margin": dict(l=40, r=40, t=50, b=40)
     }
 
-# Render Main Dashboard Tabs 1 to 4
-tab1, tab2, tab3, tab4 = st.tabs([
+# Render Main Dashboard Tabs 1 to 5
+tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "📈 Trends & Output Velocity",
     "🎯 Research Impact & Landmark Papers",
     "🌐 Global & Industry Collaboration",
-    "🏆 Quality Benchmarks & Quadrants"
+    "🏆 Quality Benchmarks & Quadrants",
+    "👥 Faculty & Author Profiles"
 ])
 
 # -----------------------------------------------------------------------------
@@ -657,5 +662,256 @@ with tab4:
             legend=dict(orientation="h", yanchor="bottom", y=-0.15, xanchor="center", x=0.5)
         )
         st.plotly_chart(fig_radar, use_container_width=True)
+
+    st.markdown("</div>", unsafe_allow_html=True)
+
+
+# -----------------------------------------------------------------------------
+# TAB 5: 👥 FACULTY & AUTHOR PROFILES
+# -----------------------------------------------------------------------------
+with tab5:
+    st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
+    st.subheader("🏆 Top Faculty Leaderboard & Podium")
+
+    leaderboard_df = get_top_authors_leaderboard(df_filtered, top_n=50)
+
+    text_primary = "#F8FAFC" if theme.lower() == "dark" else "#0F172A"
+
+    if not leaderboard_df.empty:
+        # Podium Cards for Top 3
+        pod1, pod2, pod3 = st.columns(3)
+
+        if len(leaderboard_df) >= 1:
+            r1 = leaderboard_df.iloc[0]
+            with pod1:
+                st.markdown(f"""
+                <div style="background: rgba(245, 158, 11, 0.12); border: 2px solid #F59E0B; border-radius: 16px; padding: 1.2rem; text-align: center; box-shadow: 0 8px 24px rgba(245, 158, 11, 0.2);">
+                    <div style="font-size: 2.2rem; margin-bottom: 0.2rem;">🥇</div>
+                    <div style="font-size: 0.8rem; font-weight: 700; color: #F59E0B; text-transform: uppercase; letter-spacing: 0.08em;">RANK #1 PODIUM</div>
+                    <div style="font-size: 1.35rem; font-weight: 800; color: {text_primary}; margin: 0.3rem 0;">{r1['author']}</div>
+                    <div style="font-size: 0.82rem; color: #0284C7; font-weight: 600; margin-bottom: 0.8rem;">{r1['primary_department']}</div>
+                    <div style="display: flex; justify-content: space-around; background: rgba(0,0,0,0.2); padding: 0.6rem; border-radius: 10px;">
+                        <div><span style="font-size: 0.75rem; opacity: 0.8;">Papers</span><br><b>{r1['paper_count']}</b></div>
+                        <div><span style="font-size: 0.75rem; opacity: 0.8;">Citations</span><br><b style="color: #0284C7;">{r1['total_citations']:,}</b></div>
+                        <div><span style="font-size: 0.75rem; opacity: 0.8;">h-Index</span><br><b style="color: #F59E0B;">h-{r1['h_index']}</b></div>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+
+        if len(leaderboard_df) >= 2:
+            r2 = leaderboard_df.iloc[1]
+            with pod2:
+                st.markdown(f"""
+                <div style="background: rgba(148, 163, 184, 0.12); border: 2px solid #94A3B8; border-radius: 16px; padding: 1.2rem; text-align: center; box-shadow: 0 8px 24px rgba(148, 163, 184, 0.15);">
+                    <div style="font-size: 2.2rem; margin-bottom: 0.2rem;">🥈</div>
+                    <div style="font-size: 0.8rem; font-weight: 700; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.08em;">RANK #2 PODIUM</div>
+                    <div style="font-size: 1.35rem; font-weight: 800; color: {text_primary}; margin: 0.3rem 0;">{r2['author']}</div>
+                    <div style="font-size: 0.82rem; color: #0284C7; font-weight: 600; margin-bottom: 0.8rem;">{r2['primary_department']}</div>
+                    <div style="display: flex; justify-content: space-around; background: rgba(0,0,0,0.2); padding: 0.6rem; border-radius: 10px;">
+                        <div><span style="font-size: 0.75rem; opacity: 0.8;">Papers</span><br><b>{r2['paper_count']}</b></div>
+                        <div><span style="font-size: 0.75rem; opacity: 0.8;">Citations</span><br><b style="color: #0284C7;">{r2['total_citations']:,}</b></div>
+                        <div><span style="font-size: 0.75rem; opacity: 0.8;">h-Index</span><br><b style="color: #F59E0B;">h-{r2['h_index']}</b></div>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+
+        if len(leaderboard_df) >= 3:
+            r3 = leaderboard_df.iloc[2]
+            with pod3:
+                st.markdown(f"""
+                <div style="background: rgba(217, 119, 6, 0.12); border: 2px solid #D97706; border-radius: 16px; padding: 1.2rem; text-align: center; box-shadow: 0 8px 24px rgba(217, 119, 6, 0.15);">
+                    <div style="font-size: 2.2rem; margin-bottom: 0.2rem;">🥉</div>
+                    <div style="font-size: 0.8rem; font-weight: 700; color: #D97706; text-transform: uppercase; letter-spacing: 0.08em;">RANK #3 PODIUM</div>
+                    <div style="font-size: 1.35rem; font-weight: 800; color: {text_primary}; margin: 0.3rem 0;">{r3['author']}</div>
+                    <div style="font-size: 0.82rem; color: #0284C7; font-weight: 600; margin-bottom: 0.8rem;">{r3['primary_department']}</div>
+                    <div style="display: flex; justify-content: space-around; background: rgba(0,0,0,0.2); padding: 0.6rem; border-radius: 10px;">
+                        <div><span style="font-size: 0.75rem; opacity: 0.8;">Papers</span><br><b>{r3['paper_count']}</b></div>
+                        <div><span style="font-size: 0.75rem; opacity: 0.8;">Citations</span><br><b style="color: #0284C7;">{r3['total_citations']:,}</b></div>
+                        <div><span style="font-size: 0.75rem; opacity: 0.8;">h-Index</span><br><b style="color: #F59E0B;">h-{r3['h_index']}</b></div>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+
+        st.markdown("<br>", unsafe_allow_html=True)
+        with st.expander("📋 View Complete Faculty Leaderboard Table"):
+            st.dataframe(
+                leaderboard_df,
+                column_config={
+                    "author": "Faculty / Author Name",
+                    "paper_count": st.column_config.NumberColumn("Publications", format="%d 📜"),
+                    "total_citations": st.column_config.NumberColumn("Total Citations", format="%d 📈"),
+                    "cpp": st.column_config.NumberColumn("CPP", format="%.2f"),
+                    "h_index": st.column_config.NumberColumn("h-Index", format="h-%d 🏆"),
+                    "primary_department": "Primary Department"
+                },
+                use_container_width=True,
+                hide_index=True
+            )
+
+    st.markdown("</div>", unsafe_allow_html=True)
+
+    # Interactive Faculty Selector & Dossier
+    st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
+    st.subheader("🔍 Individual Faculty Scopus Dossier & Profile Deep Dive")
+
+    if not leaderboard_df.empty:
+        author_list = leaderboard_df['author'].tolist()
+        selected_author = st.selectbox(
+            "👤 Select Faculty Member / Author to Inspect",
+            options=author_list,
+            index=0
+        )
+
+        auth_profile = get_author_profile_metrics(df_filtered, selected_author)
+
+        if auth_profile:
+            # Header Card
+            st.markdown(f"""
+            <div style="background: rgba(2, 132, 199, 0.08); border: 1px solid rgba(2, 132, 199, 0.3); border-radius: 14px; padding: 1.5rem; margin-bottom: 1.5rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <h2 style="margin: 0; font-family: 'Outfit', sans-serif; font-size: 1.8rem; color: {text_primary};">{auth_profile['author_name']}</h2>
+                        <div style="font-size: 0.95rem; font-weight: 600; color: #0284C7; margin-top: 0.2rem;">{auth_profile['primary_department']}</div>
+                    </div>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+            # 5 KPI Chips
+            c1, c2, c3, c4, c5 = st.columns(5)
+            with c1:
+                st.metric("Publications", f"{auth_profile['total_papers']}")
+            with c2:
+                st.metric("Citations", f"{auth_profile['total_citations']:,}")
+            with c3:
+                st.metric("CPP Impact", f"{auth_profile['cpp']}")
+            with c4:
+                st.metric("h-Index", f"h-{auth_profile['h_index']}")
+            with c5:
+                st.metric("Q1 Ratio", f"{auth_profile['q1_percentage']}%", help=f"{auth_profile['q1_count']} Q1 Papers")
+
+            st.markdown("<br>", unsafe_allow_html=True)
+
+            # Badges & Co-authors
+            co_list = ", ".join([a[0] for a in auth_profile['top_coauthors']]) or "None recorded"
+            st.markdown(f"""
+            <div style="display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 1.5rem;">
+                <span class="hero-badge">🌐 International Collaboration: <b>{auth_profile['international_collab_pct']}%</b></span>
+                <span class="hero-badge">🏭 Industry Collaboration: <b>{auth_profile['industry_collab_pct']}%</b></span>
+                <span class="hero-badge">🤝 Top Co-Authors: <b>{co_list}</b></span>
+            </div>
+            """, unsafe_allow_html=True)
+
+            # Author Specific Publications DataFrame
+            author_papers = df_filtered[df_filtered['authors'].apply(
+                lambda authors: any(selected_author.lower() in str(a).lower() for a in (authors if isinstance(authors, list) else [authors]))
+            )].copy()
+
+            # Dual-Axis Trend & Quartile Donut for Author
+            col_atrend, col_aquart = st.columns([1.5, 1])
+
+            with col_atrend:
+                st.markdown("#### 📈 Faculty Annual Output & Citations Trend")
+                trend_data = auth_profile['yearly_trend']
+                if not trend_data.empty:
+                    fig_auth_trend = make_subplots(specs=[[{"secondary_y": True}]])
+                    fig_auth_trend.add_trace(
+                        go.Bar(x=trend_data['year'], y=trend_data['papers'], name="Papers", marker=dict(color="#0284C7")),
+                        secondary_y=False
+                    )
+                    fig_auth_trend.add_trace(
+                        go.Scatter(x=trend_data['year'], y=trend_data['citations'], name="Citations", mode="lines+markers", line=dict(color="#F59E0B", width=3)),
+                        secondary_y=True
+                    )
+                    layout_opts = get_plotly_layout(theme)
+                    fig_auth_trend.update_layout(
+                        paper_bgcolor=layout_opts["paper_bgcolor"],
+                        plot_bgcolor=layout_opts["plot_bgcolor"],
+                        font=layout_opts["font"],
+                        height=320,
+                        margin=dict(l=30, r=30, t=30, b=30),
+                        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+                    )
+                    st.plotly_chart(fig_auth_trend, use_container_width=True)
+
+            with col_aquart:
+                st.markdown("#### ⭐ Journal Quality Profile")
+                if not author_papers.empty:
+                    q_counts = author_papers['quartile'].value_counts().reindex(['Q1', 'Q2', 'Q3', 'Q4']).fillna(0)
+                    fig_auth_q = go.Figure(
+                        data=[go.Pie(
+                            labels=q_counts.index,
+                            values=q_counts.values,
+                            hole=0.5,
+                            marker=dict(colors=['#10B981', '#3B82F6', '#F59E0B', '#EF4444'])
+                        )]
+                    )
+                    layout_opts = get_plotly_layout(theme)
+                    fig_auth_q.update_layout(
+                        paper_bgcolor=layout_opts["paper_bgcolor"],
+                        font=layout_opts["font"],
+                        height=320,
+                        margin=dict(l=10, r=10, t=30, b=10)
+                    )
+                    st.plotly_chart(fig_auth_q, use_container_width=True)
+
+            # Top 5 Landmark Contributions
+            st.markdown("#### 🌟 Top 5 Landmark Contributions")
+            top_auth_pubs = auth_profile['top_publications'].copy()
+            if not top_auth_pubs.empty:
+                top_auth_pubs['DOI Link'] = top_auth_pubs['doi'].apply(lambda d: f"https://doi.org/{d}" if d else "#")
+                st.dataframe(
+                    top_auth_pubs[['title', 'journal', 'year', 'citations', 'quartile', 'DOI Link']],
+                    column_config={
+                        "DOI Link": st.column_config.LinkColumn("DOI Link", display_text="↗ View"),
+                        "citations": st.column_config.NumberColumn("Citations", format="%d 📈")
+                    },
+                    use_container_width=True,
+                    hide_index=True
+                )
+
+            # Full Papers Table for Selected Author
+            st.markdown("#### 📚 Full Publication Record")
+            if not author_papers.empty:
+                author_papers_display = author_papers.copy()
+                author_papers_display['DOI Link'] = author_papers_display['doi'].apply(lambda d: f"https://doi.org/{d}" if d else "#")
+                st.dataframe(
+                    author_papers_display[['title', 'journal', 'year', 'citations', 'quartile', 'DOI Link']],
+                    column_config={
+                        "DOI Link": st.column_config.LinkColumn("DOI Link", display_text="↗ View"),
+                        "citations": st.column_config.NumberColumn("Citations", format="%d 📈")
+                    },
+                    use_container_width=True,
+                    hide_index=True
+                )
+
+            st.markdown("<br>", unsafe_allow_html=True)
+            # Targeted Print Capability (Hidden iFrame Script Injection)
+            print_btn = st.button("🖨️ Print Author Dossier / Save PDF", type="primary", use_container_width=False)
+            if print_btn:
+                print_html = generate_author_print_html(auth_profile, author_papers)
+                b64_html = base64.b64encode(print_html.encode('utf-8')).decode('utf-8')
+                
+                js_print_code = f"""
+                <script>
+                (function() {{
+                const b64 = "{b64_html}";
+                const html = decodeURIComponent(escape(window.atob(b64)));
+                const parentDoc = (window.parent && window.parent.document) ? window.parent.document : document;
+                let frame = parentDoc.getElementById('author-print-isolated-frame');
+                if (frame) frame.remove();
+                frame = parentDoc.createElement('iframe');
+                frame.id = 'author-print-isolated-frame';
+                frame.style.position = 'fixed'; frame.style.right = '0'; frame.style.bottom = '0';
+                frame.style.width = '0'; frame.style.height = '0'; frame.style.border = '0';
+                parentDoc.body.appendChild(frame);
+                const doc = frame.contentWindow.document;
+                doc.open(); doc.write(html); doc.close();
+                setTimeout(() => {{ frame.contentWindow.focus(); frame.contentWindow.print(); }}, 350);
+                }})();
+                </script>
+                """
+                components.html(js_print_code, height=0, width=0)
+                st.success(f"Preparing official print dossier for {auth_profile['author_name']}...")
 
     st.markdown("</div>", unsafe_allow_html=True)

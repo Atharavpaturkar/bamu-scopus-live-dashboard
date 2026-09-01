@@ -367,6 +367,233 @@ def export_to_bibtex(df):
 
     return "\n".join(bib_entries)
 
+def generate_author_print_html(auth_profile, papers_df, trend_df=None):
+    """
+    Generates a standalone, beautifully styled HTML dossier document for print/PDF export.
+    """
+    if not auth_profile:
+        return "<html><body><h1>No author profile available</h1></body></html>"
+
+    author_name = auth_profile.get("author_name", "Faculty Author")
+    dept = auth_profile.get("primary_department", "Academic Department")
+    total_papers = auth_profile.get("total_papers", 0)
+    total_citations = auth_profile.get("total_citations", 0)
+    h_idx = auth_profile.get("h_index", 0)
+    cpp = auth_profile.get("cpp", 0.0)
+    q1_pct = auth_profile.get("q1_percentage", 0.0)
+    q1_count = auth_profile.get("q1_count", 0)
+    intl_pct = auth_profile.get("international_collab_pct", 0.0)
+    ind_pct = auth_profile.get("industry_collab_pct", 0.0)
+
+    top_coauthors = ", ".join([a[0] for a in auth_profile.get("top_coauthors", [])[:4]]) or "None recorded"
+
+    # Build paper rows
+    rows_html = ""
+    if papers_df is not None and not papers_df.empty:
+        for idx, row in papers_df.iterrows():
+            title = str(row.get('title', 'Untitled'))
+            journal = str(row.get('journal', 'Unknown Journal'))
+            year = str(row.get('year', ''))
+            cites = str(row.get('citations', 0))
+            q = str(row.get('quartile', '-'))
+            doi = str(row.get('doi', ''))
+            doi_link = f"<a href='https://doi.org/{doi}' target='_blank'>{doi}</a>" if doi else "-"
+            rows_html += f"""
+            <tr>
+                <td><b>{title}</b></td>
+                <td>{journal}</td>
+                <td style='text-align:center;'>{year}</td>
+                <td style='text-align:center;'><b>{cites}</b></td>
+                <td style='text-align:center;'>{q}</td>
+                <td>{doi_link}</td>
+            </tr>
+            """
+
+    now_str = datetime.now().strftime("%Y-%m-%d %H:%M")
+
+    html = f"""<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Faculty Scopus Dossier - {author_name}</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        body {{
+            font-family: 'Inter', sans-serif;
+            color: #0F172A;
+            background: #FFFFFF;
+            margin: 0;
+            padding: 24px;
+            -webkit-print-color-adjust: exact;
+        }}
+        .header {{
+            border-bottom: 3px solid #0284C7;
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }}
+        .header-title {{
+            font-size: 22px;
+            font-weight: 800;
+            color: #0284C7;
+            margin: 0;
+        }}
+        .header-sub {{
+            font-size: 13px;
+            color: #475569;
+            margin-top: 4px;
+        }}
+        .profile-card {{
+            background: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }}
+        .author-name {{
+            font-size: 24px;
+            font-weight: 800;
+            color: #0F172A;
+            margin: 0 0 4px 0;
+        }}
+        .author-dept {{
+            font-size: 14px;
+            font-weight: 600;
+            color: #0284C7;
+            margin-bottom: 16px;
+        }}
+        .kpi-grid {{
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+        }}
+        .kpi-box {{
+            background: #FFFFFF;
+            border: 1px solid #CBD5E1;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+        }}
+        .kpi-val {{
+            font-size: 20px;
+            font-weight: 800;
+            color: #0284C7;
+        }}
+        .kpi-lbl {{
+            font-size: 11px;
+            font-weight: 600;
+            color: #64748B;
+            text-transform: uppercase;
+        }}
+        .meta-badges {{
+            font-size: 12px;
+            color: #334155;
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }}
+        .badge {{
+            background: #E0F2FE;
+            color: #0369A1;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+        }}
+        table {{
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+            font-size: 12px;
+        }}
+        th, td {{
+            border: 1px solid #E2E8F0;
+            padding: 8px 12px;
+            text-align: left;
+        }}
+        th {{
+            background-color: #F1F5F9;
+            font-weight: 700;
+            color: #334155;
+        }}
+        tr:nth-child(even) {{
+            background-color: #F8FAFC;
+        }}
+        @media print {{
+            body {{ padding: 0; }}
+            .no-print {{ display: none; }}
+        }}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div>
+            <div class="header-title">Dr. Babasaheb Ambedkar Marathwada University</div>
+            <div class="header-sub">ICARE Scopus Intelligence Portal • Institutional Faculty Dossier</div>
+        </div>
+        <div style="text-align: right; font-size: 11px; color: #64748B;">
+            Generated: {now_str}<br>
+            Official Scopus Research Record
+        </div>
+    </div>
+
+    <div class="profile-card">
+        <h1 class="author-name">{author_name}</h1>
+        <div class="author-dept">{dept}</div>
+
+        <div class="kpi-grid">
+            <div class="kpi-box">
+                <div class="kpi-val">{total_papers}</div>
+                <div class="kpi-lbl">Publications</div>
+            </div>
+            <div class="kpi-box">
+                <div class="kpi-val">{total_citations}</div>
+                <div class="kpi-lbl">Citations</div>
+            </div>
+            <div class="kpi-box">
+                <div class="kpi-val">{cpp}</div>
+                <div class="kpi-lbl">CPP Impact</div>
+            </div>
+            <div class="kpi-box">
+                <div class="kpi-val" style="color: #F59E0B;">h-{h_idx}</div>
+                <div class="kpi-lbl">h-Index</div>
+            </div>
+            <div class="kpi-box">
+                <div class="kpi-val" style="color: #10B981;">{q1_pct}%</div>
+                <div class="kpi-lbl">Q1 Ratio ({q1_count} Q1)</div>
+            </div>
+        </div>
+
+        <div class="meta-badges">
+            <span class="badge">🌐 International Collab: {intl_pct}%</span>
+            <span class="badge">🏭 Industry Collab: {ind_pct}%</span>
+            <span><b>Top Co-Authors:</b> {top_coauthors}</span>
+        </div>
+    </div>
+
+    <h3 style="margin-bottom: 8px; color: #0F172A;">Indexed Publication Dossier ({total_papers} Papers)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 35%;">Title</th>
+                <th style="width: 25%;">Journal</th>
+                <th style="width: 8%;">Year</th>
+                <th style="width: 8%;">Citations</th>
+                <th style="width: 8%;">Quartile</th>
+                <th style="width: 16%;">DOI</th>
+            </tr>
+        </thead>
+        <tbody>
+            {rows_html}
+        </tbody>
+    </table>
+</body>
+</html>
+"""
+    return html
+
 
 if __name__ == "__main__":
     from mock_data import generate_mock_publications
