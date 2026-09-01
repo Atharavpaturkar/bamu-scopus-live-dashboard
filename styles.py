@@ -11,23 +11,25 @@ def get_custom_css(theme="dark"):
     if theme.lower() == "light":
         bg_color = "#F8FAFC"
         text_primary = "#0F172A"
-        text_secondary = "#475569"
-        card_bg = "rgba(255, 255, 255, 0.85)"
-        card_border = "1px solid rgba(15, 23, 42, 0.08)"
-        card_shadow = "0 8px 32px 0 rgba(31, 38, 135, 0.07)"
+        text_secondary = "#334155"
+        card_bg = "#FFFFFF"
+        card_border = "1px solid #CBD5E1"
+        card_border_hover = "1px solid #0284C7"
+        card_shadow = "0 4px 20px 0 rgba(15, 23, 42, 0.08)"
         sidebar_bg = "#FFFFFF"
-        subtle_bg = "rgba(2, 132, 199, 0.05)"
-        tab_bg = "#E2E8F0"
+        subtle_bg = "rgba(2, 132, 199, 0.08)"
+        tab_bg = "#F1F5F9"
         tab_active = "#FFFFFF"
     else:  # Dark mode default
         bg_color = "#070D1E"
         text_primary = "#F8FAFC"
         text_secondary = "#94A3B8"
-        card_bg = "rgba(14, 23, 42, 0.75)"
-        card_border = "1px solid rgba(255, 255, 255, 0.08)"
-        card_shadow = "0 8px 32px 0 rgba(0, 0, 0, 0.37)"
+        card_bg = "rgba(14, 23, 42, 0.85)"
+        card_border = "1px solid rgba(2, 132, 199, 0.35)"
+        card_border_hover = "1px solid #38BDF8"
+        card_shadow = "0 8px 32px 0 rgba(0, 0, 0, 0.45)"
         sidebar_bg = "#0B1329"
-        subtle_bg = "rgba(2, 132, 199, 0.12)"
+        subtle_bg = "rgba(2, 132, 199, 0.15)"
         tab_bg = "#0E172A"
         tab_active = "#1E293B"
 
@@ -138,14 +140,14 @@ def get_custom_css(theme="dark"):
         border-radius: 16px !important;
         padding: 1.5rem !important;
         box-shadow: {card_shadow} !important;
-        transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
         margin-bottom: 1.25rem;
     }}
 
     .glass-card:hover {{
-        transform: translateY(-3px);
-        box-shadow: 0 12px 40px 0 rgba(2, 132, 199, 0.2) !important;
-        border-color: rgba(2, 132, 199, 0.4) !important;
+        transform: translateY(-3px) scale(1.002);
+        box-shadow: 0 12px 35px -5px rgba(2, 132, 199, 0.3) !important;
+        border: {card_border_hover} !important;
     }}
 
     /* KPI Metric Cards */
@@ -158,7 +160,7 @@ def get_custom_css(theme="dark"):
         text-align: center;
         position: relative;
         overflow: hidden;
-        transition: all 0.3s ease;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
     }}
 
     .kpi-card::before {{
@@ -173,7 +175,8 @@ def get_custom_css(theme="dark"):
 
     .kpi-card:hover {{
         transform: translateY(-4px);
-        box-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.25);
+        border: {card_border_hover} !important;
+        box-shadow: 0 12px 30px -5px rgba(2, 132, 199, 0.35) !important;
     }}
 
     .kpi-value {{
@@ -336,31 +339,49 @@ def get_custom_css(theme="dark"):
         text-transform: uppercase;
     }}
 
+    /* Streamlit Containers, DataFrames & Expanders Borders */
+    [data-testid="stDataFrame"], .stExpander {
+        border: {card_border} !important;
+        border-radius: 12px !important;
+        transition: all 0.3s ease !important;
+    }
+
+    [data-testid="stDataFrame"]:hover, .stExpander:hover {
+        border: {card_border_hover} !important;
+        box-shadow: 0 6px 20px rgba(2, 132, 199, 0.2) !important;
+    }
+
     /* Streamlit Tabs Styling */
-    .stTabs [data-baseweb="tab-list"] {{
+    .stTabs [data-baseweb="tab-list"] {
         gap: 8px;
         background-color: {tab_bg};
         padding: 6px;
         border-radius: 12px;
         border: {card_border};
-    }}
+    }
 
-    .stTabs [data-baseweb="tab"] {{
+    .stTabs [data-baseweb="tab"] {
         height: 42px;
         border-radius: 8px;
         color: {text_secondary};
         font-weight: 600;
         font-size: 0.9rem;
         padding: 0 16px;
-        border: none !important;
-    }}
+        border: 1px solid transparent !important;
+        transition: all 0.25s ease !important;
+    }
 
-    .stTabs [aria-selected="true"] {{
+    .stTabs [data-baseweb="tab"]:hover {
+        border: {card_border_hover} !important;
+    }
+
+    .stTabs [aria-selected="true"] {
         background-color: {tab_active} !important;
         color: {primary_blue} !important;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        border: {card_border_hover} !important;
+        box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3);
         font-weight: 700;
-    }}
+    }
 
     /* Custom Scrollbar */
     ::-webkit-scrollbar {{

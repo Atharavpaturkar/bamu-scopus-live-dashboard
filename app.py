@@ -308,17 +308,18 @@ st.markdown("<br>", unsafe_allow_html=True)
 # Helper function for Plotly Theme adaptation
 def get_plotly_layout(theme_mode="dark"):
     is_dark = theme_mode.lower() == "dark"
-    paper_bg = "rgba(14, 23, 42, 0.4)" if is_dark else "#FFFFFF"
+    paper_bg = "rgba(14, 23, 42, 0.5)" if is_dark else "#FFFFFF"
     plot_bg = "rgba(0, 0, 0, 0)"
     font_color = "#F8FAFC" if is_dark else "#0F172A"
-    grid_color = "rgba(255, 255, 255, 0.08)" if is_dark else "rgba(15, 23, 42, 0.08)"
+    grid_color = "rgba(255, 255, 255, 0.14)" if is_dark else "rgba(15, 23, 42, 0.15)"
+    zeroline_color = "rgba(56, 189, 248, 0.3)" if is_dark else "rgba(2, 132, 199, 0.3)"
 
     return {
         "paper_bgcolor": paper_bg,
         "plot_bgcolor": plot_bg,
         "font": dict(family="Inter, sans-serif", color=font_color),
-        "xaxis": dict(gridcolor=grid_color, zerolinecolor=grid_color),
-        "yaxis": dict(gridcolor=grid_color, zerolinecolor=grid_color),
+        "xaxis": dict(gridcolor=grid_color, zerolinecolor=zeroline_color),
+        "yaxis": dict(gridcolor=grid_color, zerolinecolor=zeroline_color),
         "margin": dict(l=40, r=40, t=50, b=40)
     }
 
