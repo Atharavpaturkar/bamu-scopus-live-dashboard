@@ -206,7 +206,30 @@ def get_custom_css(theme="dark"):
         margin-bottom: 0.35rem;
     }}
 
-    /* FIX: Sidebar Radio Buttons Styling */
+    /* CRITICAL FIX: Sidebar Control Borders & Outlines (Dark/Light High Visibility) */
+    [data-testid="stSidebar"] [data-baseweb="select"],
+    [data-testid="stSidebar"] [data-baseweb="select"] > div,
+    [data-testid="stSidebar"] [data-testid="stMultiSelect"] [data-baseweb="select"] > div,
+    [data-testid="stSidebar"] [data-testid="stSelectbox"] [data-baseweb="select"] > div,
+    [data-testid="stSidebar"] [data-testid="stNumberInput"] [data-baseweb="input"],
+    [data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label {{
+        background-color: {input_bg} !important;
+        border: {"1.5px solid #38BDF8" if theme.lower()=="dark" else "1.5px solid #0284C7"} !important;
+        box-shadow: {"0 0 8px rgba(56, 189, 248, 0.25)" if theme.lower()=="dark" else "0 2px 8px rgba(2, 132, 199, 0.1)"} !important;
+        border-radius: 10px !important;
+        transition: all 0.25s ease !important;
+    }}
+
+    [data-testid="stSidebar"] [data-baseweb="select"]:hover,
+    [data-testid="stSidebar"] [data-baseweb="select"] > div:hover,
+    [data-testid="stSidebar"] [data-testid="stMultiSelect"] [data-baseweb="select"] > div:hover,
+    [data-testid="stSidebar"] [data-testid="stSelectbox"] [data-baseweb="select"] > div:hover,
+    [data-testid="stSidebar"] [data-testid="stNumberInput"] [data-baseweb="input"]:hover,
+    [data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label:hover {{
+        border-color: {"#7DD3FC" if theme.lower()=="dark" else "#0369A1"} !important;
+        box-shadow: {"0 0 14px rgba(56, 189, 248, 0.5)" if theme.lower()=="dark" else "0 0 12px rgba(2, 132, 199, 0.25)"} !important;
+    }}
+
     [data-testid="stSidebar"] [data-testid="stRadio"] label {{
         color: {text_primary} !important;
         font-size: 0.85rem !important;
@@ -214,30 +237,8 @@ def get_custom_css(theme="dark"):
     }}
 
     [data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label {{
-        background: {radio_bg} !important;
-        border: {input_border} !important;
-        border-radius: 8px !important;
         padding: 0.4rem 0.65rem !important;
         margin-bottom: 0.35rem !important;
-        transition: all 0.2s ease !important;
-    }}
-
-    [data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label:hover {{
-        border-color: {primary_blue} !important;
-    }}
-
-    /* FIX: Number Inputs styling & hide step buttons */
-    [data-testid="stSidebar"] [data-testid="stNumberInput"] div[data-baseweb="input"] {{
-        background-color: {input_bg} !important;
-        border: {input_border} !important;
-        border-radius: 9px !important;
-        padding: 3px 6px !important;
-        transition: all 0.25s ease !important;
-    }}
-
-    [data-testid="stSidebar"] [data-testid="stNumberInput"] div[data-baseweb="input"]:hover {{
-        border-color: {"#7DD3FC" if theme.lower()=="dark" else "#0284C7"} !important;
-        box-shadow: 0 0 10px {"rgba(56, 189, 248, 0.45)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.15)"} !important;
     }}
 
     [data-testid="stSidebar"] [data-testid="stNumberInput"] input {{
@@ -249,19 +250,6 @@ def get_custom_css(theme="dark"):
 
     [data-testid="stSidebar"] [data-testid="stNumberInput"] button {{
         display: none !important;
-    }}
-
-    /* FIX: Dropdowns / Multiselects Border & Control Box */
-    [data-testid="stSidebar"] [data-testid="stMultiSelect"] div[data-baseweb="select"] > div,
-    [data-testid="stSidebar"] [data-testid="stSelectbox"] div[data-baseweb="select"] > div,
-    [data-testid="stSidebar"] div[data-baseweb="select"] > div,
-    div[data-baseweb="select"] > div {{
-        background-color: {input_bg} !important;
-        border: {input_border} !important;
-        border-radius: 10px !important;
-        min-height: 42px !important;
-        padding: 3px 8px !important;
-        transition: all 0.25s ease !important;
     }}
 
     div[data-baseweb="select"] > div:hover {{
