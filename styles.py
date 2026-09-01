@@ -52,12 +52,26 @@ def get_custom_css(theme="dark"):
         max-width: 95% !important;
     }}
 
-    /* Sidebar Styling */
+    /* Sidebar Styling & Background Layering */
     [data-testid="stSidebar"] {{
         background-color: {sidebar_bg} !important;
         border-right: {card_border} !important;
+        padding-top: 1rem !important;
     }}
 
+    /* Custom Sidebar Scrollbar */
+    [data-testid="stSidebar"]::-webkit-scrollbar {{
+        width: 6px;
+    }}
+    [data-testid="stSidebar"]::-webkit-scrollbar-track {{
+        background: {sidebar_bg};
+    }}
+    [data-testid="stSidebar"]::-webkit-scrollbar-thumb {{
+        background: {"rgba(2, 132, 199, 0.4)" if theme.lower()=="dark" else "#CBD5E1"};
+        border-radius: 4px;
+    }}
+
+    /* Sidebar Section Headers */
     .sidebar-nav-header {{
         font-family: 'Outfit', sans-serif;
         font-size: 0.88rem;
@@ -65,8 +79,10 @@ def get_custom_css(theme="dark"):
         letter-spacing: 0.08em;
         color: {"#38BDF8" if theme.lower()=="dark" else "#0284C7"};
         text-transform: uppercase;
-        margin-top: 1rem;
-        margin-bottom: 0.5rem;
+        margin-top: 1.2rem;
+        margin-bottom: 0.6rem;
+        padding-bottom: 0.3rem;
+        border-bottom: 1px solid {"rgba(2, 132, 199, 0.2)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.15)"};
         display: flex;
         align-items: center;
         gap: 0.4rem;
@@ -76,19 +92,25 @@ def get_custom_css(theme="dark"):
         font-size: 0.9rem;
         font-weight: 700;
         color: {text_primary};
-        margin-top: 0.9rem;
-        margin-bottom: 0.4rem;
+        margin-top: 1.1rem;
+        margin-bottom: 0.45rem;
         display: flex;
         align-items: center;
-        gap: 0.4rem;
+        gap: 0.45rem;
     }}
 
-    /* Sidebar Input Boxes & Number Inputs */
+    /* Sidebar Input Cards & Number Inputs */
     [data-testid="stSidebar"] div[data-baseweb="input"] {{
         background-color: {"#0E172A" if theme.lower()=="dark" else "#FFFFFF"} !important;
-        border: 1px solid {"rgba(2, 132, 199, 0.4)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.5)"} !important;
-        border-radius: 8px !important;
-        padding: 2px 4px !important;
+        border: 1px solid {"rgba(2, 132, 199, 0.4)" if theme.lower()=="dark" else "#CBD5E1"} !important;
+        border-radius: 9px !important;
+        padding: 3px 6px !important;
+        transition: all 0.25s ease !important;
+    }}
+
+    [data-testid="stSidebar"] div[data-baseweb="input"]:hover {{
+        border-color: {"#38BDF8" if theme.lower()=="dark" else "#0284C7"} !important;
+        box-shadow: 0 0 10px {"rgba(2, 132, 199, 0.3)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.15)"} !important;
     }}
 
     [data-testid="stSidebar"] input {{
@@ -106,9 +128,15 @@ def get_custom_css(theme="dark"):
     /* Sidebar Selectbox & Multiselect Containers */
     [data-testid="stSidebar"] div[data-baseweb="select"] {{
         background-color: {"#0E172A" if theme.lower()=="dark" else "#FFFFFF"} !important;
-        border: 1px solid {"rgba(2, 132, 199, 0.4)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.5)"} !important;
+        border: 1px solid {"rgba(2, 132, 199, 0.4)" if theme.lower()=="dark" else "#CBD5E1"} !important;
         border-radius: 10px !important;
-        padding: 2px 6px !important;
+        padding: 3px 8px !important;
+        transition: all 0.25s ease !important;
+    }}
+
+    [data-testid="stSidebar"] div[data-baseweb="select"]:hover {{
+        border-color: {"#38BDF8" if theme.lower()=="dark" else "#0284C7"} !important;
+        box-shadow: 0 0 10px {"rgba(2, 132, 199, 0.3)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.15)"} !important;
     }}
 
     [data-testid="stSidebar"] div[data-baseweb="select"] * {{
@@ -117,8 +145,8 @@ def get_custom_css(theme="dark"):
 
     /* Sidebar Sliders */
     [data-testid="stSidebar"] div[data-baseweb="slider"] {{
-        padding-top: 0.2rem !important;
-        padding-bottom: 0.2rem !important;
+        padding-top: 0.25rem !important;
+        padding-bottom: 0.25rem !important;
     }}
 
     [data-testid="stSidebar"] div[data-baseweb="slider"] [data-testid="stTickBar"] {{
@@ -128,7 +156,12 @@ def get_custom_css(theme="dark"):
     [data-testid="stSidebar"] div[data-baseweb="slider"] div[role="slider"] {{
         background-color: #0284C7 !important;
         border: 2px solid #38BDF8 !important;
-        box-shadow: 0 0 10px rgba(2, 132, 199, 0.8) !important;
+        box-shadow: 0 0 12px rgba(2, 132, 199, 0.85) !important;
+        transition: transform 0.2s ease !important;
+    }}
+
+    [data-testid="stSidebar"] div[data-baseweb="slider"] div[role="slider"]:hover {{
+        transform: scale(1.2) !important;
     }}
 
     /* Sidebar Primary Buttons */
@@ -138,12 +171,12 @@ def get_custom_css(theme="dark"):
         border: 1px solid #38BDF8 !important;
         border-radius: 10px !important;
         font-weight: 700 !important;
-        font-size: 0.95rem !important;
-        padding: 0.6rem 1rem !important;
-        box-shadow: 0 4px 15px rgba(2, 132, 199, 0.5) !important;
-        transition: all 0.25s ease !important;
+        font-size: 0.94rem !important;
+        padding: 0.65rem 1rem !important;
+        box-shadow: 0 4px 15px rgba(2, 132, 199, 0.45) !important;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
         width: 100% !important;
-        margin-top: 0.4rem !important;
+        margin-top: 0.5rem !important;
     }}
 
     [data-testid="stSidebar"] .stButton > button:hover {{
