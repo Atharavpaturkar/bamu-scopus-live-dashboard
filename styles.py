@@ -207,27 +207,27 @@ def get_custom_css(theme="dark"):
     }}
 
     /* CRITICAL FIX: Sidebar Control Borders & Outlines (Dark/Light High Visibility) */
-    [data-testid="stSidebar"] [data-baseweb="select"],
     [data-testid="stSidebar"] [data-baseweb="select"] > div,
     [data-testid="stSidebar"] [data-testid="stMultiSelect"] [data-baseweb="select"] > div,
     [data-testid="stSidebar"] [data-testid="stSelectbox"] [data-baseweb="select"] > div,
-    [data-testid="stSidebar"] [data-testid="stNumberInput"] [data-baseweb="input"],
-    [data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label {{
-        background-color: {input_bg} !important;
-        border: {"1.5px solid #38BDF8" if theme.lower()=="dark" else "1.5px solid #0284C7"} !important;
-        box-shadow: {"0 0 8px rgba(56, 189, 248, 0.25)" if theme.lower()=="dark" else "0 2px 8px rgba(2, 132, 199, 0.1)"} !important;
+    [data-testid="stSidebar"] [data-testid="stNumberInput"] div[data-baseweb="input"],
+    [data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label,
+    div[data-baseweb="select"] > div {{
+        background-color: {"#111C35" if theme.lower()=="dark" else "#FFFFFF"} !important;
+        border: {"2px solid #00F0FF" if theme.lower()=="dark" else "2px solid #0284C7"} !important;
+        box-shadow: {"0 0 10px rgba(0, 240, 255, 0.35)" if theme.lower()=="dark" else "0 2px 8px rgba(2, 132, 199, 0.15)"} !important;
         border-radius: 10px !important;
         transition: all 0.25s ease !important;
     }}
 
-    [data-testid="stSidebar"] [data-baseweb="select"]:hover,
     [data-testid="stSidebar"] [data-baseweb="select"] > div:hover,
     [data-testid="stSidebar"] [data-testid="stMultiSelect"] [data-baseweb="select"] > div:hover,
     [data-testid="stSidebar"] [data-testid="stSelectbox"] [data-baseweb="select"] > div:hover,
-    [data-testid="stSidebar"] [data-testid="stNumberInput"] [data-baseweb="input"]:hover,
-    [data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label:hover {{
-        border-color: {"#7DD3FC" if theme.lower()=="dark" else "#0369A1"} !important;
-        box-shadow: {"0 0 14px rgba(56, 189, 248, 0.5)" if theme.lower()=="dark" else "0 0 12px rgba(2, 132, 199, 0.25)"} !important;
+    [data-testid="stSidebar"] [data-testid="stNumberInput"] div[data-baseweb="input"]:hover,
+    [data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label:hover,
+    div[data-baseweb="select"] > div:hover {{
+        border-color: {"#66F6FF" if theme.lower()=="dark" else "#0369A1"} !important;
+        box-shadow: {"0 0 16px rgba(0, 240, 255, 0.6)" if theme.lower()=="dark" else "0 0 12px rgba(2, 132, 199, 0.3)"} !important;
     }}
 
     [data-testid="stSidebar"] [data-testid="stRadio"] label {{
