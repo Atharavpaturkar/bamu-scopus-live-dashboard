@@ -24,7 +24,7 @@ def get_custom_css(theme="dark"):
         badge_bg = "rgba(2, 132, 199, 0.12)"
         badge_text = "#0284C7"
         input_bg = "#FFFFFF"
-        input_border = "#CBD5E1"
+        input_border = "1.5px solid #94A3B8"
         radio_bg = "#FFFFFF"
     else:  # Dark mode default
         bg_color = "#070D1E"
@@ -41,9 +41,9 @@ def get_custom_css(theme="dark"):
         hero_bg = "linear-gradient(135deg, rgba(2, 132, 199, 0.15) 0%, rgba(15, 23, 42, 0.4) 100%)"
         badge_bg = "rgba(56, 189, 248, 0.15)"
         badge_text = "#38BDF8"
-        input_bg = "#0E172A"
-        input_border = "rgba(56, 189, 248, 0.35)"
-        radio_bg = "rgba(14, 23, 42, 0.5)"
+        input_bg = "#111C35"
+        input_border = "1.5px solid #38BDF8"
+        radio_bg = "rgba(14, 23, 42, 0.7)"
 
     primary_blue = UNIVERSITY_CONFIG.get("primary_color", "#0284C7")
     accent_gold = UNIVERSITY_CONFIG.get("accent_color", "#F59E0B")
@@ -215,7 +215,7 @@ def get_custom_css(theme="dark"):
 
     [data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label {{
         background: {radio_bg} !important;
-        border: 1px solid {input_border} !important;
+        border: {input_border} !important;
         border-radius: 8px !important;
         padding: 0.4rem 0.65rem !important;
         margin-bottom: 0.35rem !important;
@@ -229,15 +229,15 @@ def get_custom_css(theme="dark"):
     /* FIX: Number Inputs styling & hide step buttons */
     [data-testid="stSidebar"] [data-testid="stNumberInput"] div[data-baseweb="input"] {{
         background-color: {input_bg} !important;
-        border: 1px solid {input_border} !important;
+        border: {input_border} !important;
         border-radius: 9px !important;
         padding: 3px 6px !important;
         transition: all 0.25s ease !important;
     }}
 
     [data-testid="stSidebar"] [data-testid="stNumberInput"] div[data-baseweb="input"]:hover {{
-        border-color: {"#38BDF8" if theme.lower()=="dark" else "#0284C7"} !important;
-        box-shadow: 0 0 10px {"rgba(2, 132, 199, 0.35)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.15)"} !important;
+        border-color: {"#7DD3FC" if theme.lower()=="dark" else "#0284C7"} !important;
+        box-shadow: 0 0 10px {"rgba(56, 189, 248, 0.45)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.15)"} !important;
     }}
 
     [data-testid="stSidebar"] [data-testid="stNumberInput"] input {{
@@ -257,7 +257,7 @@ def get_custom_css(theme="dark"):
     [data-testid="stSidebar"] div[data-baseweb="select"] > div,
     div[data-baseweb="select"] > div {{
         background-color: {input_bg} !important;
-        border: 1px solid {input_border} !important;
+        border: {input_border} !important;
         border-radius: 10px !important;
         min-height: 42px !important;
         padding: 3px 8px !important;
