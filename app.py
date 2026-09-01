@@ -82,13 +82,13 @@ if "theme" not in st.session_state:
 c_t1, c_t2 = st.sidebar.columns(2)
 with c_t1:
     dark_btn_type = "primary" if st.session_state.theme == "Dark" else "secondary"
-    if st.sidebar.button("🌙 Dark Mode", use_container_width=True, type=dark_btn_type, key="btn_theme_dark"):
+    if st.button("🌙 Dark Mode", use_container_width=True, type=dark_btn_type, key="btn_theme_dark"):
         st.session_state.theme = "Dark"
         st.rerun()
 
 with c_t2:
     light_btn_type = "primary" if st.session_state.theme == "Light" else "secondary"
-    if st.sidebar.button("☀️ Light Mode", use_container_width=True, type=light_btn_type, key="btn_theme_light"):
+    if st.button("☀️ Light Mode", use_container_width=True, type=light_btn_type, key="btn_theme_light"):
         st.session_state.theme = "Light"
         st.rerun()
 
@@ -151,11 +151,11 @@ slider_yr = st.sidebar.slider(
 # Start Year & End Year side-by-side inputs
 c_y1, c_y2 = st.sidebar.columns(2)
 with c_y1:
-    st.markdown("<div style='font-size:0.84rem; font-weight:700; color:inherit; margin-bottom:0.3rem;'>Start Year</div>", unsafe_allow_html=True)
+    st.markdown("<div class='sidebar-label-title'>Start Year</div>", unsafe_allow_html=True)
     input_start_val = st.number_input("Start Year Input", min_value=slider_min_yr, max_value=slider_max_yr, value=slider_yr[0], step=1, label_visibility="collapsed")
 
 with c_y2:
-    st.markdown("<div style='font-size:0.84rem; font-weight:700; color:inherit; margin-bottom:0.3rem;'>End Year</div>", unsafe_allow_html=True)
+    st.markdown("<div class='sidebar-label-title'>End Year</div>", unsafe_allow_html=True)
     input_end_val = st.number_input("End Year Input", min_value=slider_min_yr, max_value=slider_max_yr, value=slider_yr[1], step=1, label_visibility="collapsed")
 
 # Apply Year Range Button

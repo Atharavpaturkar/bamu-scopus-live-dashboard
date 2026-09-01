@@ -71,6 +71,69 @@ def get_custom_css(theme="dark"):
         border-radius: 4px;
     }}
 
+    /* Segmented Theme Control Wrapper */
+    .theme-segmented-wrapper {{
+        background-color: {"#0E172A" if theme.lower()=="dark" else "#F1F5F9"};
+        border: 1px solid {"rgba(56, 189, 248, 0.35)" if theme.lower()=="dark" else "#CBD5E1"};
+        border-radius: 12px;
+        padding: 4px;
+        margin-bottom: 1.2rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }}
+
+    /* FIX: Sidebar Buttons Styling & Remove Inner Black Rectangle */
+    [data-testid="stSidebar"] [data-testid="stButton"] button {{
+        border-radius: 10px !important;
+        font-family: 'Inter', sans-serif !important;
+        font-weight: 700 !important;
+        font-size: 0.88rem !important;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        width: 100% !important;
+        padding: 0.55rem 0.85rem !important;
+        margin: 0 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }}
+
+    /* CRITICAL FIX: Eliminate inner dark paragraph rectangle inside buttons */
+    [data-testid="stSidebar"] [data-testid="stButton"] button * {{
+        background: transparent !important;
+        background-color: transparent !important;
+        color: inherit !important;
+        border: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+    }}
+
+    /* Active Theme Button (Primary) */
+    [data-testid="stSidebar"] [data-testid="stButton"] button[kind="primary"] {{
+        background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%) !important;
+        color: #FFFFFF !important;
+        border: 1px solid #38BDF8 !important;
+        box-shadow: 0 4px 14px rgba(2, 132, 199, 0.45) !important;
+    }}
+
+    [data-testid="stSidebar"] [data-testid="stButton"] button[kind="primary"]:hover {{
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 20px rgba(2, 132, 199, 0.7) !important;
+        border-color: #7DD3FC !important;
+    }}
+
+    /* Inactive Theme Button (Secondary) */
+    [data-testid="stSidebar"] [data-testid="stButton"] button[kind="secondary"] {{
+        background: transparent !important;
+        color: {"#94A3B8" if theme.lower()=="dark" else "#64748B"} !important;
+        border: 1px solid transparent !important;
+        box-shadow: none !important;
+    }}
+
+    [data-testid="stSidebar"] [data-testid="stButton"] button[kind="secondary"]:hover {{
+        background: {"rgba(255, 255, 255, 0.08)" if theme.lower()=="dark" else "rgba(15, 23, 42, 0.05)"} !important;
+        color: {text_primary} !important;
+    }}
+
     /* Sidebar Section Headers */
     .sidebar-nav-header {{
         font-family: 'Outfit', sans-serif;
@@ -82,7 +145,7 @@ def get_custom_css(theme="dark"):
         margin-top: 1.2rem;
         margin-bottom: 0.6rem;
         padding-bottom: 0.3rem;
-        border-bottom: 1px solid {"rgba(2, 132, 199, 0.2)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.15)"};
+        border-bottom: 1px solid {"rgba(56, 189, 248, 0.25)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.15)"};
         display: flex;
         align-items: center;
         gap: 0.4rem;
@@ -99,90 +162,106 @@ def get_custom_css(theme="dark"):
         gap: 0.45rem;
     }}
 
-    /* Sidebar Input Cards & Number Inputs */
-    [data-testid="stSidebar"] div[data-baseweb="input"] {{
+    .sidebar-label-title {{
+        font-size: 0.84rem;
+        font-weight: 700;
+        color: {text_primary};
+        margin-bottom: 0.35rem;
+    }}
+
+    /* FIX: Number Inputs styling & hide step buttons */
+    [data-testid="stSidebar"] [data-testid="stNumberInput"] div[data-baseweb="input"] {{
         background-color: {"#0E172A" if theme.lower()=="dark" else "#FFFFFF"} !important;
-        border: 1px solid {"rgba(2, 132, 199, 0.4)" if theme.lower()=="dark" else "#CBD5E1"} !important;
+        border: 1px solid {"rgba(56, 189, 248, 0.35)" if theme.lower()=="dark" else "#CBD5E1"} !important;
         border-radius: 9px !important;
         padding: 3px 6px !important;
         transition: all 0.25s ease !important;
     }}
 
-    [data-testid="stSidebar"] div[data-baseweb="input"]:hover {{
+    [data-testid="stSidebar"] [data-testid="stNumberInput"] div[data-baseweb="input"]:hover {{
         border-color: {"#38BDF8" if theme.lower()=="dark" else "#0284C7"} !important;
-        box-shadow: 0 0 10px {"rgba(2, 132, 199, 0.3)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.15)"} !important;
+        box-shadow: 0 0 10px {"rgba(2, 132, 199, 0.35)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.15)"} !important;
     }}
 
-    [data-testid="stSidebar"] input {{
+    [data-testid="stSidebar"] [data-testid="stNumberInput"] input {{
         color: {text_primary} !important;
         font-weight: 700 !important;
-        font-size: 0.92rem !important;
+        font-size: 0.94rem !important;
         text-align: center !important;
     }}
 
-    /* Hide number input increment/decrement buttons for clean card look */
-    [data-testid="stSidebar"] div[data-baseweb="input"] button {{
+    [data-testid="stSidebar"] [data-testid="stNumberInput"] button {{
         display: none !important;
     }}
 
-    /* Sidebar Selectbox & Multiselect Containers */
-    [data-testid="stSidebar"] div[data-baseweb="select"] {{
+    /* FIX: Dropdowns / Multiselects Border & Control Box */
+    [data-testid="stSidebar"] [data-testid="stMultiSelect"] div[data-baseweb="select"] > div,
+    [data-testid="stSidebar"] [data-testid="stSelectbox"] div[data-baseweb="select"] > div,
+    [data-testid="stSidebar"] div[data-baseweb="select"] > div {{
         background-color: {"#0E172A" if theme.lower()=="dark" else "#FFFFFF"} !important;
-        border: 1px solid {"rgba(2, 132, 199, 0.4)" if theme.lower()=="dark" else "#CBD5E1"} !important;
+        border: 1px solid {"rgba(56, 189, 248, 0.35)" if theme.lower()=="dark" else "#CBD5E1"} !important;
         border-radius: 10px !important;
+        min-height: 42px !important;
         padding: 3px 8px !important;
         transition: all 0.25s ease !important;
     }}
 
-    [data-testid="stSidebar"] div[data-baseweb="select"]:hover {{
+    [data-testid="stSidebar"] div[data-baseweb="select"] > div:hover {{
         border-color: {"#38BDF8" if theme.lower()=="dark" else "#0284C7"} !important;
-        box-shadow: 0 0 10px {"rgba(2, 132, 199, 0.3)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.15)"} !important;
+        box-shadow: 0 0 12px {"rgba(2, 132, 199, 0.35)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.2)"} !important;
     }}
 
-    [data-testid="stSidebar"] div[data-baseweb="select"] * {{
+    [data-testid="stSidebar"] div[data-baseweb="select"] span {{
         color: {text_primary} !important;
+        font-size: 0.88rem !important;
+        font-weight: 600 !important;
     }}
 
-    /* Sidebar Sliders */
-    [data-testid="stSidebar"] div[data-baseweb="slider"] {{
+    [data-testid="stSidebar"] div[data-baseweb="select"] [data-aria-hidden="true"] {{
+        color: {"#94A3B8" if theme.lower()=="dark" else "#64748B"} !important;
+        font-weight: 500 !important;
+    }}
+
+    [data-testid="stSidebar"] div[data-baseweb="select"] svg {{
+        fill: {"#38BDF8" if theme.lower()=="dark" else "#0284C7"} !important;
+        color: {"#38BDF8" if theme.lower()=="dark" else "#0284C7"} !important;
+    }}
+
+    /* FIX: Slider Track Red Accent Override */
+    [data-testid="stSidebar"] [data-testid="stSlider"] {{
         padding-top: 0.25rem !important;
         padding-bottom: 0.25rem !important;
     }}
 
-    [data-testid="stSidebar"] div[data-baseweb="slider"] [data-testid="stTickBar"] {{
+    [data-testid="stSidebar"] [data-testid="stSlider"] [data-testid="stTickBar"] {{
         display: none !important;
     }}
 
-    [data-testid="stSidebar"] div[data-baseweb="slider"] div[role="slider"] {{
+    [data-testid="stSidebar"] [data-testid="stSlider"] div[data-baseweb="slider"] > div {{
+        background: {"#1E293B" if theme.lower()=="dark" else "#E2E8F0"} !important;
+        height: 6px !important;
+        border-radius: 4px !important;
+    }}
+
+    [data-testid="stSidebar"] [data-testid="stSlider"] div[data-baseweb="slider"] div[style*="background"] {{
+        background: #0284C7 !important;
+        background-color: #0284C7 !important;
+        height: 6px !important;
+        border-radius: 4px !important;
+    }}
+
+    [data-testid="stSidebar"] [data-testid="stSlider"] div[role="slider"] {{
         background-color: #0284C7 !important;
         border: 2px solid #38BDF8 !important;
         box-shadow: 0 0 12px rgba(2, 132, 199, 0.85) !important;
+        width: 18px !important;
+        height: 18px !important;
+        top: -6px !important;
         transition: transform 0.2s ease !important;
     }}
 
-    [data-testid="stSidebar"] div[data-baseweb="slider"] div[role="slider"]:hover {{
-        transform: scale(1.2) !important;
-    }}
-
-    /* Sidebar Primary Buttons */
-    [data-testid="stSidebar"] .stButton > button {{
-        background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%) !important;
-        color: #FFFFFF !important;
-        border: 1px solid #38BDF8 !important;
-        border-radius: 10px !important;
-        font-weight: 700 !important;
-        font-size: 0.94rem !important;
-        padding: 0.65rem 1rem !important;
-        box-shadow: 0 4px 15px rgba(2, 132, 199, 0.45) !important;
-        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        width: 100% !important;
-        margin-top: 0.5rem !important;
-    }}
-
-    [data-testid="stSidebar"] .stButton > button:hover {{
-        transform: translateY(-2px) !important;
-        box-shadow: 0 6px 22px rgba(2, 132, 199, 0.7) !important;
-        border-color: #7DD3FC !important;
+    [data-testid="stSidebar"] [data-testid="stSlider"] div[role="slider"]:hover {{
+        transform: scale(1.25) !important;
     }}
 
     /* Glassmorphism Cards */
