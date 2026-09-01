@@ -75,19 +75,29 @@ st.sidebar.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Scopus Gateway Panel & Controls
-st.sidebar.markdown("### ⚙️ Scopus Gateway & Controls")
+# Theme Selection Buttons
+if "theme" not in st.session_state:
+    st.session_state.theme = "Dark"
 
-theme = st.sidebar.radio(
-    "🎨 Theme Mode",
-    ["Dark", "Light"],
-    index=0,
-    horizontal=True
-)
+c_t1, c_t2 = st.sidebar.columns(2)
+with c_t1:
+    dark_btn_type = "primary" if st.session_state.theme == "Dark" else "secondary"
+    if st.sidebar.button("🌙 Dark Mode", use_container_width=True, type=dark_btn_type, key="btn_theme_dark"):
+        st.session_state.theme = "Dark"
+        st.rerun()
+
+with c_t2:
+    light_btn_type = "primary" if st.session_state.theme == "Light" else "secondary"
+    if st.sidebar.button("☀️ Light Mode", use_container_width=True, type=light_btn_type, key="btn_theme_light"):
+        st.session_state.theme = "Light"
+        st.rerun()
+
+theme = st.session_state.theme
 
 # Apply CSS Theme
 st.markdown(get_custom_css(theme), unsafe_allow_html=True)
 
+# Scopus Gateway Panel & Controls
 data_mode = st.sidebar.radio(
     "📡 Data Engine Mode",
     ["Live Scopus API (Auto-Sync)", "Benchmark Offline Demo (~2,500 Papers)"],
@@ -114,44 +124,80 @@ if df_raw.empty:
     st.error("No publication data available. Please check Scopus API key or connection.")
     st.stop()
 
-# Sidebar Filters
-st.sidebar.markdown("---")
-st.sidebar.markdown("### 🔍 Filter Intelligence")
+# Sidebar Navigation & Filter Section Header
+st.sidebar.markdown('<div class="sidebar-nav-header">🔍 NAVIGATE & FILTER</div>', unsafe_allow_html=True)
 
-# Year Slider 1950–2026
-data_min_yr = int(df_raw['year'].min())
+# Subheader: Evaluation Period
+st.sidebar.markdown('<div class="sidebar-section-title">📅 Evaluation Period</div>', unsafe_allow_html=True)
+
+# Year Range Slider & Inputs
+data_min_yr = int(df_raw['year'].min()) if not df_raw.empty else 1950
 slider_min_yr = min(1950, data_min_yr)
 slider_max_yr = 2026
 
-selected_year_range = st.sidebar.slider(
-    "📅 Publication Years",
+if "start_year" not in st.session_state:
+    st.session_state.start_year = 1950
+if "end_year" not in st.session_state:
+    st.session_state.end_year = 2026
+
+slider_yr = st.sidebar.slider(
+    "Evaluation Period Range",
     min_value=slider_min_yr,
     max_value=slider_max_yr,
-    value=(2015, slider_max_yr)
+    value=(st.session_state.start_year, st.session_state.end_year),
+    label_visibility="collapsed"
 )
 
-# Department Filter
+# Start Year & End Year side-by-side inputs
+c_y1, c_y2 = st.sidebar.columns(2)
+with c_y1:
+    st.sidebar.markdown("<div style='font-size:0.82rem; font-weight:700; color:inherit; margin-bottom:0.2rem;'>Start Year</div>", unsafe_allow_html=True)
+    input_start_val = st.number_input("Start Year Input", min_value=slider_min_yr, max_value=slider_max_yr, value=slider_yr[0], step=1, label_visibility="collapsed")
+
+with c_y2:
+    st.sidebar.markdown("<div style='font-size:0.82rem; font-weight:700; color:inherit; margin-bottom:0.2rem;'>End Year</div>", unsafe_allow_html=True)
+    input_end_val = st.number_input("End Year Input", min_value=slider_min_yr, max_value=slider_max_yr, value=slider_yr[1], step=1, label_visibility="collapsed")
+
+# Apply Year Range Button
+apply_yr_btn = st.sidebar.button("🔄 Apply Year Range", use_container_width=True, type="primary", key="btn_apply_yr")
+if apply_yr_btn:
+    st.session_state.start_year = int(input_start_val)
+    st.session_state.end_year = int(input_end_val)
+    st.rerun()
+
+selected_year_range = (min(input_start_val, input_end_val), max(input_start_val, input_end_val))
+
+# Dropdown Filter 1: Department / School
+st.sidebar.markdown('<div class="sidebar-section-title">🏢 Department / School</div>', unsafe_allow_html=True)
 available_depts = ["All Departments"] + sorted(list(df_raw['department'].dropna().unique()))
 selected_depts = st.sidebar.multiselect(
-    "🏢 Academic Department",
+    "Department Filter",
     options=available_depts,
-    default=["All Departments"]
+    default=["All Departments"],
+    placeholder="Choose options",
+    label_visibility="collapsed"
 )
 
-# Quartile Filter
+# Dropdown Filter 2: Journal Quartile (Q1-Q4)
+st.sidebar.markdown('<div class="sidebar-section-title">🏆 Journal Quartile (Q1-Q4)</div>', unsafe_allow_html=True)
 available_quartiles = ["All Quartiles", "Q1", "Q2", "Q3", "Q4"]
 selected_quartiles = st.sidebar.multiselect(
-    "⭐ Journal Quartile",
+    "Quartile Filter",
     options=available_quartiles,
-    default=["All Quartiles"]
+    default=["All Quartiles"],
+    placeholder="Choose options",
+    label_visibility="collapsed"
 )
 
-# Collaboration Scope Filter
+# Dropdown Filter 3: Collaboration Scope
+st.sidebar.markdown('<div class="sidebar-section-title">🌐 Collaboration Scope</div>', unsafe_allow_html=True)
 available_collabs = ["All Types", "International Collaboration", "Industry Collaboration", "Institutional / National"]
 selected_collabs = st.sidebar.multiselect(
-    "🤝 Collaboration Scope",
+    "Collaboration Scope Filter",
     options=available_collabs,
-    default=["All Types"]
+    default=["All Types"],
+    placeholder="Choose options",
+    label_visibility="collapsed"
 )
 
 # Apply Filtered Dataset
