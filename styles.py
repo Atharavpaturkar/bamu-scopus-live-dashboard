@@ -93,23 +93,26 @@ def get_custom_css(theme="dark"):
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }}
 
-    /* FIX: Sidebar Buttons Styling & Remove Inner Black Rectangle */
-    [data-testid="stSidebar"] [data-testid="stButton"] button {{
+    /* GLOBAL FIX: All Buttons & Download Buttons styling & Remove Inner Dark/Light Paragraph Rectangle */
+    [data-testid="stButton"] button,
+    [data-testid="stDownloadButton"] button {{
         border-radius: 10px !important;
         font-family: 'Inter', sans-serif !important;
         font-weight: 700 !important;
-        font-size: 0.88rem !important;
+        font-size: 0.92rem !important;
         transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
         width: 100% !important;
-        padding: 0.55rem 0.85rem !important;
+        padding: 0.65rem 1.25rem !important;
         margin: 0 !important;
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
+        text-align: center !important;
     }}
 
-    /* CRITICAL FIX: Eliminate inner dark paragraph rectangle inside buttons */
-    [data-testid="stSidebar"] [data-testid="stButton"] button * {{
+    /* CRITICAL FIX: Eliminate inner dark paragraph rectangle inside ALL buttons */
+    [data-testid="stButton"] button *,
+    [data-testid="stDownloadButton"] button * {{
         background: transparent !important;
         background-color: transparent !important;
         color: inherit !important;
@@ -119,35 +122,54 @@ def get_custom_css(theme="dark"):
         box-shadow: none !important;
     }}
 
-    /* Active Theme Button (Primary) */
-    [data-testid="stSidebar"] [data-testid="stButton"] button[kind="primary"],
-    [data-testid="stSidebar"] [data-testid="stButton"] button[data-testid="baseButton-primary"] {{
+    /* Active / Primary Theme Button (Solid Filled Blue Gradient) */
+    button[kind="primary"],
+    button[data-testid="baseButton-primary"],
+    [data-testid="stButton"] button[kind="primary"],
+    [data-testid="stButton"] button[data-testid="baseButton-primary"],
+    [data-testid="stDownloadButton"] button[kind="primary"],
+    [data-testid="stDownloadButton"] button[data-testid="baseButton-primary"] {{
         background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%) !important;
         color: #FFFFFF !important;
         border: 1px solid #38BDF8 !important;
-        box-shadow: 0 4px 14px rgba(2, 132, 199, 0.45) !important;
+        box-shadow: 0 4px 16px rgba(2, 132, 199, 0.45) !important;
     }}
 
-    [data-testid="stSidebar"] [data-testid="stButton"] button[kind="primary"]:hover,
-    [data-testid="stSidebar"] [data-testid="stButton"] button[data-testid="baseButton-primary"]:hover {{
+    button[kind="primary"]:hover,
+    button[data-testid="baseButton-primary"]:hover,
+    [data-testid="stButton"] button[kind="primary"]:hover,
+    [data-testid="stButton"] button[data-testid="baseButton-primary"]:hover,
+    [data-testid="stDownloadButton"] button[kind="primary"]:hover,
+    [data-testid="stDownloadButton"] button[data-testid="baseButton-primary"]:hover {{
         transform: translateY(-2px) !important;
-        box-shadow: 0 6px 20px rgba(2, 132, 199, 0.7) !important;
+        box-shadow: 0 6px 22px rgba(2, 132, 199, 0.7) !important;
         border-color: #7DD3FC !important;
+        background: linear-gradient(135deg, #0369A1 0%, #0284C7 100%) !important;
     }}
 
-    /* Inactive Theme Button (Secondary) */
-    [data-testid="stSidebar"] [data-testid="stButton"] button[kind="secondary"],
-    [data-testid="stSidebar"] [data-testid="stButton"] button[data-testid="baseButton-secondary"] {{
-        background: transparent !important;
-        color: {"#94A3B8" if theme.lower()=="dark" else "#64748B"} !important;
-        border: 1px solid transparent !important;
-        box-shadow: none !important;
+    /* Inactive / Secondary Theme Button */
+    button[kind="secondary"],
+    button[data-testid="baseButton-secondary"],
+    [data-testid="stButton"] button[kind="secondary"],
+    [data-testid="stButton"] button[data-testid="baseButton-secondary"],
+    [data-testid="stDownloadButton"] button[kind="secondary"],
+    [data-testid="stDownloadButton"] button[data-testid="baseButton-secondary"] {{
+        background: {"rgba(14, 23, 42, 0.6)" if theme.lower()=="dark" else "#FFFFFF"} !important;
+        color: {"#94A3B8" if theme.lower()=="dark" else "#475569"} !important;
+        border: 1px solid {"rgba(56, 189, 248, 0.3)" if theme.lower()=="dark" else "#CBD5E1"} !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
     }}
 
-    [data-testid="stSidebar"] [data-testid="stButton"] button[kind="secondary"]:hover,
-    [data-testid="stSidebar"] [data-testid="stButton"] button[data-testid="baseButton-secondary"]:hover {{
-        background: {"rgba(255, 255, 255, 0.08)" if theme.lower()=="dark" else "rgba(15, 23, 42, 0.05)"} !important;
-        color: {text_primary} !important;
+    button[kind="secondary"]:hover,
+    button[data-testid="baseButton-secondary"]:hover,
+    [data-testid="stButton"] button[kind="secondary"]:hover,
+    [data-testid="stButton"] button[data-testid="baseButton-secondary"]:hover,
+    [data-testid="stDownloadButton"] button[kind="secondary"]:hover,
+    [data-testid="stDownloadButton"] button[data-testid="baseButton-secondary"]:hover {{
+        background: {subtle_bg} !important;
+        color: {primary_blue} !important;
+        border-color: {primary_blue} !important;
+        transform: translateY(-1px) !important;
     }}
 
     /* Sidebar Section Headers */
