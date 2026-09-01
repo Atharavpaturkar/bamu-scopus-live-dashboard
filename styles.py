@@ -1,3 +1,5 @@
+import os
+import base64
 import streamlit as st
 from config import UNIVERSITY_CONFIG
 
@@ -154,6 +156,18 @@ def get_custom_css(theme="dark"):
         box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
     }}
 
+    .icare-logo-img {{
+        height: 32px;
+        width: auto;
+        max-width: 140px;
+        object-fit: contain;
+        border-radius: 6px;
+        background: #FFFFFF;
+        padding: 2px 6px;
+        display: inline-block;
+        vertical-align: middle;
+    }}
+
     .icare-subtext {{
         font-size: 0.72rem;
         background: rgba(56, 189, 248, 0.15);
@@ -292,19 +306,36 @@ def get_custom_css(theme="dark"):
     return css
 
 
+def get_icare_logo_b64():
+    logo_path = "ICARE - LOGO .jpeg"
+    if os.path.exists(logo_path):
+        try:
+            with open(logo_path, "rb") as f:
+                return base64.b64encode(f.read()).decode("utf-8")
+        except Exception:
+            pass
+    return ""
+
+
 def render_icare_topbar(theme="dark"):
     """
-    Render Top Navigation Bar with ICARE Logo, University Name, and NIRF badge.
+    Render Top Navigation Bar with ICARE Logo Image, University Name, and NIRF badge.
     """
     univ_name = UNIVERSITY_CONFIG.get("full_name", "Dr. Babasaheb Ambedkar Marathwada University")
     nirf_id = UNIVERSITY_CONFIG.get("nirf_id", "IR-O-U-0298")
     city = UNIVERSITY_CONFIG.get("city", "Chhatrapati Sambhajinagar, Maharashtra")
 
+    logo_b64 = get_icare_logo_b64()
+    if logo_b64:
+        logo_html = f'<img src="data:image/jpeg;base64,{logo_b64}" alt="ICARE Logo" class="icare-logo-img">'
+    else:
+        logo_html = 'ICARE'
+
     html = f"""
     <div class="icare-topbar">
         <div style="display: flex; align-items: center; gap: 1rem;">
             <div class="icare-logo-badge">
-                ICARE <span class="icare-subtext">PORTAL INTELLIGENCE</span>
+                {logo_html} <span class="icare-subtext">PORTAL INTELLIGENCE</span>
             </div>
             <div>
                 <h2 class="univ-title">{univ_name}</h2>
