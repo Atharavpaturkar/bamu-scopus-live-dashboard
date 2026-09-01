@@ -151,11 +151,11 @@ slider_yr = st.sidebar.slider(
 # Start Year & End Year side-by-side inputs
 c_y1, c_y2 = st.sidebar.columns(2)
 with c_y1:
-    st.sidebar.markdown("<div style='font-size:0.82rem; font-weight:700; color:inherit; margin-bottom:0.2rem;'>Start Year</div>", unsafe_allow_html=True)
+    st.markdown("<div style='font-size:0.84rem; font-weight:700; color:inherit; margin-bottom:0.3rem;'>Start Year</div>", unsafe_allow_html=True)
     input_start_val = st.number_input("Start Year Input", min_value=slider_min_yr, max_value=slider_max_yr, value=slider_yr[0], step=1, label_visibility="collapsed")
 
 with c_y2:
-    st.sidebar.markdown("<div style='font-size:0.82rem; font-weight:700; color:inherit; margin-bottom:0.2rem;'>End Year</div>", unsafe_allow_html=True)
+    st.markdown("<div style='font-size:0.84rem; font-weight:700; color:inherit; margin-bottom:0.3rem;'>End Year</div>", unsafe_allow_html=True)
     input_end_val = st.number_input("End Year Input", min_value=slider_min_yr, max_value=slider_max_yr, value=slider_yr[1], step=1, label_visibility="collapsed")
 
 # Apply Year Range Button
@@ -169,33 +169,33 @@ selected_year_range = (min(input_start_val, input_end_val), max(input_start_val,
 
 # Dropdown Filter 1: Department / School
 st.sidebar.markdown('<div class="sidebar-section-title">🏢 Department / School</div>', unsafe_allow_html=True)
-available_depts = ["All Departments"] + sorted(list(df_raw['department'].dropna().unique()))
+available_depts = sorted(list(df_raw['department'].dropna().unique()))
 selected_depts = st.sidebar.multiselect(
     "Department Filter",
     options=available_depts,
-    default=["All Departments"],
+    default=[],
     placeholder="Choose options",
     label_visibility="collapsed"
 )
 
 # Dropdown Filter 2: Journal Quartile (Q1-Q4)
 st.sidebar.markdown('<div class="sidebar-section-title">🏆 Journal Quartile (Q1-Q4)</div>', unsafe_allow_html=True)
-available_quartiles = ["All Quartiles", "Q1", "Q2", "Q3", "Q4"]
+available_quartiles = ["Q1", "Q2", "Q3", "Q4"]
 selected_quartiles = st.sidebar.multiselect(
     "Quartile Filter",
     options=available_quartiles,
-    default=["All Quartiles"],
+    default=[],
     placeholder="Choose options",
     label_visibility="collapsed"
 )
 
 # Dropdown Filter 3: Collaboration Scope
 st.sidebar.markdown('<div class="sidebar-section-title">🌐 Collaboration Scope</div>', unsafe_allow_html=True)
-available_collabs = ["All Types", "International Collaboration", "Industry Collaboration", "Institutional / National"]
+available_collabs = ["International Collaboration", "Industry Collaboration", "Institutional / National"]
 selected_collabs = st.sidebar.multiselect(
     "Collaboration Scope Filter",
     options=available_collabs,
-    default=["All Types"],
+    default=[],
     placeholder="Choose options",
     label_visibility="collapsed"
 )

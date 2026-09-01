@@ -88,11 +88,19 @@ def get_custom_css(theme="dark"):
         background-color: {"#0E172A" if theme.lower()=="dark" else "#FFFFFF"} !important;
         border: 1px solid {"rgba(2, 132, 199, 0.4)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.5)"} !important;
         border-radius: 8px !important;
+        padding: 2px 4px !important;
     }}
 
     [data-testid="stSidebar"] input {{
         color: {text_primary} !important;
-        font-weight: 600 !important;
+        font-weight: 700 !important;
+        font-size: 0.92rem !important;
+        text-align: center !important;
+    }}
+
+    /* Hide number input increment/decrement buttons for clean card look */
+    [data-testid="stSidebar"] div[data-baseweb="input"] button {{
+        display: none !important;
     }}
 
     /* Sidebar Selectbox & Multiselect Containers */
@@ -100,6 +108,7 @@ def get_custom_css(theme="dark"):
         background-color: {"#0E172A" if theme.lower()=="dark" else "#FFFFFF"} !important;
         border: 1px solid {"rgba(2, 132, 199, 0.4)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.5)"} !important;
         border-radius: 10px !important;
+        padding: 2px 6px !important;
     }}
 
     [data-testid="stSidebar"] div[data-baseweb="select"] * {{
@@ -108,8 +117,18 @@ def get_custom_css(theme="dark"):
 
     /* Sidebar Sliders */
     [data-testid="stSidebar"] div[data-baseweb="slider"] {{
-        padding-top: 0.4rem !important;
-        padding-bottom: 0.4rem !important;
+        padding-top: 0.2rem !important;
+        padding-bottom: 0.2rem !important;
+    }}
+
+    [data-testid="stSidebar"] div[data-baseweb="slider"] [data-testid="stTickBar"] {{
+        display: none !important;
+    }}
+
+    [data-testid="stSidebar"] div[data-baseweb="slider"] div[role="slider"] {{
+        background-color: #0284C7 !important;
+        border: 2px solid #38BDF8 !important;
+        box-shadow: 0 0 10px rgba(2, 132, 199, 0.8) !important;
     }}
 
     /* Sidebar Primary Buttons */
@@ -119,15 +138,17 @@ def get_custom_css(theme="dark"):
         border: 1px solid #38BDF8 !important;
         border-radius: 10px !important;
         font-weight: 700 !important;
-        font-size: 0.92rem !important;
-        box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4) !important;
+        font-size: 0.95rem !important;
+        padding: 0.6rem 1rem !important;
+        box-shadow: 0 4px 15px rgba(2, 132, 199, 0.5) !important;
         transition: all 0.25s ease !important;
         width: 100% !important;
+        margin-top: 0.4rem !important;
     }}
 
     [data-testid="stSidebar"] .stButton > button:hover {{
         transform: translateY(-2px) !important;
-        box-shadow: 0 6px 22px rgba(2, 132, 199, 0.65) !important;
+        box-shadow: 0 6px 22px rgba(2, 132, 199, 0.7) !important;
         border-color: #7DD3FC !important;
     }}
 
