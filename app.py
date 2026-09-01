@@ -33,8 +33,50 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Sidebar Controls
-st.sidebar.markdown("### ⚙️ Dashboard Controls")
+# Responsive Sidebar JavaScript Injection (Desktop expanded, Mobile collapsed)
+js_responsive_sidebar = """
+<script>
+(function() {
+    function adjustSidebar() {
+        try {
+            const parentDoc = (window.parent && window.parent.document) ? window.parent.document : document;
+            const width = parentDoc.documentElement.clientWidth || window.innerWidth;
+            const sidebar = parentDoc.querySelector('[data-testid="stSidebar"]');
+            if (!sidebar) return;
+            if (width > 768) {
+                sidebar.setAttribute('aria-expanded', 'true');
+            } else {
+                sidebar.setAttribute('aria-expanded', 'false');
+            }
+        } catch(e) {}
+    }
+    setTimeout(adjustSidebar, 200);
+    window.addEventListener('resize', adjustSidebar);
+})();
+</script>
+"""
+components.html(js_responsive_sidebar, height=0, width=0)
+
+# Sidebar Branding & Scopus Gateway
+st.sidebar.markdown(f"""
+<div style="background: rgba(2, 132, 199, 0.12); border: 1px solid rgba(2, 132, 199, 0.3); border-radius: 12px; padding: 1rem; margin-bottom: 1.2rem; text-align: center;">
+    <div style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.05rem; color: #0284C7;">
+        🏛 BAMU PORTAL
+    </div>
+    <div style="font-size: 0.8rem; font-weight: 600; opacity: 0.9; margin-top: 0.2rem;">
+        Live Scopus Intelligence [{UNIVERSITY_CONFIG.get('nirf_id', 'IR-O-U-0298')}]
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+st.sidebar.markdown("""
+<div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 0.6rem 0.8rem; font-size: 0.78rem; font-weight: 600; color: #10B981; margin-bottom: 1.2rem; text-align: center;">
+    🟢 Live Scopus Feed • Auto-synced every 60m
+</div>
+""", unsafe_allow_html=True)
+
+# Scopus Gateway Panel & Controls
+st.sidebar.markdown("### ⚙️ Scopus Gateway & Controls")
 
 theme = st.sidebar.radio(
     "🎨 Theme Mode",
@@ -52,10 +94,10 @@ data_mode = st.sidebar.radio(
     index=0
 )
 
-# Force Refresh Button
-force_refresh = st.sidebar.button("🔄 Force Scopus API Sync", use_container_width=True)
+# Manual Sync Button in Scopus Gateway Panel
+force_refresh = st.sidebar.button("🔄 Sync Scopus Now", use_container_width=True, type="primary")
 
-# Load Data based on selection
+# Load Dataset
 @st.cache_data(ttl=1800, show_spinner=False)
 def load_dashboard_data(mode_name, refresh_flag):
     if "Live" in mode_name:
@@ -65,7 +107,7 @@ def load_dashboard_data(mode_name, refresh_flag):
     return pd.DataFrame(pubs)
 
 
-with st.spinner("Syncing Scopus Intelligence Engine..."):
+with st.spinner("Connecting to Scopus Intelligence Engine..."):
     df_raw = load_dashboard_data(data_mode, force_refresh)
 
 if df_raw.empty:
@@ -76,14 +118,16 @@ if df_raw.empty:
 st.sidebar.markdown("---")
 st.sidebar.markdown("### 🔍 Filter Intelligence")
 
-# Year Range Filter
-min_year = int(df_raw['year'].min())
-max_year = int(df_raw['year'].max())
+# Year Slider 1950–2026
+data_min_yr = int(df_raw['year'].min())
+slider_min_yr = min(1950, data_min_yr)
+slider_max_yr = 2026
+
 selected_year_range = st.sidebar.slider(
     "📅 Publication Years",
-    min_value=min_year,
-    max_value=max_year,
-    value=(2015, max_year)
+    min_value=slider_min_yr,
+    max_value=slider_max_yr,
+    value=(2015, slider_max_yr)
 )
 
 # Department Filter
@@ -102,7 +146,7 @@ selected_quartiles = st.sidebar.multiselect(
     default=["All Quartiles"]
 )
 
-# Collaboration Type Filter
+# Collaboration Scope Filter
 available_collabs = ["All Types", "International Collaboration", "Industry Collaboration", "Institutional / National"]
 selected_collabs = st.sidebar.multiselect(
     "🤝 Collaboration Scope",
@@ -110,7 +154,7 @@ selected_collabs = st.sidebar.multiselect(
     default=["All Types"]
 )
 
-# Apply Filters
+# Apply Filtered Dataset
 df_filtered = filter_publications(
     df_raw,
     year_range=selected_year_range,
@@ -119,12 +163,12 @@ df_filtered = filter_publications(
     collab_types=selected_collabs
 )
 
-# Render Executive Header & Hero Banner
+# Render Topbar & Hero Banner
 render_icare_topbar(theme)
 kpi_data = calculate_top_10_kpis(df_filtered)
 render_icare_hero(kpi_data["total_output"], kpi_data["total_citations"], theme)
 
-# KPI Cards Row (10 Executive Metrics)
+# 10 Executive KPI Cards Grid
 st.markdown("### 📊 Executive Research Metrics")
 kpi_col1, kpi_col2, kpi_col3, kpi_col4, kpi_col5 = st.columns(5)
 
@@ -244,7 +288,7 @@ tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
 ])
 
 # -----------------------------------------------------------------------------
-# TAB 1: 📈 TRENDS
+# TAB 1: 📈 TRENDS & OUTPUT VELOCITY
 # -----------------------------------------------------------------------------
 with tab1:
     st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
@@ -337,7 +381,7 @@ with tab1:
 
 
 # -----------------------------------------------------------------------------
-# TAB 2: 🎯 IMPACT & LANDMARK PAPERS
+# TAB 2: 🎯 RESEARCH IMPACT & LANDMARK PAPERS
 # -----------------------------------------------------------------------------
 with tab2:
     col_acc, col_dept = st.columns([1, 1])
@@ -408,7 +452,6 @@ with tab2:
     top_cited = df_filtered.sort_values('citations', ascending=False).head(20).copy()
 
     if not top_cited.empty:
-        # Create clickable DOI link
         top_cited['DOI Link'] = top_cited['doi'].apply(
             lambda d: f"https://doi.org/{d}" if d else "#"
         )
@@ -427,7 +470,6 @@ with tab2:
             hide_index=True
         )
 
-        # BibTeX Export Button
         bib_text = export_to_bibtex(top_cited)
         st.download_button(
             label="📥 Export Top Papers to BibTeX",
@@ -535,7 +577,7 @@ with tab3:
 
 
 # -----------------------------------------------------------------------------
-# TAB 4: 🏆 QUALITY & BENCHMARKS
+# TAB 4: 🏆 QUALITY BENCHMARKS & QUADRANTS
 # -----------------------------------------------------------------------------
 with tab4:
     col_donut, col_quad = st.columns([1, 2])
@@ -596,7 +638,6 @@ with tab4:
                 }
             )
 
-            # Benchmark Line: Average CPP across university
             fig_bubble.add_hline(
                 y=overall_avg_cpp,
                 line_dash="dash",
@@ -641,7 +682,7 @@ with tab4:
             ind_pct = (d_df['is_industry_collab'].sum() / len(d_df)) * 100
 
             r_vals = [vol_pct, cite_pct, q1_pct, intl_pct, ind_pct]
-            r_vals.append(r_vals[0])  # Close radar loop
+            r_vals.append(r_vals[0])
 
             fig_radar.add_trace(
                 go.Scatterpolar(
@@ -678,7 +719,6 @@ with tab5:
     st.subheader("🏆 Top Faculty Leaderboard & Podium")
 
     leaderboard_df = get_top_authors_leaderboard(df_filtered, top_n=50)
-
     text_primary = "#F8FAFC" if theme.lower() == "dark" else "#0F172A"
 
     if not leaderboard_df.empty:
@@ -754,7 +794,7 @@ with tab5:
 
     st.markdown("</div>", unsafe_allow_html=True)
 
-    # Interactive Faculty Selector & Dossier
+    # Interactive Faculty Selector & Profile Deep Dive
     st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
     st.subheader("🔍 Individual Faculty Scopus Dossier & Profile Deep Dive")
 
@@ -890,7 +930,7 @@ with tab5:
                 )
 
             st.markdown("<br>", unsafe_allow_html=True)
-            # Targeted Print Capability (Hidden iFrame Script Injection)
+            # Targeted Print Capability
             print_btn = st.button("🖨️ Print Author Dossier / Save PDF", type="primary", use_container_width=False)
             if print_btn:
                 print_html = generate_author_print_html(auth_profile, author_papers)
