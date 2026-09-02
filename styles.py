@@ -761,9 +761,9 @@ def get_custom_css(theme="dark"):
     }}
 
     .stTabs [data-baseweb="tab-list"] {{
-        gap: 6px !important;
+        gap: 8px !important;
         background-color: {tab_bg} !important;
-        padding: 10px 14px !important;
+        padding: 8px 16px 0 16px !important;
         border: none !important;
         border-bottom: {card_border} !important;
         border-radius: 18px 18px 0 0 !important;
@@ -786,16 +786,18 @@ def get_custom_css(theme="dark"):
     }}
 
     .stTabs [data-baseweb="tab"] {{
-        height: 38px !important;
-        line-height: 38px !important;
-        border-radius: 10px !important;
+        height: 42px !important;
+        line-height: 42px !important;
+        border: none !important;
+        border-bottom: 2px solid transparent !important;
+        border-radius: 0 !important;
         color: {text_secondary} !important;
         font-weight: 600 !important;
-        font-size: 0.88rem !important;
+        font-size: 0.9rem !important;
         padding: 0 16px !important;
-        border: 1px solid transparent !important;
         background: transparent !important;
-        transition: all 0.2s ease-in-out !important;
+        box-shadow: none !important;
+        transition: color 0.2s ease, border-color 0.2s ease !important;
         white-space: nowrap !important;
         display: inline-flex !important;
         align-items: center !important;
@@ -804,16 +806,19 @@ def get_custom_css(theme="dark"):
 
     .stTabs [data-baseweb="tab"]:hover {{
         color: {primary_blue} !important;
-        border: {card_border_hover} !important;
-        background: {subtle_bg} !important;
+        border: none !important;
+        border-bottom: 2px solid rgba(2, 132, 199, 0.4) !important;
+        background: transparent !important;
+        box-shadow: none !important;
     }}
 
     .stTabs [aria-selected="true"] {{
-        background-color: {tab_active} !important;
+        background: transparent !important;
         color: {primary_blue} !important;
-        border: {card_border_hover} !important;
-        box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35) !important;
         font-weight: 700 !important;
+        border: none !important;
+        border-bottom: 2px solid {primary_blue} !important;
+        box-shadow: none !important;
     }}
 
     /* Tab Content Padding & Alignment Inside Container */
