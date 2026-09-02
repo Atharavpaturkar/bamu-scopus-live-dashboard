@@ -423,15 +423,23 @@ def get_custom_css(theme="dark"):
         box-shadow: 0 0 12px {"rgba(2, 132, 199, 0.35)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.2)"} !important;
     }}
 
+    /* Sidebar Multiselect & Selectbox Placeholder ("Choose options") Color Compatibility */
     div[data-baseweb="select"] span {{
         color: {text_primary} !important;
         font-size: 0.88rem !important;
         font-weight: 600 !important;
     }}
 
+    [data-testid="stSidebar"] div[data-baseweb="select"] input::placeholder,
+    [data-testid="stSidebar"] div[data-baseweb="select"] [data-aria-hidden="true"],
+    [data-testid="stSidebar"] div[data-baseweb="select"] div[class*="placeholder"],
+    div[data-baseweb="select"] input::placeholder,
     div[data-baseweb="select"] [data-aria-hidden="true"] {{
         color: {"#94A3B8" if theme.lower()=="dark" else "#64748B"} !important;
+        -webkit-text-fill-color: {"#94A3B8" if theme.lower()=="dark" else "#64748B"} !important;
         font-weight: 500 !important;
+        font-size: 0.86rem !important;
+        opacity: 1 !important;
     }}
 
     div[data-baseweb="select"] svg {{
