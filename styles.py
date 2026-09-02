@@ -448,23 +448,39 @@ def get_custom_css(theme="dark"):
         transform: scale(1.25) !important;
     }}
 
-    /* Glassmorphism Cards */
+    /* Glassmorphism Cards & Container Cleanup */
     .glass-card {{
-        background: {card_bg} !important;
-        backdrop-filter: blur(12px) !important;
-        -webkit-backdrop-filter: blur(12px) !important;
-        border: {card_border} !important;
-        border-radius: 16px !important;
-        padding: 1.5rem !important;
-        box-shadow: {card_shadow} !important;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+        box-shadow: none !important;
         margin-bottom: 1.25rem;
     }}
 
     .glass-card:hover {{
-        transform: translateY(-3px) scale(1.002);
-        box-shadow: 0 12px 35px -5px rgba(2, 132, 199, 0.3) !important;
-        border: {card_border_hover} !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        transform: none !important;
+    }}
+
+    /* CRITICAL FIX: Completely eliminate empty rounded container boxes/bars throughout dashboard */
+    .glass-card:empty,
+    div.glass-card:empty,
+    [data-testid="stMarkdownContainer"] > div.glass-card:empty,
+    [data-testid="stMarkdownContainer"]:empty,
+    .element-container:has(> [data-testid="stMarkdownContainer"] > div.glass-card:empty),
+    .element-container:has(> [data-testid="stMarkdownContainer"]:empty) {{
+        display: none !important;
+        height: 0 !important;
+        max-height: 0 !important;
+        min-height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
     }}
 
     /* KPI Metric Cards */

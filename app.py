@@ -381,7 +381,6 @@ tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
 # TAB 1: 📈 TRENDS & OUTPUT VELOCITY
 # -----------------------------------------------------------------------------
 with tab1:
-    st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
     st.subheader("📈 Annual Publication Growth & Cumulative Output")
     
     annual_df = get_publications_by_year(df_filtered)
@@ -433,10 +432,7 @@ with tab1:
 
         st.plotly_chart(fig_dual, use_container_width=True)
 
-    st.markdown("</div>", unsafe_allow_html=True)
-
     # Monthly Velocity Breakdown
-    st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
     c1, c2 = st.columns([3, 1])
     with c1:
         st.subheader("⚡ Monthly Publication Velocity Breakdown")
@@ -470,8 +466,6 @@ with tab1:
         )
         st.plotly_chart(fig_month, use_container_width=True)
 
-    st.markdown("</div>", unsafe_allow_html=True)
-
 
 # -----------------------------------------------------------------------------
 # TAB 2: 🎯 RESEARCH IMPACT & LANDMARK PAPERS
@@ -480,7 +474,6 @@ with tab2:
     col_acc, col_dept = st.columns([1, 1])
 
     with col_acc:
-        st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
         st.subheader("📈 Annual Citation Accrual Curve")
         annual_df = get_publications_by_year(df_filtered)
         if not annual_df.empty:
@@ -508,10 +501,8 @@ with tab2:
                 margin=dict(l=40, r=40, t=40, b=40)
             )
             st.plotly_chart(fig_acc, use_container_width=True)
-        st.markdown("</div>", unsafe_allow_html=True)
 
     with col_dept:
-        st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
         st.subheader("🏢 Department Citation Impact")
         dept_cites = df_filtered.groupby('department')['citations'].sum().reset_index()
         dept_cites = dept_cites.sort_values('citations', ascending=True).tail(10)
@@ -538,10 +529,8 @@ with tab2:
             margin=dict(l=40, r=40, t=40, b=40)
         )
         st.plotly_chart(fig_dept_bar, use_container_width=True)
-        st.markdown("</div>", unsafe_allow_html=True)
 
     # Landmark Papers Table with Live DOI Links
-    st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
     st.subheader("⭐ High-Impact Landmark Research Papers")
 
     top_cited = df_filtered.sort_values('citations', ascending=False).head(20).copy()
@@ -573,14 +562,11 @@ with tab2:
             mime="text/plain"
         )
 
-    st.markdown("</div>", unsafe_allow_html=True)
-
 
 # -----------------------------------------------------------------------------
 # TAB 3: 🌐 GLOBAL & INDUSTRY COLLABORATION
 # -----------------------------------------------------------------------------
 with tab3:
-    st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
     st.subheader("🌍 International Research Collaboration Map")
 
     country_counts = {}
@@ -617,12 +603,10 @@ with tab3:
         st.plotly_chart(fig_map, use_container_width=True)
     else:
         st.info("No international collaboration records found in filtered dataset.")
-    st.markdown("</div>", unsafe_allow_html=True)
 
     col_treemap, col_ind = st.columns([1, 1])
 
     with col_treemap:
-        st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
         st.subheader("🏢 Department & Journal Publication Hierarchy")
         if not df_filtered.empty:
             fig_tree = px.treemap(
@@ -641,10 +625,8 @@ with tab3:
                 margin=dict(l=10, r=10, t=30, b=10)
             )
             st.plotly_chart(fig_tree, use_container_width=True)
-        st.markdown("</div>", unsafe_allow_html=True)
 
     with col_ind:
-        st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
         st.subheader("🏭 Industry R&D Collaboration Share")
         ind_collab_count = int(df_filtered['is_industry_collab'].sum())
         non_ind_count = len(df_filtered) - ind_collab_count
@@ -667,7 +649,6 @@ with tab3:
             legend=dict(orientation="h", yanchor="bottom", y=-0.1, xanchor="center", x=0.5, font=layout_opts["legend"]["font"])
         )
         st.plotly_chart(fig_ind, use_container_width=True)
-        st.markdown("</div>", unsafe_allow_html=True)
 
 
 # -----------------------------------------------------------------------------
@@ -677,7 +658,6 @@ with tab4:
     col_donut, col_quad = st.columns([1, 2])
 
     with col_donut:
-        st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
         st.subheader("⭐ Quartile Share")
         q_counts = df_filtered['quartile'].value_counts().reindex(['Q1', 'Q2', 'Q3', 'Q4']).fillna(0)
 
@@ -701,10 +681,8 @@ with tab4:
             legend=dict(orientation="h", yanchor="bottom", y=-0.15, xanchor="center", x=0.5, font=layout_opts["legend"]["font"])
         )
         st.plotly_chart(fig_q, use_container_width=True)
-        st.markdown("</div>", unsafe_allow_html=True)
 
     with col_quad:
-        st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
         st.subheader("🎯 Impact vs. Volume Quadrant Bubble Chart")
 
         dept_summary = df_filtered.groupby('department').agg(
@@ -756,10 +734,8 @@ with tab4:
             fig_bubble.update_yaxes(gridcolor=layout_opts["yaxis"]["gridcolor"], tickfont=layout_opts["yaxis"]["tickfont"], title_font=layout_opts["yaxis"]["title"]["font"])
 
             st.plotly_chart(fig_bubble, use_container_width=True)
-        st.markdown("</div>", unsafe_allow_html=True)
 
     # Department Radar Benchmark Chart
-    st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
     st.subheader("🕸️ Department Comparative Benchmark Radar Chart")
 
     top_depts = df_filtered['department'].value_counts().head(5).index.tolist()
@@ -802,14 +778,11 @@ with tab4:
         )
         st.plotly_chart(fig_radar, use_container_width=True)
 
-    st.markdown("</div>", unsafe_allow_html=True)
-
 
 # -----------------------------------------------------------------------------
 # TAB 5: 👥 FACULTY & AUTHOR PROFILES
 # -----------------------------------------------------------------------------
 with tab5:
-    st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
     st.subheader("🏆 Top Faculty Leaderboard & Podium")
 
     leaderboard_df = get_top_authors_leaderboard(df_filtered, top_n=50)
@@ -889,10 +862,7 @@ with tab5:
                 hide_index=True
             )
 
-    st.markdown("</div>", unsafe_allow_html=True)
-
     # Interactive Faculty Selector & Profile Deep Dive
-    st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
     st.subheader("🔍 Individual Faculty Scopus Dossier & Profile Deep Dive")
 
     if not leaderboard_df.empty:
@@ -1055,14 +1025,11 @@ with tab5:
                 components.html(js_print_code, height=0, width=0)
                 st.success(f"Preparing official print dossier for {auth_profile['author_name']}...")
 
-    st.markdown("</div>", unsafe_allow_html=True)
-
 
 # -----------------------------------------------------------------------------
 # TAB 6: 📡 LIVE FEED & DATA EXPORT
 # -----------------------------------------------------------------------------
 with tab6:
-    st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
     st.subheader("📡 Live Scopus Indexed Feed & Multiformat Data Exporter")
 
     search_query = st.text_input(
@@ -1140,14 +1107,11 @@ with tab6:
     else:
         st.info("No publications found matching search query.")
 
-    st.markdown("</div>", unsafe_allow_html=True)
-
 
 # -----------------------------------------------------------------------------
 # TAB 7: 🤖 AI RESEARCH COPILOT
 # -----------------------------------------------------------------------------
 with tab7:
-    st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
     st.subheader("🤖 BAMU Scopus AI Research Copilot")
     st.caption("Fast built-in Python/Pandas natural language research assistant. Zero external API keys required.")
 
@@ -1214,5 +1178,3 @@ with tab7:
         st.session_state.messages.append({"role": "assistant", "content": response_md})
         with st.chat_message("assistant"):
             st.markdown(response_md)
-
-    st.markdown("</div>", unsafe_allow_html=True)
