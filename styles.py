@@ -712,7 +712,7 @@ def get_custom_css(theme="dark"):
         font-weight: 700 !important;
     }}
 
-    /* Streamlit Containers, DataFrames & Expanders Borders */
+    /* Streamlit Containers, DataFrames & Expanders Borders & Layout */
     [data-testid="stDataFrame"], .stExpander {{
         background: {card_bg} !important;
         border: {card_border} !important;
@@ -720,9 +720,27 @@ def get_custom_css(theme="dark"):
         transition: all 0.3s ease !important;
     }}
 
+    /* ISSUE 1 FIX: Prevent icon font ligature overlap on Faculty Leaderboard Expander */
+    .stExpander summary {{
+        display: flex !important;
+        align-items: center !important;
+        gap: 0.6rem !important;
+    }}
+
+    .stExpander summary [data-testid="stIcon"],
+    .stExpander summary i,
+    .stExpander summary svg,
+    [data-testid="stExpanderToggleIcon"] {{
+        font-family: 'Material Symbols Rounded', 'Material Symbols Outlined', 'Material Icons', sans-serif !important;
+        margin-right: 0.4rem !important;
+        flex-shrink: 0 !important;
+    }}
+
     .stExpander summary span {{
         color: {text_primary} !important;
         font-weight: 700 !important;
+        white-space: nowrap !important;
+        overflow: visible !important;
     }}
 
     [data-testid="stDataFrame"]:hover, .stExpander:hover {{
@@ -857,15 +875,18 @@ def get_custom_css(theme="dark"):
         box-shadow: none !important;
     }}
 
-    /* AI Copilot Chat Inputs & Messages Styling */
-    [data-testid="stChatInput"] {{
-        background: {input_bg} !important;
-        border: 1px solid {input_border} !important;
-        border-radius: 14px !important;
+    /* ISSUE 2 FIX: Live Feed Search Input Placeholder Contrast (Dark Mode scoped) */
+    [data-testid="stTextInput"] input::placeholder {{
+        color: {"rgba(248, 250, 252, 0.65)" if theme.lower() == "dark" else "rgba(15, 23, 42, 0.55)"} !important;
+        opacity: 1 !important;
     }}
 
-    [data-testid="stChatInput"] textarea {{
-        color: {text_primary} !important;
+    /* ISSUE 3 FIX: AI Copilot Chat Inputs & Messages Avatar Overlap & Placeholder Contrast */
+    [data-testid="stChatMessageAvatar"],
+    [data-testid="stChatMessageAvatar"] *,
+    [data-testid="stChatMessage"] [data-testid="stIcon"],
+    [data-testid="stChatMessage"] div[data-testid="stChatMessageAvatar"] span {{
+        font-family: 'Material Symbols Rounded', 'Material Symbols Outlined', 'Material Icons', sans-serif !important;
     }}
 
     [data-testid="stChatMessage"] {{
@@ -874,6 +895,31 @@ def get_custom_css(theme="dark"):
         border-radius: 14px !important;
         padding: 1rem !important;
         margin-bottom: 0.8rem !important;
+        display: flex !important;
+        align-items: flex-start !important;
+        gap: 0.8rem !important;
+    }}
+
+    [data-testid="stChatMessageContent"] {{
+        color: {text_primary} !important;
+    }}
+
+    [data-testid="stChatInput"] {{
+        background: {input_bg} !important;
+        border: 1px solid {input_border} !important;
+        border-radius: 14px !important;
+    }}
+
+    [data-testid="stChatInput"] textarea,
+    [data-testid="stChatInput"] input {{
+        color: {text_primary} !important;
+    }}
+
+    [data-testid="stChatInput"] textarea::placeholder,
+    [data-testid="stChatInput"] input::placeholder,
+    div[data-testid="stChatInput"] [data-baseweb="base-input"] ::placeholder {{
+        color: {"rgba(248, 250, 252, 0.65)" if theme.lower() == "dark" else "rgba(15, 23, 42, 0.55)"} !important;
+        opacity: 1 !important;
     }}
 
     /* Custom Scrollbar */
