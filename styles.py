@@ -1000,19 +1000,11 @@ def get_icare_logo_b64():
 
 def render_icare_topbar(theme="dark"):
     """
-    Render Top Navigation Bar with BAMU Logo Image, ICARE Logo Image, University Name, and NIRF badge.
+    Render Top Navigation Bar with ICARE Logo Image, University Name, and NIRF badge.
     """
     univ_name = UNIVERSITY_CONFIG.get("full_name", "Dr. Babasaheb Ambedkar Marathwada University")
     nirf_id = UNIVERSITY_CONFIG.get("nirf_id", "IR-O-U-0298")
     city = UNIVERSITY_CONFIG.get("city", "Chhatrapati Sambhajinagar, Maharashtra")
-
-    logo_filter = "drop-shadow(0 0 1px rgba(255, 255, 255, 0.9)) drop-shadow(0 2px 8px rgba(56, 189, 248, 0.45))" if theme.lower() == "dark" else "drop-shadow(0 2px 6px rgba(15, 23, 42, 0.18))"
-
-    bamu_b64 = get_bamu_logo_b64()
-    if bamu_b64:
-        bamu_img_html = f'<img src="{bamu_b64}" alt="BAMU Logo" style="height: 56px; width: auto; max-width: 60px; object-fit: contain; background: transparent !important; background-color: transparent !important; border: none; flex-shrink: 0; filter: {logo_filter};">'
-    else:
-        bamu_img_html = ''
 
     logo_b64 = get_icare_logo_b64()
     if logo_b64:
@@ -1023,7 +1015,6 @@ def render_icare_topbar(theme="dark"):
     html = f"""
     <div class="icare-topbar">
         <div style="display: flex; align-items: center; gap: 1rem;">
-            {bamu_img_html}
             <div class="icare-logo-badge">
                 {logo_html} <span class="icare-subtext">PORTAL INTELLIGENCE</span>
             </div>
