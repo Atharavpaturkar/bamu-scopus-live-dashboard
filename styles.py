@@ -50,7 +50,7 @@ def get_custom_css(theme="dark"):
 
     css = f"""
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&family=Material+Icons&display=block');
 
     html, body, [class*="st-"], .stApp {{
         font-family: 'Inter', sans-serif;
@@ -81,6 +81,126 @@ def get_custom_css(theme="dark"):
     [data-testid="stSidebar"]::-webkit-scrollbar-thumb {{
         background: {"rgba(2, 132, 199, 0.4)" if theme.lower()=="dark" else "#CBD5E1"};
         border-radius: 4px;
+    }}
+
+    /* ==========================================================================
+       SIDEBAR TOGGLE CONTROL (COLLAPSE / EXPAND) - PROFESSIONAL UI STYLING
+       ========================================================================== */
+
+    [data-testid="stSidebarCollapseButton"] *,
+    [data-testid="collapsedControl"] *,
+    [data-testid="stSidebarToggle"] *,
+    [data-testid="stSidebarHeader"] button *,
+    [data-testid="stHeader"] button *,
+    button[aria-label="Collapse sidebar"] *,
+    button[aria-label="Expand sidebar"] *,
+    button[data-testid="stHeaderActionElements"] * {{
+        font-family: 'Material Symbols Rounded', 'Material Symbols Outlined', 'Material Icons', sans-serif !important;
+    }}
+
+    [data-testid="stSidebarCollapseButton"] button,
+    [data-testid="collapsedControl"] button,
+    [data-testid="stSidebarToggle"] button,
+    [data-testid="stSidebarHeader"] button,
+    [data-testid="collapsedControl"],
+    button[aria-label="Collapse sidebar"],
+    button[aria-label="Expand sidebar"],
+    button[data-testid="stBaseButton-header"],
+    button[data-testid="stBaseButton-headerNoPadding"] {{
+        background: {"rgba(14, 23, 42, 0.85)" if theme.lower() == "dark" else "#FFFFFF"} !important;
+        border: {"1px solid rgba(56, 189, 248, 0.35)" if theme.lower() == "dark" else "1px solid #CBD5E1"} !important;
+        border-radius: 10px !important;
+        color: {primary_blue} !important;
+        width: 36px !important;
+        height: 36px !important;
+        min-width: 36px !important;
+        min-height: 36px !important;
+        max-width: 36px !important;
+        max-height: 36px !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-shadow: {"0 4px 14px rgba(0, 0, 0, 0.35)" if theme.lower() == "dark" else "0 2px 8px rgba(15, 23, 42, 0.08)"} !important;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        cursor: pointer !important;
+        backdrop-filter: blur(12px) !important;
+    }}
+
+    [data-testid="stSidebarCollapseButton"] button:hover,
+    [data-testid="collapsedControl"] button:hover,
+    [data-testid="collapsedControl"]:hover,
+    [data-testid="stSidebarToggle"] button:hover,
+    [data-testid="stSidebarHeader"] button:hover,
+    button[aria-label="Collapse sidebar"]:hover,
+    button[aria-label="Expand sidebar"]:hover,
+    button[data-testid="stBaseButton-header"]:hover,
+    button[data-testid="stBaseButton-headerNoPadding"]:hover {{
+        background: {"rgba(2, 132, 199, 0.22)" if theme.lower() == "dark" else "rgba(2, 132, 199, 0.12)"} !important;
+        border-color: {primary_blue} !important;
+        color: {primary_blue} !important;
+        transform: translateY(-1px) scale(1.05) !important;
+        box-shadow: 0 4px 16px rgba(2, 132, 199, 0.45) !important;
+    }}
+
+    [data-testid="stSidebarCollapseButton"] button:active,
+    [data-testid="collapsedControl"] button:active,
+    [data-testid="collapsedControl"]:active,
+    [data-testid="stSidebarToggle"] button:active,
+    button[aria-label="Collapse sidebar"]:active,
+    button[aria-label="Expand sidebar"]:active {{
+        transform: scale(0.95) !important;
+    }}
+
+    /* CRITICAL FIX: Hide raw text string "keyboard_double_arrow_..." */
+    [data-testid="stSidebarCollapseButton"] button p,
+    [data-testid="collapsedControl"] button p,
+    [data-testid="collapsedControl"] p,
+    [data-testid="stSidebarToggle"] button p,
+    [data-testid="stSidebarHeader"] button p,
+    button[aria-label="Collapse sidebar"] p,
+    button[aria-label="Expand sidebar"] p,
+    [data-testid="stSidebarCollapseButton"] button span,
+    [data-testid="collapsedControl"] button span,
+    [data-testid="collapsedControl"] span,
+    [data-testid="stSidebarToggle"] button span,
+    [data-testid="stSidebarHeader"] button span {{
+        font-size: 0 !important;
+        line-height: 0 !important;
+        color: transparent !important;
+        opacity: 0 !important;
+        display: inline-block !important;
+    }}
+
+    /* Icon Pseudo-element fallback for Sidebar OPEN (Collapse button) */
+    button[aria-label="Collapse sidebar"]::after,
+    [data-testid="stSidebarCollapseButton"] button::after,
+    [data-testid="stSidebarHeader"] button::after {{
+        content: "‹" !important;
+        font-family: 'Outfit', 'Inter', sans-serif !important;
+        font-size: 1.5rem !important;
+        font-weight: 800 !important;
+        color: {primary_blue} !important;
+        line-height: 1 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }}
+
+    /* Icon Pseudo-element fallback for Sidebar COLLAPSED (Expand button) */
+    button[aria-label="Expand sidebar"]::after,
+    [data-testid="collapsedControl"] button::after,
+    [data-testid="collapsedControl"]::after {{
+        content: "›" !important;
+        font-family: 'Outfit', 'Inter', sans-serif !important;
+        font-size: 1.5rem !important;
+        font-weight: 800 !important;
+        color: {primary_blue} !important;
+        line-height: 1 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
     }}
 
     /* Segmented Theme Control Wrapper */
