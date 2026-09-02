@@ -913,13 +913,18 @@ with tab5:
         auth_profile = get_author_profile_metrics(df_filtered, selected_author)
 
         if auth_profile:
-            # Header Card
+            # Header Card (Matching Institute Header Card Aesthetic)
             st.markdown(f"""
-            <div style="background: rgba(2, 132, 199, 0.08); border: 1px solid rgba(2, 132, 199, 0.3); border-radius: 14px; padding: 1.5rem; margin-bottom: 1.5rem;">
+            <div class="univ-header-card" style="margin-bottom: 1.5rem; padding: 1.1rem 1.4rem;">
                 <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
                     <div>
-                        <h2 style="margin: 0; font-family: 'Outfit', sans-serif; font-size: 1.8rem; color: {text_primary};">{auth_profile['author_name']}</h2>
-                        <div style="font-size: 0.95rem; font-weight: 600; color: #0284C7; margin-top: 0.2rem;">{auth_profile['primary_department']}</div>
+                        <h2 style="margin: 0; font-family: 'Outfit', sans-serif; font-size: 1.65rem; font-weight: 800; color: {text_primary};">{auth_profile['author_name']}</h2>
+                        <div style="font-size: 0.9rem; font-weight: 600; color: {"#38BDF8" if theme.lower()=="dark" else "#0284C7"}; margin-top: 0.3rem;">
+                            {auth_profile['primary_department']} • Institutional Faculty Scopus Dossier
+                        </div>
+                    </div>
+                    <div style="background: {"rgba(56, 189, 248, 0.15)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.1)"}; border: 1px solid {"rgba(56, 189, 248, 0.3)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.25)"}; border-radius: 8px; padding: 0.4rem 0.8rem; font-family: 'Outfit', sans-serif; font-size: 0.82rem; font-weight: 700; color: {"#38BDF8" if theme.lower()=="dark" else "#0284C7"};">
+                        🏆 Rank #{leaderboard_df[leaderboard_df['author']==auth_profile['author_name']].index[0]+1 if not leaderboard_df[leaderboard_df['author']==auth_profile['author_name']].empty else 'N/A'} Faculty Leader
                     </div>
                 </div>
             </div>
