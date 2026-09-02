@@ -625,23 +625,23 @@ def get_custom_css(theme="dark"):
     }}
 
     .univ-header-card {{
-        background: {subtle_bg};
-        border: 1px solid {"rgba(56, 189, 248, 0.2)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.15)"};
-        border-left: 3px solid {primary_blue};
-        border-radius: 8px;
-        padding: 0.25rem 0.75rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        backdrop-filter: blur(8px);
+        background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%) !important;
+        border: 1px solid #38BDF8 !important;
+        border-left: 4px solid #7DD3FC !important;
+        border-radius: 10px !important;
+        padding: 0.35rem 0.85rem !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        box-shadow: 0 4px 16px rgba(2, 132, 199, 0.4) !important;
     }}
 
     .univ-title {{
         font-family: 'Outfit', sans-serif !important;
         font-size: 1.02rem !important;
-        font-weight: 700 !important;
-        color: {text_primary} !important;
-        -webkit-text-fill-color: {text_primary} !important;
+        font-weight: 800 !important;
+        color: #FFFFFF !important;
+        -webkit-text-fill-color: #FFFFFF !important;
         margin: 0 !important;
         line-height: 1.25 !important;
         opacity: 1 !important;
@@ -649,10 +649,10 @@ def get_custom_css(theme="dark"):
     }}
 
     .univ-subtitle {{
-        font-size: 0.78rem;
-        font-weight: 600;
-        color: {primary_blue};
-        margin: 0.1rem 0 0 0;
+        font-size: 0.78rem !important;
+        font-weight: 600 !important;
+        color: #E0F2FE !important;
+        margin: 0.1rem 0 0 0 !important;
     }}
 
     .live-status-pill {{
