@@ -1029,6 +1029,35 @@ def get_custom_css(theme="dark"):
         opacity: 1 !important;
     }}
 
+    /* AI COPILOT CHAT MESSAGES & AVATAR BADGES */
+    [data-testid="stChatMessage"] {{
+        background-color: {"rgba(14, 26, 52, 0.65)" if theme.lower()=="dark" else "rgba(241, 245, 249, 0.85)"} !important;
+        border: {"1px solid rgba(56, 189, 248, 0.25)" if theme.lower()=="dark" else "1px solid #CBD5E1"} !important;
+        border-radius: 12px !important;
+        padding: 0.85rem 1.15rem !important;
+        margin-bottom: 0.85rem !important;
+        box-shadow: {"0 4px 16px rgba(0, 0, 0, 0.25)" if theme.lower()=="dark" else "0 2px 8px rgba(15, 23, 42, 0.05)"} !important;
+    }}
+
+    [data-testid="stChatMessageAvatarContainer"] {{
+        background: {"rgba(56, 189, 248, 0.15)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.12)"} !important;
+        border: {"1px solid rgba(56, 189, 248, 0.35)" if theme.lower()=="dark" else "1px solid rgba(2, 132, 199, 0.25)"} !important;
+        border-radius: 50% !important;
+        width: 38px !important;
+        height: 38px !important;
+        min-width: 38px !important;
+        min-height: 38px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }}
+
+    [data-testid="stChatMessageAvatarContainer"] * {{
+        font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif !important;
+        font-size: 1.25rem !important;
+        line-height: 1 !important;
+    }}
+
     /* ISSUE 3 FIX: AI Copilot Chat Inputs & Messages Avatar Overlap & Placeholder Contrast */
     [data-testid="stChatMessageAvatar"],
     [data-testid="stChatMessageAvatar"] *,

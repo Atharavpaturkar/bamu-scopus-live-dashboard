@@ -1199,7 +1199,8 @@ with tab7:
 
     # Render Chat History
     for msg in st.session_state.messages:
-        with st.chat_message(msg["role"]):
+        avatar_icon = "🤖" if msg["role"] == "assistant" else "👤"
+        with st.chat_message(msg["role"], avatar=avatar_icon):
             st.markdown(msg["content"])
 
     # Chat Input Box
@@ -1211,14 +1212,13 @@ with tab7:
     if prompt_to_send:
         # Add user message to history
         st.session_state.messages.append({"role": "user", "content": prompt_to_send})
-        with st.chat_message("user"):
+        with st.chat_message("user", avatar="👤"):
             st.markdown(prompt_to_send)
 
         # Generate response using AI Copilot Pandas engine
         with st.spinner("AI Copilot analyzing research dataset..."):
             response_md = query_ai_copilot(df_filtered, prompt_to_send)
 
-        # Add assistant response to history
+        # Add assistant response to history & refresh UI
         st.session_state.messages.append({"role": "assistant", "content": response_md})
-        with st.chat_message("assistant"):
-            st.markdown(response_md)
+        st.rerun()
