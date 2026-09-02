@@ -775,22 +775,46 @@ def get_custom_css(theme="dark"):
         font-weight: 700 !important;
     }}
 
-    /* Streamlit Containers, DataFrames & Expanders Borders & Layout */
-    [data-testid="stDataFrame"], .stExpander {{
+    /* Streamlit DataFrames Styling */
+    [data-testid="stDataFrame"] {{
         background: {card_bg} !important;
         border: {card_border} !important;
         border-radius: 12px !important;
         transition: all 0.3s ease !important;
     }}
 
-    /* Faculty Leaderboard & Expander Header Styling */
+    /* PREMIUM GLASSMORPHIC EXPANDER CARD (Matching Institute Card & Button Aesthetic) */
+    .stExpander {{
+        background: {"rgba(10, 20, 42, 0.85)" if theme.lower()=="dark" else "#FFFFFF"} !important;
+        border: {"1.5px solid rgba(56, 189, 248, 0.4)" if theme.lower()=="dark" else "1.5px solid #0284C7"} !important;
+        border-radius: 14px !important;
+        box-shadow: {"0 4px 20px rgba(0, 0, 0, 0.35), 0 0 12px rgba(56, 189, 248, 0.15)" if theme.lower()=="dark" else "0 4px 14px rgba(2, 132, 199, 0.12)"} !important;
+        backdrop-filter: blur(12px) !important;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        overflow: hidden !important;
+    }}
+
+    .stExpander:hover {{
+        border-color: {"#38BDF8" if theme.lower()=="dark" else "#0369A1"} !important;
+        box-shadow: {"0 6px 24px rgba(56, 189, 248, 0.35), 0 0 16px rgba(56, 189, 248, 0.2)" if theme.lower()=="dark" else "0 6px 20px rgba(2, 132, 199, 0.2)"} !important;
+        transform: translateY(-1px) !important;
+    }}
+
+    /* Expander Gradient Summary Header Bar */
     .stExpander summary {{
+        background: {"linear-gradient(135deg, rgba(2, 132, 199, 0.18) 0%, rgba(3, 105, 161, 0.12) 100%)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.08)"} !important;
+        border-bottom: {"1px solid rgba(56, 189, 248, 0.25)" if theme.lower()=="dark" else "1px solid rgba(2, 132, 199, 0.2)"} !important;
         color: {text_primary} !important;
-        font-family: 'Outfit', 'Inter', sans-serif !important;
-        font-weight: 700 !important;
-        font-size: 0.95rem !important;
+        font-family: 'Outfit', sans-serif !important;
+        font-weight: 800 !important;
+        font-size: 1.02rem !important;
+        padding: 0.85rem 1.2rem !important;
         cursor: pointer !important;
-        padding: 0.6rem 0.85rem !important;
+        transition: background 0.2s ease !important;
+    }}
+
+    .stExpander summary:hover {{
+        background: {"linear-gradient(135deg, rgba(2, 132, 199, 0.28) 0%, rgba(3, 105, 161, 0.22) 100%)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.15)"} !important;
     }}
 
     .stExpander summary *,
@@ -798,23 +822,36 @@ def get_custom_css(theme="dark"):
     .stExpander summary span,
     .stExpander summary div {{
         color: {text_primary} !important;
-        font-family: 'Outfit', 'Inter', sans-serif !important;
-        font-weight: 700 !important;
-        font-size: 0.95rem !important;
+        font-family: 'Outfit', sans-serif !important;
+        font-weight: 800 !important;
+        font-size: 1.02rem !important;
         opacity: 1 !important;
         visibility: visible !important;
     }}
 
-    [data-testid="stExpanderToggleIcon"],
-    [data-testid="stExpanderToggleIcon"] svg,
-    [data-testid="stExpanderToggleIcon"] span {{
-        color: {primary_blue} !important;
-        fill: {primary_blue} !important;
+    /* Expander Toggle Icon Badge */
+    [data-testid="stExpanderToggleIcon"] {{
+        background: {"rgba(56, 189, 248, 0.2)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.15)"} !important;
+        border: {"1px solid rgba(56, 189, 248, 0.35)" if theme.lower()=="dark" else "1px solid rgba(2, 132, 199, 0.25)"} !important;
+        border-radius: 8px !important;
+        padding: 3px 6px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
     }}
 
-    [data-testid="stDataFrame"]:hover, .stExpander:hover {{
-        border: {card_border_hover} !important;
-        box-shadow: 0 6px 20px rgba(2, 132, 199, 0.2) !important;
+    [data-testid="stExpanderToggleIcon"] svg {{
+        color: {"#38BDF8" if theme.lower()=="dark" else "#0284C7"} !important;
+        fill: {"#38BDF8" if theme.lower()=="dark" else "#0284C7"} !important;
+        width: 1.1rem !important;
+        height: 1.1rem !important;
+    }}
+
+    /* Expander Inner Content Body Padding */
+    .stExpander div[data-testid="stBlock"],
+    .stExpander div[role="region"] {{
+        padding: 1.1rem 1.3rem !important;
+        background: transparent !important;
     }}
 
     [data-testid="stDataFrame"] *,
