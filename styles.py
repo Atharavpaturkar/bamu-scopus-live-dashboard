@@ -274,7 +274,7 @@ def get_custom_css(theme="dark"):
     [data-testid="stDownloadButton"] button[kind="secondary"],
     [data-testid="stDownloadButton"] button[data-testid="baseButton-secondary"] {{
         background: {"rgba(14, 23, 42, 0.6)" if theme.lower()=="dark" else "#FFFFFF"} !important;
-        color: {"#94A3B8" if theme.lower()=="dark" else "#475569"} !important;
+        color: {text_primary} !important;
         border: 1px solid {"rgba(56, 189, 248, 0.3)" if theme.lower()=="dark" else "#CBD5E1"} !important;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
     }}
@@ -728,6 +728,17 @@ def get_custom_css(theme="dark"):
     [data-testid="stDataFrame"]:hover, .stExpander:hover {{
         border: {card_border_hover} !important;
         box-shadow: 0 6px 20px rgba(2, 132, 199, 0.2) !important;
+    }}
+
+    [data-testid="stDataFrame"] *,
+    [data-testid="stTable"] * {{
+        color: {text_primary} !important;
+    }}
+
+    [data-testid="stDataFrame"] a,
+    [data-testid="stTable"] a {{
+        color: {"#38BDF8" if theme.lower()=="dark" else "#0284C7"} !important;
+        font-weight: 700 !important;
     }}
 
     /* Buttons Styling (Main Area) */

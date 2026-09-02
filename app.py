@@ -387,6 +387,9 @@ with tab1:
     if not annual_df.empty:
         annual_df['cumulative_output'] = annual_df['publication_count'].cumsum()
 
+        bar_color = "#0284C7" if theme.lower() == "light" else "#38BDF8"
+        line_color = "#D97706" if theme.lower() == "light" else "#F59E0B"
+
         fig_dual = make_subplots(specs=[[{"secondary_y": True}]])
 
         # Primary Bar Chart - Annual Output
@@ -395,7 +398,7 @@ with tab1:
                 x=annual_df['year'],
                 y=annual_df['publication_count'],
                 name="Annual Publications",
-                marker=dict(color="#0284C7", cornerradius=4),
+                marker=dict(color=bar_color, cornerradius=4),
                 hovertemplate="<b>Year %{x}</b><br>Publications: %{y}<extra></extra>"
             ),
             secondary_y=False
@@ -408,8 +411,8 @@ with tab1:
                 y=annual_df['cumulative_output'],
                 name="Cumulative Total",
                 mode="lines+markers",
-                line=dict(color="#F59E0B", width=3, shape="spline"),
-                marker=dict(size=7, color="#F59E0B"),
+                line=dict(color=line_color, width=3, shape="spline"),
+                marker=dict(size=7, color=line_color),
                 hovertemplate="<b>Year %{x}</b><br>Cumulative: %{y:,}<extra></extra>"
             ),
             secondary_y=True
@@ -477,6 +480,8 @@ with tab2:
         st.subheader("📈 Annual Citation Accrual Curve")
         annual_df = get_publications_by_year(df_filtered)
         if not annual_df.empty:
+            line_color = "#0284C7" if theme.lower() == "light" else "#38BDF8"
+            fill_color = "rgba(2, 132, 199, 0.15)" if theme.lower() == "light" else "rgba(56, 189, 248, 0.2)"
             fig_acc = go.Figure()
             fig_acc.add_trace(
                 go.Scatter(
@@ -485,8 +490,8 @@ with tab2:
                     fill='tozeroy',
                     mode='lines+markers',
                     name='Annual Citations',
-                    line=dict(color='#0284C7', width=3, shape='spline'),
-                    fillcolor='rgba(2, 132, 199, 0.2)'
+                    line=dict(color=line_color, width=3, shape='spline'),
+                    fillcolor=fill_color
                 )
             )
             layout_opts = get_plotly_layout(theme)
@@ -507,13 +512,14 @@ with tab2:
         dept_cites = df_filtered.groupby('department')['citations'].sum().reset_index()
         dept_cites = dept_cites.sort_values('citations', ascending=True).tail(10)
         
+        bar_color = "#D97706" if theme.lower() == "light" else "#F59E0B"
         fig_dept_bar = go.Figure()
         fig_dept_bar.add_trace(
             go.Bar(
                 x=dept_cites['citations'],
                 y=dept_cites['department'],
                 orientation='h',
-                marker=dict(color='#F59E0B', cornerradius=4),
+                marker=dict(color=bar_color, cornerradius=4),
                 hovertemplate="<b>%{y}</b><br>Citations: %{x:,}<extra></extra>"
             )
         )
@@ -624,6 +630,9 @@ with tab3:
                 height=380,
                 margin=dict(l=10, r=10, t=30, b=10)
             )
+            fig_tree.update_traces(
+                textfont=dict(color="#FFFFFF" if theme.lower() == "dark" else "#0F172A", family="Inter, sans-serif")
+            )
             st.plotly_chart(fig_tree, use_container_width=True)
 
     with col_ind:
@@ -631,12 +640,15 @@ with tab3:
         ind_collab_count = int(df_filtered['is_industry_collab'].sum())
         non_ind_count = len(df_filtered) - ind_collab_count
 
+        pie_colors = ['#D97706', '#0284C7'] if theme.lower() == "light" else ['#F59E0B', '#38BDF8']
         fig_ind = go.Figure(
             data=[go.Pie(
                 labels=['Industry R&D Collaboration', 'Academic / Institutional'],
                 values=[ind_collab_count, non_ind_count],
                 hole=0.6,
-                marker=dict(colors=['#F59E0B', '#0284C7'])
+                marker=dict(colors=pie_colors),
+                textinfo='label+percent',
+                textfont=dict(color=layout_opts["font"]["color"], family="Inter, sans-serif", size=11)
             )]
         )
         layout_opts = get_plotly_layout(theme)
@@ -661,14 +673,16 @@ with tab4:
         st.subheader("⭐ Quartile Share")
         q_counts = df_filtered['quartile'].value_counts().reindex(['Q1', 'Q2', 'Q3', 'Q4']).fillna(0)
 
+        q_colors = ['#10B981', '#0284C7' if theme.lower() == "light" else '#38BDF8', '#D97706' if theme.lower() == "light" else '#F59E0B', '#EF4444']
         fig_q = go.Figure(
             data=[go.Pie(
                 labels=q_counts.index,
                 values=q_counts.values,
                 hole=0.6,
-                marker=dict(colors=['#10B981', '#3B82F6', '#F59E0B', '#EF4444']),
+                marker=dict(colors=q_colors),
                 textinfo='label+percent',
-                hoverinfo='label+value+percent'
+                hoverinfo='label+value+percent',
+                textfont=dict(color=layout_opts["font"]["color"], family="Inter, sans-serif", size=11)
             )]
         )
         layout_opts = get_plotly_layout(theme)
@@ -712,13 +726,14 @@ with tab4:
             )
 
             layout_opts = get_plotly_layout(theme)
+            annotation_c = "#D97706" if theme.lower() == "light" else "#F59E0B"
             fig_bubble.add_hline(
                 y=overall_avg_cpp,
                 line_dash="dash",
-                line_color="#F59E0B",
+                line_color=annotation_c,
                 annotation_text=f"Univ Avg CPP ({overall_avg_cpp})",
                 annotation_position="bottom right",
-                annotation_font=layout_opts["annotation_font"]
+                annotation_font=dict(color=annotation_c, family="Inter, sans-serif", size=11)
             )
 
             fig_bubble.update_layout(
@@ -925,13 +940,15 @@ with tab5:
                 st.markdown("#### 📈 Faculty Annual Output & Citations Trend")
                 trend_data = auth_profile['yearly_trend']
                 if not trend_data.empty:
+                    bar_color = "#0284C7" if theme.lower() == "light" else "#38BDF8"
+                    line_color = "#D97706" if theme.lower() == "light" else "#F59E0B"
                     fig_auth_trend = make_subplots(specs=[[{"secondary_y": True}]])
                     fig_auth_trend.add_trace(
-                        go.Bar(x=trend_data['year'], y=trend_data['papers'], name="Papers", marker=dict(color="#0284C7")),
+                        go.Bar(x=trend_data['year'], y=trend_data['papers'], name="Papers", marker=dict(color=bar_color)),
                         secondary_y=False
                     )
                     fig_auth_trend.add_trace(
-                        go.Scatter(x=trend_data['year'], y=trend_data['citations'], name="Citations", mode="lines+markers", line=dict(color="#F59E0B", width=3)),
+                        go.Scatter(x=trend_data['year'], y=trend_data['citations'], name="Citations", mode="lines+markers", line=dict(color=line_color, width=3)),
                         secondary_y=True
                     )
                     layout_opts = get_plotly_layout(theme)
@@ -941,7 +958,7 @@ with tab5:
                         font=layout_opts["font"],
                         height=320,
                         margin=dict(l=30, r=30, t=30, b=30),
-                        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+                        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1, font=layout_opts["legend"]["font"])
                     )
                     st.plotly_chart(fig_auth_trend, use_container_width=True)
 
@@ -949,15 +966,18 @@ with tab5:
                 st.markdown("#### ⭐ Journal Quality Profile")
                 if not author_papers.empty:
                     q_counts = author_papers['quartile'].value_counts().reindex(['Q1', 'Q2', 'Q3', 'Q4']).fillna(0)
+                    q_colors = ['#10B981', '#0284C7' if theme.lower() == "light" else '#38BDF8', '#D97706' if theme.lower() == "light" else '#F59E0B', '#EF4444']
+                    layout_opts = get_plotly_layout(theme)
                     fig_auth_q = go.Figure(
                         data=[go.Pie(
                             labels=q_counts.index,
                             values=q_counts.values,
                             hole=0.5,
-                            marker=dict(colors=['#10B981', '#3B82F6', '#F59E0B', '#EF4444'])
+                            marker=dict(colors=q_colors),
+                            textinfo='label+percent',
+                            textfont=dict(color=layout_opts["font"]["color"], family="Inter, sans-serif")
                         )]
                     )
-                    layout_opts = get_plotly_layout(theme)
                     fig_auth_q.update_layout(
                         paper_bgcolor=layout_opts["paper_bgcolor"],
                         font=layout_opts["font"],
