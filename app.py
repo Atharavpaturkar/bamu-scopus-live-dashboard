@@ -128,9 +128,6 @@ if df_raw.empty:
 # Sidebar Navigation & Filter Section Header
 st.sidebar.markdown('<div class="sidebar-nav-header">🔍 NAVIGATE & FILTER</div>', unsafe_allow_html=True)
 
-# Subheader: Evaluation Period
-st.sidebar.markdown('<div class="sidebar-section-title">📅 Evaluation Period</div>', unsafe_allow_html=True)
-
 # Year Range Slider & Inputs
 data_min_yr = int(df_raw['year'].min()) if not df_raw.empty else 1950
 slider_min_yr = min(1950, data_min_yr)
@@ -140,6 +137,14 @@ if "start_year" not in st.session_state:
     st.session_state.start_year = 1950
 if "end_year" not in st.session_state:
     st.session_state.end_year = 2026
+
+# Subheader: Evaluation Period Header Card
+st.sidebar.markdown(f'''
+<div class="eval-period-header">
+    <div class="eval-period-title">📅 Evaluation Period</div>
+    <div class="eval-period-badge">{st.session_state.start_year} — {st.session_state.end_year}</div>
+</div>
+''', unsafe_allow_html=True)
 
 slider_yr = st.sidebar.slider(
     "Evaluation Period Range",
