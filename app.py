@@ -23,7 +23,7 @@ from data_processor import (
     generate_author_print_html
 )
 from ai_copilot import query_ai_copilot
-from styles import get_custom_css, render_icare_topbar, render_icare_hero
+from styles import get_custom_css, render_icare_topbar, render_icare_hero, get_bamu_logo_b64
 
 # Page Configuration
 st.set_page_config(
@@ -58,8 +58,12 @@ js_responsive_sidebar = """
 components.html(js_responsive_sidebar, height=0, width=0)
 
 # Sidebar Branding & Scopus Gateway
+bamu_sb_b64 = get_bamu_logo_b64()
+sb_logo_html = f'<img src="data:image/jpeg;base64,{bamu_sb_b64}" alt="BAMU Logo" style="height: 58px; width: 58px; border-radius: 50%; object-fit: contain; background: #FFFFFF; padding: 3px; border: 2px solid #0284C7; margin: 0 auto 0.6rem auto; display: block; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);">' if bamu_sb_b64 else ''
+
 st.sidebar.markdown(f"""
 <div style="background: rgba(2, 132, 199, 0.12); border: 1px solid rgba(2, 132, 199, 0.3); border-radius: 12px; padding: 1rem; margin-bottom: 1.2rem; text-align: center;">
+    {sb_logo_html}
     <div style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.05rem; color: #0284C7;">
         🏛 BAMU PORTAL
     </div>

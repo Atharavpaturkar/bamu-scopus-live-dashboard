@@ -975,6 +975,17 @@ def get_custom_css(theme="dark"):
     return css
 
 
+def get_bamu_logo_b64():
+    logo_path = "bamu_logo.jpeg"
+    if os.path.exists(logo_path):
+        try:
+            with open(logo_path, "rb") as f:
+                return base64.b64encode(f.read()).decode("utf-8")
+        except Exception:
+            pass
+    return ""
+
+
 def get_icare_logo_b64():
     logo_path = "ICARE - LOGO .jpeg"
     if os.path.exists(logo_path):
@@ -988,11 +999,17 @@ def get_icare_logo_b64():
 
 def render_icare_topbar(theme="dark"):
     """
-    Render Top Navigation Bar with ICARE Logo Image, University Name, and NIRF badge.
+    Render Top Navigation Bar with BAMU Logo Image, ICARE Logo Image, University Name, and NIRF badge.
     """
     univ_name = UNIVERSITY_CONFIG.get("full_name", "Dr. Babasaheb Ambedkar Marathwada University")
     nirf_id = UNIVERSITY_CONFIG.get("nirf_id", "IR-O-U-0298")
     city = UNIVERSITY_CONFIG.get("city", "Chhatrapati Sambhajinagar, Maharashtra")
+
+    bamu_b64 = get_bamu_logo_b64()
+    if bamu_b64:
+        bamu_img_html = f'<img src="data:image/jpeg;base64,{bamu_b64}" alt="BAMU Logo" style="height: 48px; width: 48px; border-radius: 50%; object-fit: contain; background: #FFFFFF; padding: 2px; border: 2px solid #0284C7; box-shadow: 0 2px 8px rgba(0,0,0,0.15); flex-shrink: 0;">'
+    else:
+        bamu_img_html = ''
 
     logo_b64 = get_icare_logo_b64()
     if logo_b64:
@@ -1003,6 +1020,7 @@ def render_icare_topbar(theme="dark"):
     html = f"""
     <div class="icare-topbar">
         <div style="display: flex; align-items: center; gap: 1rem;">
+            {bamu_img_html}
             <div class="icare-logo-badge">
                 {logo_html} <span class="icare-subtext">PORTAL INTELLIGENCE</span>
             </div>
@@ -1024,13 +1042,19 @@ def render_icare_topbar(theme="dark"):
 
 def render_icare_hero(total_pubs, total_cites, theme="dark"):
     """
-    Render ICARE Hero Research Dossier Banner with badges, title, and rank statistics.
+    Render ICARE Hero Research Dossier Banner with BAMU logo, badges, title, and rank statistics.
     """
     status_tag = UNIVERSITY_CONFIG.get("status_tag", "🏛 State Public University (Estd. 1958)")
     naac_badge = UNIVERSITY_CONFIG.get("naac_badge", "⭐ NAAC A+ (CGPA 3.38)")
     app_title = UNIVERSITY_CONFIG.get("app_title", "BAMU Live Scopus Intelligence Dashboard")
     full_name = UNIVERSITY_CONFIG.get("full_name", "Dr. Babasaheb Ambedkar Marathwada University")
     divider_bg = "rgba(255, 255, 255, 0.15)" if theme.lower() == "dark" else "rgba(15, 23, 42, 0.15)"
+
+    bamu_b64 = get_bamu_logo_b64()
+    if bamu_b64:
+        hero_logo_html = f'<img src="data:image/jpeg;base64,{bamu_b64}" alt="BAMU Logo" style="height: 64px; width: 64px; border-radius: 50%; object-fit: contain; background: #FFFFFF; padding: 3px; border: 2px solid #0284C7; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35); flex-shrink: 0;">'
+    else:
+        hero_logo_html = ''
 
     html = f"""
     <div class="hero-banner">
@@ -1040,9 +1064,14 @@ def render_icare_hero(total_pubs, total_cites, theme="dark"):
             <span class="hero-badge">{naac_badge}</span>
             <span class="hero-badge">📜 NIRF Category: University</span>
         </div>
-        <div class="hero-title">{full_name}</div>
-        <div class="hero-subtitle-tag">{app_title}</div>
-        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+        <div style="display: flex; align-items: center; gap: 1.2rem; margin: 0.6rem 0;">
+            {hero_logo_html}
+            <div>
+                <div class="hero-title" style="margin: 0;">{full_name}</div>
+                <div class="hero-subtitle-tag" style="margin-top: 0.2rem;">{app_title}</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-top: 0.8rem;">
             <p style="margin: 0; font-size: 0.95rem; opacity: 0.85; max-width: 650px;">
                 Comprehensive institutional bibliometric analytics, faculty h-index tracking, Q1 publication trends, and international collaboration intelligence for Dr. Babasaheb Ambedkar Marathwada University.
             </p>
