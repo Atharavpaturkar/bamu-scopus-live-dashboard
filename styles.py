@@ -544,66 +544,94 @@ def get_custom_css(theme="dark"):
         background: {card_bg};
         backdrop-filter: blur(14px);
         border: {card_border};
-        border-radius: 14px;
-        padding: 0.9rem 1.5rem;
-        margin-bottom: 1.5rem;
+        border-radius: 12px;
+        padding: 0.45rem 1.1rem;
+        margin-bottom: 0.85rem;
         box-shadow: {card_shadow};
     }}
 
     .icare-logo-badge {{
-        background: linear-gradient(135deg, #0284C7 0%, #06B6D4 100%);
-        color: #FFFFFF;
-        font-family: 'Outfit', sans-serif;
-        font-weight: 800;
-        font-size: 0.9rem;
-        padding: 0.35rem 0.85rem;
-        border-radius: 8px;
-        letter-spacing: 0.08em;
+        background: {subtle_bg};
+        border: 1px solid {"rgba(56, 189, 248, 0.25)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.2)"};
+        border-radius: 9px;
+        padding: 0.28rem 0.65rem;
         display: inline-flex;
         align-items: center;
-        gap: 0.4rem;
-        box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+        gap: 0.55rem;
+        flex-shrink: 0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
     }}
 
     .icare-logo-img {{
-        height: 32px;
+        height: 34px;
         width: auto;
         max-width: 140px;
         object-fit: contain;
-        border-radius: 6px;
+        border-radius: 5px;
         background: #FFFFFF;
-        padding: 2px 6px;
+        padding: 3px 7px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
         display: inline-block;
         vertical-align: middle;
     }}
 
     .icare-subtext {{
-        font-size: 0.72rem;
-        background: {badge_bg};
-        color: {badge_text};
+        font-family: 'Outfit', sans-serif;
+        font-size: 0.70rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        color: {primary_blue};
+        text-transform: uppercase;
+        white-space: nowrap;
         padding: 0.15rem 0.45rem;
+        background: {badge_bg};
         border-radius: 4px;
-        font-weight: 700;
-        margin-left: 0.4rem;
+        border: 1px solid {"rgba(56, 189, 248, 0.2)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.15)"};
+    }}
+
+    .univ-header-card {{
+        background: {subtle_bg};
+        border: 1px solid {"rgba(56, 189, 248, 0.2)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.15)"};
+        border-left: 3px solid {primary_blue};
+        border-radius: 8px;
+        padding: 0.25rem 0.75rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        backdrop-filter: blur(8px);
     }}
 
     .univ-title {{
         font-family: 'Outfit', sans-serif !important;
-        font-size: 1.15rem !important;
+        font-size: 1.02rem !important;
         font-weight: 700 !important;
         color: {text_primary} !important;
         -webkit-text-fill-color: {text_primary} !important;
         margin: 0 !important;
-        line-height: 1.3 !important;
+        line-height: 1.25 !important;
         opacity: 1 !important;
         visibility: visible !important;
     }}
 
     .univ-subtitle {{
-        font-size: 0.84rem;
+        font-size: 0.78rem;
         font-weight: 600;
         color: {primary_blue};
-        margin: 0;
+        margin: 0.1rem 0 0 0;
+    }}
+
+    .live-status-pill {{
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #10B981;
+        background: rgba(16, 185, 129, 0.1);
+        border: 1px solid rgba(16, 185, 129, 0.25);
+        padding: 0.3rem 0.7rem;
+        border-radius: 20px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        white-space: nowrap;
     }}
 
     /* Hero Dossier Banner */
@@ -1014,18 +1042,19 @@ def render_icare_topbar(theme="dark"):
 
     html = f"""
     <div class="icare-topbar">
-        <div style="display: flex; align-items: center; gap: 1rem;">
+        <div style="display: flex; align-items: center; gap: 0.85rem;">
             <div class="icare-logo-badge">
-                {logo_html} <span class="icare-subtext">PORTAL INTELLIGENCE</span>
+                {logo_html}
+                <span class="icare-subtext">PORTAL INTELLIGENCE</span>
             </div>
-            <div>
+            <div class="univ-header-card">
                 <h2 class="univ-title">{univ_name}</h2>
                 <div class="univ-subtitle"><b>{nirf_id}</b> • {city}</div>
             </div>
         </div>
         <div style="text-align: right;">
-            <span style="font-size: 0.8rem; font-weight: 600; opacity: 0.85; display: inline-flex; align-items: center; gap: 0.4rem;">
-                <span style="height: 9px; width: 9px; background-color: #10B981; border-radius: 50%; display: inline-block;"></span>
+            <span class="live-status-pill">
+                <span style="height: 8px; width: 8px; background-color: #10B981; border-radius: 50%; display: inline-block; box-shadow: 0 0 8px #10B981;"></span>
                 Live Scopus API Engine Active
             </span>
         </div>
