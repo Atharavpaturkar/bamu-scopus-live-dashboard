@@ -720,27 +720,21 @@ def get_custom_css(theme="dark"):
         transition: all 0.3s ease !important;
     }}
 
-    /* ISSUE 1 FIX: Prevent icon font ligature overlap on Faculty Leaderboard Expander */
+    /* Faculty Leaderboard Expander - title alignment */
     .stExpander summary {{
-        display: flex !important;
-        align-items: center !important;
-        gap: 0.6rem !important;
+        color: {text_primary} !important;
     }}
 
     .stExpander summary [data-testid="stIcon"],
     .stExpander summary i,
     .stExpander summary svg,
     [data-testid="stExpanderToggleIcon"] {{
-        font-family: 'Material Symbols Rounded', 'Material Symbols Outlined', 'Material Icons', sans-serif !important;
-        margin-right: 0.4rem !important;
         flex-shrink: 0 !important;
     }}
 
     .stExpander summary span {{
         color: {text_primary} !important;
         font-weight: 700 !important;
-        white-space: nowrap !important;
-        overflow: visible !important;
     }}
 
     [data-testid="stDataFrame"]:hover, .stExpander:hover {{
