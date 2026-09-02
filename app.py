@@ -57,6 +57,11 @@ js_responsive_sidebar = """
 """
 components.html(js_responsive_sidebar, height=0, width=0)
 
+# Theme State Initialization
+if "theme" not in st.session_state:
+    st.session_state.theme = "Dark"
+theme = st.session_state.theme
+
 # Sidebar Branding & Scopus Gateway
 bamu_sb_b64 = get_bamu_logo_b64()
 sb_logo_filter = "drop-shadow(0 0 1.5px rgba(255, 255, 255, 0.9)) drop-shadow(0 3px 10px rgba(56, 189, 248, 0.45))" if theme.lower() == "dark" else "drop-shadow(0 2px 8px rgba(15, 23, 42, 0.18))"
@@ -81,9 +86,6 @@ st.sidebar.markdown("""
 """, unsafe_allow_html=True)
 
 # Theme Selection Buttons
-if "theme" not in st.session_state:
-    st.session_state.theme = "Dark"
-
 c_t1, c_t2 = st.sidebar.columns(2)
 with c_t1:
     dark_btn_type = "primary" if st.session_state.theme == "Dark" else "secondary"
@@ -96,8 +98,6 @@ with c_t2:
     if st.button("☀️ Light Mode", use_container_width=True, type=light_btn_type, key="btn_theme_light"):
         st.session_state.theme = "Light"
         st.rerun()
-
-theme = st.session_state.theme
 
 # Apply CSS Theme
 st.markdown(get_custom_css(theme), unsafe_allow_html=True)
