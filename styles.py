@@ -783,21 +783,39 @@ def get_custom_css(theme="dark"):
         transition: all 0.3s ease !important;
     }}
 
-    /* Faculty Leaderboard Expander - title alignment */
+    /* Faculty Leaderboard & Expander Header Styling - Fix '_arr' Icon Text Overlap */
     .stExpander summary {{
         color: {text_primary} !important;
+        font-family: 'Inter', sans-serif !important;
+        cursor: pointer !important;
     }}
 
+    .stExpander summary p,
+    .stExpander summary div:not([data-testid="stExpanderToggleIcon"]) {{
+        color: {text_primary} !important;
+        font-weight: 700 !important;
+        font-size: 0.94rem !important;
+    }}
+
+    /* Preserve Material Symbol Icon Font on Expander Toggle Icons & Hide Raw Text Strings */
+    [data-testid="stExpanderToggleIcon"],
+    [data-testid="stExpanderToggleIcon"] *,
     .stExpander summary [data-testid="stIcon"],
-    .stExpander summary i,
-    .stExpander summary svg,
-    [data-testid="stExpanderToggleIcon"] {{
+    .stExpander summary svg {{
+        font-family: 'Material Symbols Rounded', 'Material Symbols Outlined', 'Material Icons', sans-serif !important;
+        color: {primary_blue} !important;
+        fill: {primary_blue} !important;
         flex-shrink: 0 !important;
     }}
 
-    .stExpander summary span {{
-        color: {text_primary} !important;
-        font-weight: 700 !important;
+    /* Hide unrendered raw text strings like "keyboard_arrow_right" inside expander toggle icons */
+    [data-testid="stExpanderToggleIcon"] p,
+    [data-testid="stExpanderToggleIcon"] span {{
+        font-size: 0 !important;
+        line-height: 0 !important;
+        color: transparent !important;
+        opacity: 0 !important;
+        display: none !important;
     }}
 
     [data-testid="stDataFrame"]:hover, .stExpander:hover {{

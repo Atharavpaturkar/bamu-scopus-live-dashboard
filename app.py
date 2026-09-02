@@ -884,7 +884,7 @@ with tab5:
                 """, unsafe_allow_html=True)
 
         st.markdown("<br>", unsafe_allow_html=True)
-        with st.expander("View Complete Faculty Leaderboard Table"):
+        with st.expander("📊 View Complete Faculty Leaderboard Table"):
             st.dataframe(
                 leaderboard_df,
                 column_config={
