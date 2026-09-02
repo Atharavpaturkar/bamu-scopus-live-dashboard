@@ -976,13 +976,14 @@ def get_custom_css(theme="dark"):
 
 
 def get_bamu_logo_b64():
-    logo_path = "bamu_logo.jpeg"
-    if os.path.exists(logo_path):
-        try:
-            with open(logo_path, "rb") as f:
-                return base64.b64encode(f.read()).decode("utf-8")
-        except Exception:
-            pass
+    for logo_path in ["bamu_logo_transparent.png", "bamu_logo.png", "bamu_logo.jpeg"]:
+        if os.path.exists(logo_path):
+            try:
+                with open(logo_path, "rb") as f:
+                    mime = "image/png" if logo_path.endswith(".png") else "image/jpeg"
+                    return f"data:{mime};base64," + base64.b64encode(f.read()).decode("utf-8")
+            except Exception:
+                pass
     return ""
 
 
@@ -1007,7 +1008,7 @@ def render_icare_topbar(theme="dark"):
 
     bamu_b64 = get_bamu_logo_b64()
     if bamu_b64:
-        bamu_img_html = f'<img src="data:image/jpeg;base64,{bamu_b64}" alt="BAMU Logo" style="height: 48px; width: 48px; border-radius: 50%; object-fit: contain; background: #FFFFFF; padding: 2px; border: 2px solid #0284C7; box-shadow: 0 2px 8px rgba(0,0,0,0.15); flex-shrink: 0;">'
+        bamu_img_html = f'<img src="{bamu_b64}" alt="BAMU Logo" style="height: 48px; width: 48px; object-fit: contain; background: transparent !important; background-color: transparent !important; border: none; flex-shrink: 0; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.25));">'
     else:
         bamu_img_html = ''
 
@@ -1052,7 +1053,7 @@ def render_icare_hero(total_pubs, total_cites, theme="dark"):
 
     bamu_b64 = get_bamu_logo_b64()
     if bamu_b64:
-        hero_logo_html = f'<img src="data:image/jpeg;base64,{bamu_b64}" alt="BAMU Logo" style="height: 64px; width: 64px; border-radius: 50%; object-fit: contain; background: #FFFFFF; padding: 3px; border: 2px solid #0284C7; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35); flex-shrink: 0;">'
+        hero_logo_html = f'<img src="{bamu_b64}" alt="BAMU Logo" style="height: 64px; width: 64px; object-fit: contain; background: transparent !important; background-color: transparent !important; border: none; flex-shrink: 0; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.35));">'
     else:
         hero_logo_html = ''
 
