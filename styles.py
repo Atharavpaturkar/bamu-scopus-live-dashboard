@@ -788,6 +788,48 @@ def get_custom_css(theme="dark"):
         background: {subtle_bg} !important;
     }}
 
+    /* ==========================================================================
+       SCOPUS RESEARCH ANALYTICS SECTION HEADER & ZONE IDENTITY
+       ========================================================================== */
+    .analytics-section-header {{
+        margin-top: 2.2rem !important;
+        margin-bottom: 1.25rem !important;
+        padding-top: 1.5rem !important;
+        border-top: 1px solid {"rgba(56, 189, 248, 0.2)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.15)"} !important;
+    }}
+
+    .analytics-section-badge {{
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 0.4rem !important;
+        padding: 0.35rem 0.85rem !important;
+        border-radius: 20px !important;
+        font-size: 0.76rem !important;
+        font-weight: 800 !important;
+        letter-spacing: 0.08em !important;
+        text-transform: uppercase !important;
+        background: {badge_bg} !important;
+        color: {badge_text} !important;
+        border: 1px solid {"rgba(56, 189, 248, 0.3)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.25)"} !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+    }}
+
+    .analytics-section-title {{
+        font-family: 'Outfit', sans-serif !important;
+        font-size: 1.65rem !important;
+        font-weight: 800 !important;
+        color: {text_primary} !important;
+        margin: 0.45rem 0 0.2rem 0 !important;
+        letter-spacing: -0.01em !important;
+    }}
+
+    .analytics-section-subtitle {{
+        font-size: 0.88rem !important;
+        color: {text_secondary} !important;
+        font-weight: 500 !important;
+        line-height: 1.4 !important;
+    }}
+
     /* Streamlit Tabs Navigation Styling & Unified Container Card */
     .stTabs {{
         background: {card_bg} !important;
@@ -802,7 +844,7 @@ def get_custom_css(theme="dark"):
     .stTabs [data-baseweb="tab-list"] {{
         gap: 8px !important;
         background-color: {tab_bg} !important;
-        padding: 8px 16px 0 16px !important;
+        padding: 10px 16px 0 16px !important;
         border: none !important;
         border-bottom: {card_border} !important;
         border-radius: 18px 18px 0 0 !important;
@@ -825,15 +867,15 @@ def get_custom_css(theme="dark"):
     }}
 
     .stTabs [data-baseweb="tab"] {{
-        height: 42px !important;
-        line-height: 42px !important;
+        height: 44px !important;
+        line-height: 44px !important;
         border: none !important;
-        border-bottom: 2px solid transparent !important;
+        border-bottom: 2.5px solid transparent !important;
         border-radius: 0 !important;
         color: {text_secondary} !important;
         font-weight: 600 !important;
-        font-size: 0.9rem !important;
-        padding: 0 16px !important;
+        font-size: 0.92rem !important;
+        padding: 0 18px !important;
         background: transparent !important;
         box-shadow: none !important;
         transition: color 0.2s ease, border-color 0.2s ease !important;
@@ -846,7 +888,7 @@ def get_custom_css(theme="dark"):
     .stTabs [data-baseweb="tab"]:hover {{
         color: {primary_blue} !important;
         border: none !important;
-        border-bottom: 2px solid rgba(2, 132, 199, 0.4) !important;
+        border-bottom: 2.5px solid {"rgba(56, 189, 248, 0.4)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.4)"} !important;
         background: transparent !important;
         box-shadow: none !important;
     }}
@@ -854,9 +896,9 @@ def get_custom_css(theme="dark"):
     .stTabs [aria-selected="true"] {{
         background: transparent !important;
         color: {primary_blue} !important;
-        font-weight: 700 !important;
+        font-weight: 800 !important;
         border: none !important;
-        border-bottom: 2px solid {primary_blue} !important;
+        border-bottom: 2.5px solid {primary_blue} !important;
         box-shadow: none !important;
     }}
 

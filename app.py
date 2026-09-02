@@ -366,6 +366,17 @@ def get_plotly_layout(theme_mode="dark"):
         "margin": dict(l=40, r=40, t=50, b=40)
     }
 
+# -----------------------------------------------------------------------------
+# SCOPUS RESEARCH INTELLIGENCE ANALYTICS SECTION HEADER
+# -----------------------------------------------------------------------------
+st.markdown("""
+<div class="analytics-section-header">
+    <div class="analytics-section-badge">📊 SCOPUS RESEARCH INTELLIGENCE</div>
+    <h2 class="analytics-section-title">Research Output & Impact Analytics</h2>
+    <div class="analytics-section-subtitle">Comprehensive institutional analysis across annual growth, citation velocity, global collaboration, journal quality, and faculty dossiers</div>
+</div>
+""", unsafe_allow_html=True)
+
 # Render Main Dashboard Tabs 1 to 7
 tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
     "📈 Trends & Output Velocity",
