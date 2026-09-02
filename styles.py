@@ -439,18 +439,18 @@ def get_custom_css(theme="dark"):
         color: {"#38BDF8" if theme.lower()=="dark" else "#0284C7"} !important;
     }}
 
-    /* FIX: Multiselect Tag Chips */
+    /* CHANGE 5: Multiselect Tag Chips (Light Mode Blue Tint & Dark Mode High Contrast) */
     [data-baseweb="tag"] {{
-        background-color: {"rgba(2, 132, 199, 0.22)" if theme.lower()=="dark" else "#E2E8F0"} !important;
-        border: 1px solid {"rgba(56, 189, 248, 0.4)" if theme.lower()=="dark" else "#CBD5E1"} !important;
+        background-color: {"rgba(2, 132, 199, 0.22)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.12)"} !important;
+        border: 1px solid {"rgba(56, 189, 248, 0.4)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.3)"} !important;
         border-radius: 6px !important;
-        padding: 2px 6px !important;
+        padding: 2px 7px !important;
     }}
 
     [data-baseweb="tag"] span {{
-        color: {text_primary} !important;
-        font-weight: 600 !important;
-        font-size: 0.8rem !important;
+        color: {text_primary if theme.lower()=="dark" else "#0284C7"} !important;
+        font-weight: 700 !important;
+        font-size: 0.82rem !important;
     }}
 
     /* FIX: Premium Slider Track & Glow Handle for Evaluation Period */
@@ -864,17 +864,20 @@ def get_custom_css(theme="dark"):
     /* ==========================================================================
        SCOPUS RESEARCH ANALYTICS SECTION HEADER & ZONE IDENTITY
        ========================================================================== */
+    /* ==========================================================================
+       SCOPUS RESEARCH ANALYTICS SECTION HEADER & ZONE IDENTITY (CHANGE 6)
+       ========================================================================== */
     .analytics-section-header {{
-        margin-top: 2.2rem !important;
+        margin-top: 2.4rem !important;
         margin-bottom: 1.25rem !important;
-        padding-top: 1.5rem !important;
-        border-top: 1px solid {"rgba(56, 189, 248, 0.2)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.15)"} !important;
+        padding-top: 1.6rem !important;
+        border-top: 2px solid {"rgba(56, 189, 248, 0.3)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.2)"} !important;
     }}
 
     .analytics-section-badge {{
         display: inline-flex !important;
         align-items: center !important;
-        gap: 0.4rem !important;
+        gap: 0.45rem !important;
         padding: 0.35rem 0.85rem !important;
         border-radius: 20px !important;
         font-size: 0.76rem !important;
@@ -883,7 +886,7 @@ def get_custom_css(theme="dark"):
         text-transform: uppercase !important;
         background: {badge_bg} !important;
         color: {badge_text} !important;
-        border: 1px solid {"rgba(56, 189, 248, 0.3)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.25)"} !important;
+        border: 1px solid {"rgba(56, 189, 248, 0.35)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.28)"} !important;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
     }}
 
@@ -903,7 +906,7 @@ def get_custom_css(theme="dark"):
         line-height: 1.4 !important;
     }}
 
-    /* Streamlit Tabs Navigation Styling & Unified Container Card */
+    /* Streamlit Tabs Navigation Styling & Container */
     .stTabs {{
         background: {card_bg} !important;
         border: {card_border} !important;
@@ -914,10 +917,11 @@ def get_custom_css(theme="dark"):
         overflow: hidden !important;
     }}
 
+    /* CHANGE 2: Tab Navigation Overflow & Hidden Browser Scrollbar */
     .stTabs [data-baseweb="tab-list"] {{
-        gap: 8px !important;
+        gap: 6px !important;
         background-color: {tab_bg} !important;
-        padding: 10px 16px 0 16px !important;
+        padding: 8px 14px 0 14px !important;
         border: none !important;
         border-bottom: {card_border} !important;
         border-radius: 18px 18px 0 0 !important;
@@ -927,8 +931,16 @@ def get_custom_css(theme="dark"):
         width: 100% !important;
         max-width: 100% !important;
         overflow-x: auto !important;
+        scrollbar-width: none !important;
+        -ms-overflow-style: none !important;
         margin-bottom: 0 !important;
         box-shadow: none !important;
+    }}
+
+    .stTabs [data-baseweb="tab-list"]::-webkit-scrollbar {{
+        display: none !important;
+        height: 0 !important;
+        width: 0 !important;
     }}
 
     .stTabs [data-baseweb="tab-border"] {{
@@ -939,16 +951,17 @@ def get_custom_css(theme="dark"):
         display: none !important;
     }}
 
+    /* CHANGE 4: Dark Mode Inactive Tab Readability (#CBD5E1) */
     .stTabs [data-baseweb="tab"] {{
         height: 44px !important;
         line-height: 44px !important;
         border: none !important;
         border-bottom: 2.5px solid transparent !important;
         border-radius: 0 !important;
-        color: {text_secondary} !important;
+        color: {"#CBD5E1" if theme.lower()=="dark" else text_secondary} !important;
         font-weight: 600 !important;
         font-size: 0.92rem !important;
-        padding: 0 18px !important;
+        padding: 0 16px !important;
         background: transparent !important;
         box-shadow: none !important;
         transition: color 0.2s ease, border-color 0.2s ease !important;
@@ -956,10 +969,11 @@ def get_custom_css(theme="dark"):
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
+        flex-shrink: 0 !important;
     }}
 
     .stTabs [data-baseweb="tab"]:hover {{
-        color: {primary_blue} !important;
+        color: {"#38BDF8" if theme.lower()=="dark" else primary_blue} !important;
         border: none !important;
         border-bottom: 2.5px solid {"rgba(56, 189, 248, 0.4)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.4)"} !important;
         background: transparent !important;
@@ -968,10 +982,10 @@ def get_custom_css(theme="dark"):
 
     .stTabs [aria-selected="true"] {{
         background: transparent !important;
-        color: {primary_blue} !important;
+        color: {"#38BDF8" if theme.lower()=="dark" else primary_blue} !important;
         font-weight: 800 !important;
         border: none !important;
-        border-bottom: 2.5px solid {primary_blue} !important;
+        border-bottom: 2.5px solid {"#38BDF8" if theme.lower()=="dark" else primary_blue} !important;
         box-shadow: none !important;
     }}
 
@@ -982,6 +996,41 @@ def get_custom_css(theme="dark"):
         border-radius: 0 0 18px 18px !important;
         padding: 1.4rem 1.6rem !important;
         box-shadow: none !important;
+    }}
+
+    /* CHANGE 1: Subsection Headings & Visual Grouping inside Analytics Tabs */
+    [data-testid="stTabContent"] h3,
+    [data-testid="stTabContent"] .stMarkdown:has(> h3) {{
+        margin-top: 1.4rem !important;
+        margin-bottom: 0.45rem !important;
+        padding-left: 0.65rem !important;
+        border-left: 3.5px solid {primary_blue} !important;
+        font-family: 'Outfit', sans-serif !important;
+        font-size: 1.15rem !important;
+        font-weight: 700 !important;
+        color: {text_primary} !important;
+        line-height: 1.3 !important;
+    }}
+
+    [data-testid="stTabContent"] h4,
+    [data-testid="stTabContent"] .stMarkdown:has(> h4) {{
+        margin-top: 1.1rem !important;
+        margin-bottom: 0.35rem !important;
+        color: {text_primary} !important;
+        font-weight: 700 !important;
+    }}
+
+    /* CHANGE 3: Responsive AI Copilot Action Chips Container */
+    .copilot-action-bar [data-testid="stHorizontalBlock"] {{
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 0.5rem !important;
+    }}
+
+    .copilot-action-bar [data-testid="column"] {{
+        flex: 1 1 140px !important;
+        min-width: 130px !important;
+        max-width: 100% !important;
     }}
 
     /* ISSUE 2 FIX: Live Feed Search Input Placeholder Contrast (Dark Mode scoped) */

@@ -1165,7 +1165,8 @@ with tab7:
             }
         ]
 
-    # Action Bar: Prompt Chips & Clear History
+    # Action Bar: Prompt Chips & Clear History (Responsive Container - CHANGE 3)
+    st.markdown('<div class="copilot-action-bar">', unsafe_allow_html=True)
     chip_col1, chip_col2, chip_col3, chip_col4, clear_col = st.columns([1, 1, 1, 1, 1])
 
     prompt_to_send = None
@@ -1191,6 +1192,7 @@ with tab7:
                 }
             ]
             st.rerun()
+    st.markdown('</div>', unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
 
