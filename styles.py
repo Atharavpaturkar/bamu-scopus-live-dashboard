@@ -432,37 +432,48 @@ def get_custom_css(theme="dark"):
         font-size: 0.82rem !important;
     }}
 
-    /* FIX: Premium Slider Track & Glow Handle for Evaluation Period */
-    [data-testid="stSidebar"] [data-testid="stSlider"] {{
-        padding-top: 0.3rem !important;
-        padding-bottom: 0.4rem !important;
+    /* Hide Streamlit Native Slider Min/Max Text Below Slider Track (Fix duplicate 1950 / 2026 labels) */
+    [data-testid="stSidebar"] [data-testid="stSlider"] div[data-baseweb="slider"] + div,
+    [data-testid="stSidebar"] [data-testid="stSlider"] div[data-testid="stSliderTickBar"],
+    [data-testid="stSidebar"] [data-testid="stSlider"] [data-testid="stTickBar"],
+    [data-testid="stSidebar"] [data-testid="stSlider"] [data-testid="stTickBarMin"],
+    [data-testid="stSidebar"] [data-testid="stSlider"] [data-testid="stTickBarMax"] {{
+        display: none !important;
+        font-size: 0 !important;
+        height: 0 !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
     }}
 
-    [data-testid="stSidebar"] [data-testid="stSlider"] [data-testid="stTickBar"] {{
-        display: none !important;
+    /* FIX: Premium Cyan/Blue Slider Track & Glow Handle for Evaluation Period */
+    [data-testid="stSidebar"] [data-testid="stSlider"] {{
+        padding-top: 0.2rem !important;
+        padding-bottom: 0.3rem !important;
     }}
 
     [data-testid="stSidebar"] [data-testid="stSlider"] div[data-baseweb="slider"] > div {{
         background: {"rgba(30, 41, 59, 0.8)" if theme.lower()=="dark" else "#E2E8F0"} !important;
-        height: 7px !important;
+        height: 6px !important;
         border-radius: 6px !important;
     }}
 
-    [data-testid="stSidebar"] [data-testid="stSlider"] div[data-baseweb="slider"] div[style*="background"] {{
+    [data-testid="stSidebar"] [data-testid="stSlider"] div[data-baseweb="slider"] div[style*="background"],
+    [data-testid="stSidebar"] [data-testid="stSlider"] div[data-baseweb="slider"] div[style*="background-color"],
+    [data-testid="stSidebar"] [data-testid="stSlider"] div[data-baseweb="slider"] div[style*="left"] {{
         background: linear-gradient(90deg, #0284C7 0%, #38BDF8 100%) !important;
         background-color: #0284C7 !important;
-        height: 7px !important;
+        height: 6px !important;
         border-radius: 6px !important;
         box-shadow: 0 0 10px rgba(56, 189, 248, 0.4) !important;
     }}
 
     [data-testid="stSidebar"] [data-testid="stSlider"] div[role="slider"] {{
         background-color: {"#38BDF8" if theme.lower()=="dark" else "#0284C7"} !important;
-        border: 2.5px solid {"#070D1E" if theme.lower()=="dark" else "#FFFFFF"} !important;
-        box-shadow: 0 0 14px rgba(56, 189, 248, 0.75), 0 2px 6px rgba(0, 0, 0, 0.3) !important;
-        width: 20px !important;
-        height: 20px !important;
-        top: -6.5px !important;
+        border: 2px solid {"#070D1E" if theme.lower()=="dark" else "#FFFFFF"} !important;
+        box-shadow: 0 0 12px rgba(56, 189, 248, 0.75), 0 2px 6px rgba(0, 0, 0, 0.3) !important;
+        width: 18px !important;
+        height: 18px !important;
+        top: -6px !important;
         transition: transform 0.2s ease, box-shadow 0.2s ease !important;
         cursor: grab !important;
     }}
