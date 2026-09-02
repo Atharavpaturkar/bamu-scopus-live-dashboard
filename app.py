@@ -59,7 +59,8 @@ components.html(js_responsive_sidebar, height=0, width=0)
 
 # Sidebar Branding & Scopus Gateway
 bamu_sb_b64 = get_bamu_logo_b64()
-sb_logo_html = f'<img src="{bamu_sb_b64}" alt="BAMU Logo" style="height: 60px; width: 60px; object-fit: contain; background: transparent !important; background-color: transparent !important; border: none; margin: 0 auto 0.6rem auto; display: block; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.25));">' if bamu_sb_b64 else ''
+sb_logo_filter = "drop-shadow(0 0 1.5px rgba(255, 255, 255, 0.9)) drop-shadow(0 3px 10px rgba(56, 189, 248, 0.45))" if theme.lower() == "dark" else "drop-shadow(0 2px 8px rgba(15, 23, 42, 0.18))"
+sb_logo_html = f'<img src="{bamu_sb_b64}" alt="BAMU Logo" style="height: 60px; width: 60px; object-fit: contain; background: transparent !important; background-color: transparent !important; border: none; margin: 0 auto 0.6rem auto; display: block; filter: {sb_logo_filter};">' if bamu_sb_b64 else ''
 
 st.sidebar.markdown(f"""
 <div style="background: rgba(2, 132, 199, 0.12); border: 1px solid rgba(2, 132, 199, 0.3); border-radius: 12px; padding: 1rem; margin-bottom: 1.2rem; text-align: center;">

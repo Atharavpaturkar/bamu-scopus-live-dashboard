@@ -1006,9 +1006,11 @@ def render_icare_topbar(theme="dark"):
     nirf_id = UNIVERSITY_CONFIG.get("nirf_id", "IR-O-U-0298")
     city = UNIVERSITY_CONFIG.get("city", "Chhatrapati Sambhajinagar, Maharashtra")
 
+    logo_filter = "drop-shadow(0 0 1px rgba(255, 255, 255, 0.9)) drop-shadow(0 2px 8px rgba(56, 189, 248, 0.45))" if theme.lower() == "dark" else "drop-shadow(0 2px 6px rgba(15, 23, 42, 0.18))"
+
     bamu_b64 = get_bamu_logo_b64()
     if bamu_b64:
-        bamu_img_html = f'<img src="{bamu_b64}" alt="BAMU Logo" style="height: 48px; width: 48px; object-fit: contain; background: transparent !important; background-color: transparent !important; border: none; flex-shrink: 0; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.25));">'
+        bamu_img_html = f'<img src="{bamu_b64}" alt="BAMU Logo" style="height: 48px; width: 48px; object-fit: contain; background: transparent !important; background-color: transparent !important; border: none; flex-shrink: 0; filter: {logo_filter};">'
     else:
         bamu_img_html = ''
 
@@ -1051,9 +1053,11 @@ def render_icare_hero(total_pubs, total_cites, theme="dark"):
     full_name = UNIVERSITY_CONFIG.get("full_name", "Dr. Babasaheb Ambedkar Marathwada University")
     divider_bg = "rgba(255, 255, 255, 0.15)" if theme.lower() == "dark" else "rgba(15, 23, 42, 0.15)"
 
+    hero_logo_filter = "drop-shadow(0 0 1.5px rgba(255, 255, 255, 0.9)) drop-shadow(0 4px 12px rgba(56, 189, 248, 0.5))" if theme.lower() == "dark" else "drop-shadow(0 3px 10px rgba(15, 23, 42, 0.2))"
+
     bamu_b64 = get_bamu_logo_b64()
     if bamu_b64:
-        hero_logo_html = f'<img src="{bamu_b64}" alt="BAMU Logo" style="height: 64px; width: 64px; object-fit: contain; background: transparent !important; background-color: transparent !important; border: none; flex-shrink: 0; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.35));">'
+        hero_logo_html = f'<img src="{bamu_b64}" alt="BAMU Logo" style="height: 64px; width: 64px; object-fit: contain; background: transparent !important; background-color: transparent !important; border: none; flex-shrink: 0; filter: {hero_logo_filter};">'
     else:
         hero_logo_html = ''
 
