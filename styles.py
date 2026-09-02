@@ -783,39 +783,57 @@ def get_custom_css(theme="dark"):
         transition: all 0.3s ease !important;
     }}
 
-    /* Faculty Leaderboard & Expander Header Styling - Fix '_arr' Icon Text Overlap */
+    /* Faculty Leaderboard & Expander Header Styling - Eliminate '_arr' Raw Icon Text Overlap */
     .stExpander summary {{
         color: {text_primary} !important;
         font-family: 'Inter', sans-serif !important;
         cursor: pointer !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 0.4rem !important;
     }}
 
     .stExpander summary p,
+    .stExpander summary span:not([class*="Icon"]),
     .stExpander summary div:not([data-testid="stExpanderToggleIcon"]) {{
         color: {text_primary} !important;
         font-weight: 700 !important;
         font-size: 0.94rem !important;
     }}
 
-    /* Preserve Material Symbol Icon Font on Expander Toggle Icons & Hide Raw Text Strings */
-    [data-testid="stExpanderToggleIcon"],
+    /* CRITICAL FIX: Completely collapse and hide raw font text strings ('keyboard_arrow_right', '_arr') */
     [data-testid="stExpanderToggleIcon"] *,
-    .stExpander summary [data-testid="stIcon"],
-    .stExpander summary svg {{
-        font-family: 'Material Symbols Rounded', 'Material Symbols Outlined', 'Material Icons', sans-serif !important;
-        color: {primary_blue} !important;
-        fill: {primary_blue} !important;
-        flex-shrink: 0 !important;
-    }}
-
-    /* Hide unrendered raw text strings like "keyboard_arrow_right" inside expander toggle icons */
-    [data-testid="stExpanderToggleIcon"] p,
-    [data-testid="stExpanderToggleIcon"] span {{
+    .stExpander summary > span:first-child,
+    .stExpander summary > div:first-child,
+    .stExpander summary [data-testid="stIcon"] * {{
         font-size: 0 !important;
         line-height: 0 !important;
         color: transparent !important;
         opacity: 0 !important;
-        display: none !important;
+        max-width: 0 !important;
+        max-height: 0 !important;
+        overflow: hidden !important;
+    }}
+
+    /* Render crisp blue arrow pseudo-element ('▶' / '▼') */
+    [data-testid="stExpanderToggleIcon"]::after,
+    .stExpander summary > span:first-child::after,
+    .stExpander summary > div:first-child::after {{
+        content: "▶" !important;
+        font-size: 0.8rem !important;
+        font-weight: 800 !important;
+        color: {primary_blue} !important;
+        display: inline-block !important;
+        margin-right: 0.45rem !important;
+        line-height: 1 !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }}
+
+    .stExpander[open] [data-testid="stExpanderToggleIcon"]::after,
+    .stExpander[open] summary > span:first-child::after,
+    .stExpander[open] summary > div:first-child::after {{
+        content: "▼" !important;
     }}
 
     [data-testid="stDataFrame"]:hover, .stExpander:hover {{
