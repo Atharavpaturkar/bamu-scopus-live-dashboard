@@ -1010,7 +1010,7 @@ def render_icare_topbar(theme="dark"):
 
     bamu_b64 = get_bamu_logo_b64()
     if bamu_b64:
-        bamu_img_html = f'<img src="{bamu_b64}" alt="BAMU Logo" style="height: 48px; width: 48px; object-fit: contain; background: transparent !important; background-color: transparent !important; border: none; flex-shrink: 0; filter: {logo_filter};">'
+        bamu_img_html = f'<img src="{bamu_b64}" alt="BAMU Logo" style="height: 56px; width: auto; max-width: 60px; object-fit: contain; background: transparent !important; background-color: transparent !important; border: none; flex-shrink: 0; filter: {logo_filter};">'
     else:
         bamu_img_html = ''
 
@@ -1057,7 +1057,7 @@ def render_icare_hero(total_pubs, total_cites, theme="dark"):
 
     bamu_b64 = get_bamu_logo_b64()
     if bamu_b64:
-        hero_logo_html = f'<img src="{bamu_b64}" alt="BAMU Logo" style="height: 64px; width: 64px; object-fit: contain; background: transparent !important; background-color: transparent !important; border: none; flex-shrink: 0; filter: {hero_logo_filter};">'
+        hero_logo_html = f'<img src="{bamu_b64}" alt="BAMU Logo" style="height: 76px; width: auto; max-width: 82px; object-fit: contain; background: transparent !important; background-color: transparent !important; border: none; flex-shrink: 0; filter: {hero_logo_filter};">'
     else:
         hero_logo_html = ''
 
