@@ -452,12 +452,15 @@ def get_custom_css(theme="dark"):
     }}
 
     .univ-title {{
-        font-family: 'Outfit', sans-serif;
-        font-size: 1.15rem;
-        font-weight: 700;
-        color: {text_primary};
-        margin: 0;
-        line-height: 1.3;
+        font-family: 'Outfit', sans-serif !important;
+        font-size: 1.15rem !important;
+        font-weight: 700 !important;
+        color: {text_primary} !important;
+        -webkit-text-fill-color: {text_primary} !important;
+        margin: 0 !important;
+        line-height: 1.3 !important;
+        opacity: 1 !important;
+        visibility: visible !important;
     }}
 
     .univ-subtitle {{
@@ -501,15 +504,29 @@ def get_custom_css(theme="dark"):
     }}
 
     .hero-title {{
-        font-family: 'Outfit', sans-serif;
-        font-size: 2.2rem;
-        font-weight: 800;
-        color: {text_primary};
-        background: linear-gradient(135deg, {text_primary} 30%, {primary_blue} 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        margin: 0.3rem 0 0.8rem 0;
-        line-height: 1.2;
+        font-family: 'Outfit', 'Inter', sans-serif !important;
+        font-size: 2.1rem !important;
+        font-weight: 800 !important;
+        color: {text_primary} !important;
+        -webkit-text-fill-color: {text_primary} !important;
+        background: none !important;
+        margin: 0.4rem 0 0.2rem 0 !important;
+        line-height: 1.25 !important;
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }}
+
+    .hero-subtitle-tag {{
+        font-family: 'Outfit', 'Inter', sans-serif !important;
+        font-size: 1.1rem !important;
+        font-weight: 700 !important;
+        color: {primary_blue} !important;
+        -webkit-text-fill-color: {primary_blue} !important;
+        margin: 0 0 0.8rem 0 !important;
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
     }}
 
     .rank-box {{
@@ -762,6 +779,7 @@ def render_icare_hero(total_pubs, total_cites, theme="dark"):
     status_tag = UNIVERSITY_CONFIG.get("status_tag", "🏛 State Public University (Estd. 1958)")
     naac_badge = UNIVERSITY_CONFIG.get("naac_badge", "⭐ NAAC A+ (CGPA 3.38)")
     app_title = UNIVERSITY_CONFIG.get("app_title", "BAMU Live Scopus Intelligence Dashboard")
+    full_name = UNIVERSITY_CONFIG.get("full_name", "Dr. Babasaheb Ambedkar Marathwada University")
     divider_bg = "rgba(255, 255, 255, 0.15)" if theme.lower() == "dark" else "rgba(15, 23, 42, 0.15)"
 
     html = f"""
@@ -772,7 +790,8 @@ def render_icare_hero(total_pubs, total_cites, theme="dark"):
             <span class="hero-badge">{naac_badge}</span>
             <span class="hero-badge">📜 NIRF Category: University</span>
         </div>
-        <h1 class="hero-title">{app_title}</h1>
+        <div class="hero-title">{full_name}</div>
+        <div class="hero-subtitle-tag">{app_title}</div>
         <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
             <p style="margin: 0; font-size: 0.95rem; opacity: 0.85; max-width: 650px;">
                 Comprehensive institutional bibliometric analytics, faculty h-index tracking, Q1 publication trends, and international collaboration intelligence for Dr. Babasaheb Ambedkar Marathwada University.
