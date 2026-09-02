@@ -783,57 +783,33 @@ def get_custom_css(theme="dark"):
         transition: all 0.3s ease !important;
     }}
 
-    /* Faculty Leaderboard & Expander Header Styling - Eliminate '_arr' Raw Icon Text Overlap */
+    /* Faculty Leaderboard & Expander Header Styling */
     .stExpander summary {{
         color: {text_primary} !important;
-        font-family: 'Inter', sans-serif !important;
-        cursor: pointer !important;
-        display: flex !important;
-        align-items: center !important;
-        gap: 0.4rem !important;
-    }}
-
-    .stExpander summary p,
-    .stExpander summary span:not([class*="Icon"]),
-    .stExpander summary div:not([data-testid="stExpanderToggleIcon"]) {{
-        color: {text_primary} !important;
+        font-family: 'Outfit', 'Inter', sans-serif !important;
         font-weight: 700 !important;
-        font-size: 0.94rem !important;
+        font-size: 0.95rem !important;
+        cursor: pointer !important;
+        padding: 0.6rem 0.85rem !important;
     }}
 
-    /* CRITICAL FIX: Completely collapse and hide raw font text strings ('keyboard_arrow_right', '_arr') */
-    [data-testid="stExpanderToggleIcon"] *,
-    .stExpander summary > span:first-child,
-    .stExpander summary > div:first-child,
-    .stExpander summary [data-testid="stIcon"] * {{
-        font-size: 0 !important;
-        line-height: 0 !important;
-        color: transparent !important;
-        opacity: 0 !important;
-        max-width: 0 !important;
-        max-height: 0 !important;
-        overflow: hidden !important;
-    }}
-
-    /* Render crisp blue arrow pseudo-element ('▶' / '▼') */
-    [data-testid="stExpanderToggleIcon"]::after,
-    .stExpander summary > span:first-child::after,
-    .stExpander summary > div:first-child::after {{
-        content: "▶" !important;
-        font-size: 0.8rem !important;
-        font-weight: 800 !important;
-        color: {primary_blue} !important;
-        display: inline-block !important;
-        margin-right: 0.45rem !important;
-        line-height: 1 !important;
+    .stExpander summary *,
+    .stExpander summary p,
+    .stExpander summary span,
+    .stExpander summary div {{
+        color: {text_primary} !important;
+        font-family: 'Outfit', 'Inter', sans-serif !important;
+        font-weight: 700 !important;
+        font-size: 0.95rem !important;
         opacity: 1 !important;
         visibility: visible !important;
     }}
 
-    .stExpander[open] [data-testid="stExpanderToggleIcon"]::after,
-    .stExpander[open] summary > span:first-child::after,
-    .stExpander[open] summary > div:first-child::after {{
-        content: "▼" !important;
+    [data-testid="stExpanderToggleIcon"],
+    [data-testid="stExpanderToggleIcon"] svg,
+    [data-testid="stExpanderToggleIcon"] span {{
+        color: {primary_blue} !important;
+        fill: {primary_blue} !important;
     }}
 
     [data-testid="stDataFrame"]:hover, .stExpander:hover {{
