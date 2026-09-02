@@ -294,76 +294,47 @@ def get_custom_css(theme="dark"):
     /* Sidebar Section Headers */
     .sidebar-nav-header {{
         font-family: 'Outfit', sans-serif;
-        font-size: 0.88rem;
+        font-size: 0.92rem;
         font-weight: 800;
         letter-spacing: 0.08em;
         color: {"#38BDF8" if theme.lower()=="dark" else "#0284C7"};
         text-transform: uppercase;
-        margin-top: 1.2rem;
-        margin-bottom: 0.6rem;
-        padding-bottom: 0.3rem;
-        border-bottom: 1px solid {"rgba(56, 189, 248, 0.25)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.15)"};
+        margin-top: 0.8rem;
+        margin-bottom: 0.75rem;
         display: flex;
         align-items: center;
         gap: 0.4rem;
     }}
 
     .sidebar-section-title {{
-        font-size: 0.9rem;
+        font-family: 'Outfit', sans-serif;
+        font-size: 0.92rem;
         font-weight: 700;
         color: {text_primary};
-        margin-top: 1.1rem;
-        margin-bottom: 0.45rem;
+        margin-top: 0.95rem;
+        margin-bottom: 0.4rem;
         display: flex;
         align-items: center;
         gap: 0.45rem;
     }}
 
-    /* Premium Evaluation Period Header Card */
-    .eval-period-header {{
+    .slider-year-bounds {{
         display: flex;
-        align-items: center;
         justify-content: space-between;
-        background: {subtle_bg};
-        border: 1px solid {"rgba(56, 189, 248, 0.25)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.2)"};
-        border-radius: 10px;
-        padding: 0.45rem 0.75rem;
-        margin-top: 1rem;
-        margin-bottom: 0.65rem;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        backdrop-filter: blur(8px);
-    }}
-
-    .eval-period-title {{
         font-family: 'Outfit', sans-serif;
         font-size: 0.88rem;
-        font-weight: 700;
-        color: {text_primary};
-        display: flex;
-        align-items: center;
-        gap: 0.4rem;
-    }}
-
-    .eval-period-badge {{
-        font-family: 'Outfit', sans-serif;
-        font-size: 0.76rem;
         font-weight: 800;
-        color: {primary_blue};
-        background: {badge_bg};
-        border: 1px solid {"rgba(56, 189, 248, 0.3)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.25)"};
-        padding: 0.18rem 0.55rem;
-        border-radius: 6px;
-        letter-spacing: 0.04em;
-        white-space: nowrap;
+        color: {"#38BDF8" if theme.lower()=="dark" else "#0284C7"};
+        margin-top: 0.4rem;
+        margin-bottom: 0.15rem;
+        padding: 0 0.15rem;
     }}
 
     .sidebar-label-title {{
-        font-family: 'Inter', sans-serif;
-        font-size: 0.76rem;
+        font-family: 'Outfit', 'Inter', sans-serif;
+        font-size: 0.86rem;
         font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-        color: {text_secondary};
+        color: {text_primary};
         margin-bottom: 0.35rem;
     }}
 
@@ -377,10 +348,10 @@ def get_custom_css(theme="dark"):
     [data-testid="stSidebar"] div[data-baseweb="input"] > div,
     [data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label,
     div[data-baseweb="select"] > div {{
-        background-color: {"#111C35" if theme.lower()=="dark" else "#FFFFFF"} !important;
-        border: {"1.5px solid #38BDF8" if theme.lower()=="dark" else "1.5px solid #0284C7"} !important;
-        box-shadow: {"0 0 0 1px #38BDF8, 0 3px 10px rgba(56, 189, 248, 0.25)" if theme.lower()=="dark" else "0 0 0 1px #0284C7, 0 2px 8px rgba(2, 132, 199, 0.15)"} !important;
-        border-radius: 9px !important;
+        background-color: {"#0A162E" if theme.lower()=="dark" else "#FFFFFF"} !important;
+        border: {"1.5px solid rgba(56, 189, 248, 0.35)" if theme.lower()=="dark" else "1.5px solid #CBD5E1"} !important;
+        box-shadow: {"0 2px 8px rgba(0, 0, 0, 0.25)" if theme.lower()=="dark" else "0 2px 6px rgba(15, 23, 42, 0.08)"} !important;
+        border-radius: 8px !important;
         transition: all 0.25s ease !important;
     }}
 
@@ -391,8 +362,8 @@ def get_custom_css(theme="dark"):
     [data-testid="stSidebar"] [data-testid="stNumberInput"] [data-baseweb="input"]:hover,
     [data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label:hover,
     div[data-baseweb="select"] > div:hover {{
-        border-color: {"#7DD3FC" if theme.lower()=="dark" else "#0369A1"} !important;
-        box-shadow: {"0 0 0 1.5px #7DD3FC, 0 0 14px rgba(56, 189, 248, 0.5)" if theme.lower()=="dark" else "0 0 0 1.5px #0369A1, 0 0 10px rgba(2, 132, 199, 0.25)"} !important;
+        border-color: {"#38BDF8" if theme.lower()=="dark" else "#0284C7"} !important;
+        box-shadow: {"0 0 10px rgba(56, 189, 248, 0.45)" if theme.lower()=="dark" else "0 0 8px rgba(2, 132, 199, 0.2)"} !important;
     }}
 
     [data-testid="stSidebar"] [data-testid="stRadio"] label {{

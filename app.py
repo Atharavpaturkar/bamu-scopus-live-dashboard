@@ -138,8 +138,14 @@ if "start_year" not in st.session_state:
 if "end_year" not in st.session_state:
     st.session_state.end_year = 2026
 
-# Subheader: Evaluation Period
+# Subheader: Evaluation Period & Slider Range Bounds
 st.sidebar.markdown('<div class="sidebar-section-title">📅 Evaluation Period</div>', unsafe_allow_html=True)
+st.sidebar.markdown(f'''
+<div class="slider-year-bounds">
+    <span>{slider_min_yr}</span>
+    <span>{slider_max_yr}</span>
+</div>
+''', unsafe_allow_html=True)
 
 slider_yr = st.sidebar.slider(
     "Evaluation Period Range",
