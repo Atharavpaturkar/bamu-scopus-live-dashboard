@@ -52,6 +52,16 @@ def get_custom_css(theme="dark"):
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&family=Material+Icons&display=block');
 
+    :root {{
+        --primary: {"#38BDF8" if theme.lower()=="dark" else primary_blue};
+        --background-muted: {"rgba(14, 23, 42, 0.7)" if theme.lower()=="dark" else "#FFFFFF"};
+        --border-color: {"rgba(56, 189, 248, 0.25)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.2)"};
+        --border-color-hover: {"#38BDF8" if theme.lower()=="dark" else primary_blue};
+        --tab-text: {"#CBD5E1" if theme.lower()=="dark" else text_secondary};
+        --tab-active-bg: {"rgba(56, 189, 248, 0.22)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.12)"};
+        --shadow-color: {"rgba(0, 0, 0, 0.35)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.12)"};
+    }}
+
     html, body, [class*="st-"], .stApp {{
         font-family: 'Inter', sans-serif;
         background-color: {bg_color} !important;
@@ -966,11 +976,11 @@ def get_custom_css(theme="dark"):
     /* Tab Navigation Bar (Horizontal Scrollable Row) */
     .stTabs [data-baseweb="tab-list"] {{
         gap: 8px !important;
-        background-color: {"rgba(14, 23, 42, 0.5)" if theme.lower()=="dark" else "rgba(241, 245, 249, 0.8)"} !important;
+        background-color: var(--background-muted) !important;
         padding: 8px 12px !important;
-        border: {"1px solid rgba(56, 189, 248, 0.25)" if theme.lower()=="dark" else "1px solid #CBD5E1"} !important;
+        border: 1px solid var(--border-color) !important;
         border-radius: 14px !important;
-        box-shadow: {"0 4px 20px rgba(0, 0, 0, 0.25)" if theme.lower()=="dark" else "0 2px 10px rgba(15, 23, 42, 0.05)"} !important;
+        box-shadow: 0 4px 20px var(--shadow-color) !important;
         backdrop-filter: blur(12px) !important;
         display: inline-flex !important;
         align-items: center !important;
@@ -997,18 +1007,18 @@ def get_custom_css(theme="dark"):
         display: none !important;
     }}
 
-    /* 1. Inactive Tabs (Physical Button Pill Shape & Theme Border) */
+    /* 1. Inactive Tabs (Physical Button Pill Shape & Theme Border with CSS variables) */
     .stTabs [data-baseweb="tab"] {{
         height: 40px !important;
         line-height: 40px !important;
-        border: {"1px solid rgba(56, 189, 248, 0.22)" if theme.lower()=="dark" else "1px solid rgba(2, 132, 199, 0.2)"} !important;
+        border: 1px solid var(--border-color) !important;
         border-radius: 10px !important;
-        color: {"#CBD5E1" if theme.lower()=="dark" else text_secondary} !important;
+        color: var(--tab-text) !important;
         font-weight: 600 !important;
         font-size: 0.90rem !important;
         padding: 0 14px !important;
-        background-color: {"rgba(14, 23, 42, 0.7)" if theme.lower()=="dark" else "#FFFFFF"} !important;
-        box-shadow: {"0 2px 6px rgba(0, 0, 0, 0.2)" if theme.lower()=="dark" else "0 1px 4px rgba(15, 23, 42, 0.05)"} !important;
+        background-color: var(--background-muted) !important;
+        box-shadow: 0 2px 6px var(--shadow-color) !important;
         transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
         white-space: nowrap !important;
         display: inline-flex !important;
@@ -1021,29 +1031,34 @@ def get_custom_css(theme="dark"):
 
     .stTabs [data-baseweb="tab"] * {{
         transition: color 0.25s ease !important;
+        color: inherit !important;
     }}
 
-    /* 2. Hover State: High Contrast Border, Lift Shadow & Subtle Primary Tint */
+    /* 2. Hover State: Opaque Theme Border, Lift Shadow & Primary Accent */
     .stTabs [data-baseweb="tab"]:hover {{
-        color: {"#38BDF8" if theme.lower()=="dark" else primary_blue} !important;
-        border: {"1px solid #38BDF8" if theme.lower()=="dark" else f"1px solid {primary_blue}"} !important;
-        background-color: {"rgba(56, 189, 248, 0.15)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.08)"} !important;
-        box-shadow: {"0 4px 14px rgba(0, 0, 0, 0.4), 0 0 10px rgba(56, 189, 248, 0.2)" if theme.lower()=="dark" else "0 3px 10px rgba(2, 132, 199, 0.15)"} !important;
+        color: var(--primary) !important;
+        border: 1px solid var(--border-color-hover) !important;
+        background-color: var(--tab-active-bg) !important;
+        box-shadow: 0 4px 14px var(--shadow-color) !important;
         transform: translateY(-1px) !important;
+    }}
+
+    .stTabs [data-baseweb="tab"]:hover * {{
+        color: var(--primary) !important;
     }}
 
     /* 3. Active / Selected Tab State: Accent Border, 20%/12% Primary Tint & Bold Brand Color */
     .stTabs [aria-selected="true"] {{
-        background-color: {"rgba(56, 189, 248, 0.22)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.12)"} !important;
-        color: {"#38BDF8" if theme.lower()=="dark" else primary_blue} !important;
+        background-color: var(--tab-active-bg) !important;
+        color: var(--primary) !important;
         font-weight: 800 !important;
-        border: {"1.5px solid #38BDF8" if theme.lower()=="dark" else f"1.5px solid {primary_blue}"} !important;
-        border-bottom: {"3px solid #38BDF8" if theme.lower()=="dark" else f"3px solid {primary_blue}"} !important;
-        box-shadow: {"0 4px 16px rgba(56, 189, 248, 0.3)" if theme.lower()=="dark" else "0 4px 14px rgba(2, 132, 199, 0.2)"} !important;
+        border: 1.5px solid var(--primary) !important;
+        border-bottom: 3px solid var(--primary) !important;
+        box-shadow: 0 4px 16px var(--shadow-color) !important;
     }}
 
     .stTabs [aria-selected="true"] * {{
-        color: {"#38BDF8" if theme.lower()=="dark" else primary_blue} !important;
+        color: var(--primary) !important;
         font-weight: 800 !important;
     }}
 
