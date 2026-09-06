@@ -625,23 +625,24 @@ def get_custom_css(theme="dark"):
     }}
 
     .univ-header-card {{
-        background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%) !important;
-        border: 1px solid #38BDF8 !important;
-        border-left: 4px solid #7DD3FC !important;
+        background: {"rgba(2, 132, 199, 0.14)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.07)"} !important;
+        border: {"1px solid rgba(56, 189, 248, 0.3)" if theme.lower()=="dark" else "1px solid rgba(2, 132, 199, 0.25)"} !important;
+        border-left: {"3.5px solid #38BDF8" if theme.lower()=="dark" else "3.5px solid #0284C7"} !important;
         border-radius: 10px !important;
         padding: 0.35rem 0.85rem !important;
         display: flex !important;
         flex-direction: column !important;
         justify-content: center !important;
-        box-shadow: 0 4px 16px rgba(2, 132, 199, 0.4) !important;
+        box-shadow: {"0 4px 14px rgba(0, 0, 0, 0.25)" if theme.lower()=="dark" else "0 2px 8px rgba(15, 23, 42, 0.06)"} !important;
+        backdrop-filter: blur(10px) !important;
     }}
 
     .univ-title {{
         font-family: 'Outfit', sans-serif !important;
         font-size: 1.02rem !important;
         font-weight: 800 !important;
-        color: #FFFFFF !important;
-        -webkit-text-fill-color: #FFFFFF !important;
+        color: {text_primary} !important;
+        -webkit-text-fill-color: {text_primary} !important;
         margin: 0 !important;
         line-height: 1.25 !important;
         opacity: 1 !important;
@@ -651,7 +652,7 @@ def get_custom_css(theme="dark"):
     .univ-subtitle {{
         font-size: 0.78rem !important;
         font-weight: 600 !important;
-        color: #E0F2FE !important;
+        color: {"#38BDF8" if theme.lower()=="dark" else "#0284C7"} !important;
         margin: 0.1rem 0 0 0 !important;
     }}
 
@@ -1269,7 +1270,7 @@ def render_icare_hero(total_pubs, total_cites, theme="dark"):
                 </div>
                 <div style="height: 30px; width: 1px; background: {divider_bg};"></div>
                 <div>
-                    <div class="rank-num" style="color: #0284C7;">{total_cites:,}</div>
+                    <div class="rank-num" style="color: {'#0284C7' if theme.lower() == 'light' else '#38BDF8'};">{total_cites:,}</div>
                     <div class="rank-label">Total Citations</div>
                 </div>
             </div>

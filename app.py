@@ -663,6 +663,7 @@ with tab3:
         non_ind_count = len(df_filtered) - ind_collab_count
 
         pie_colors = ['#D97706', '#0284C7'] if theme.lower() == "light" else ['#F59E0B', '#38BDF8']
+        layout_opts = get_plotly_layout(theme)
         fig_ind = go.Figure(
             data=[go.Pie(
                 labels=['Industry R&D Collaboration', 'Academic / Institutional'],
@@ -673,7 +674,6 @@ with tab3:
                 textfont=dict(color=layout_opts["font"]["color"], family="Inter, sans-serif", size=11)
             )]
         )
-        layout_opts = get_plotly_layout(theme)
         fig_ind.update_layout(
             paper_bgcolor=layout_opts["paper_bgcolor"],
             font=layout_opts["font"],
@@ -696,6 +696,7 @@ with tab4:
         q_counts = df_filtered['quartile'].value_counts().reindex(['Q1', 'Q2', 'Q3', 'Q4']).fillna(0)
 
         q_colors = ['#10B981', '#0284C7' if theme.lower() == "light" else '#38BDF8', '#D97706' if theme.lower() == "light" else '#F59E0B', '#EF4444']
+        layout_opts = get_plotly_layout(theme)
         fig_q = go.Figure(
             data=[go.Pie(
                 labels=q_counts.index,
@@ -707,7 +708,6 @@ with tab4:
                 textfont=dict(color=layout_opts["font"]["color"], family="Inter, sans-serif", size=11)
             )]
         )
-        layout_opts = get_plotly_layout(theme)
         fig_q.update_layout(
             paper_bgcolor=layout_opts["paper_bgcolor"],
             font=layout_opts["font"],
