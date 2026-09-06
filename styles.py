@@ -963,14 +963,14 @@ def get_custom_css(theme="dark"):
         overflow: visible !important;
     }}
 
-    /* CHANGE 2: Tab Navigation Overflow & Hidden Browser Scrollbar */
+    /* Tab Navigation Bar (Horizontal Scrollable Row) */
     .stTabs [data-baseweb="tab-list"] {{
-        gap: 6px !important;
-        background-color: {card_bg} !important;
-        padding: 6px 14px !important;
-        border: {card_border} !important;
+        gap: 8px !important;
+        background-color: {"rgba(14, 23, 42, 0.5)" if theme.lower()=="dark" else "rgba(241, 245, 249, 0.8)"} !important;
+        padding: 8px 12px !important;
+        border: {"1px solid rgba(56, 189, 248, 0.25)" if theme.lower()=="dark" else "1px solid #CBD5E1"} !important;
         border-radius: 14px !important;
-        box-shadow: {card_shadow} !important;
+        box-shadow: {"0 4px 20px rgba(0, 0, 0, 0.25)" if theme.lower()=="dark" else "0 2px 10px rgba(15, 23, 42, 0.05)"} !important;
         backdrop-filter: blur(12px) !important;
         display: inline-flex !important;
         align-items: center !important;
@@ -997,42 +997,54 @@ def get_custom_css(theme="dark"):
         display: none !important;
     }}
 
-    /* CHANGE 4: Dark Mode Inactive Tab Readability (#CBD5E1) */
+    /* 1. Inactive Tabs (Physical Button Pill Shape & Theme Border) */
     .stTabs [data-baseweb="tab"] {{
-        height: 44px !important;
-        line-height: 44px !important;
-        border: none !important;
-        border-bottom: 2.5px solid transparent !important;
-        border-radius: 0 !important;
+        height: 40px !important;
+        line-height: 40px !important;
+        border: {"1px solid rgba(56, 189, 248, 0.22)" if theme.lower()=="dark" else "1px solid rgba(2, 132, 199, 0.2)"} !important;
+        border-radius: 10px !important;
         color: {"#CBD5E1" if theme.lower()=="dark" else text_secondary} !important;
         font-weight: 600 !important;
-        font-size: 0.92rem !important;
-        padding: 0 16px !important;
-        background: transparent !important;
-        box-shadow: none !important;
-        transition: color 0.2s ease, border-color 0.2s ease !important;
+        font-size: 0.90rem !important;
+        padding: 0 14px !important;
+        background-color: {"rgba(14, 23, 42, 0.7)" if theme.lower()=="dark" else "#FFFFFF"} !important;
+        box-shadow: {"0 2px 6px rgba(0, 0, 0, 0.2)" if theme.lower()=="dark" else "0 1px 4px rgba(15, 23, 42, 0.05)"} !important;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
         white-space: nowrap !important;
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
+        gap: 0.4rem !important;
         flex-shrink: 0 !important;
+        cursor: pointer !important;
     }}
 
+    .stTabs [data-baseweb="tab"] * {{
+        transition: color 0.25s ease !important;
+    }}
+
+    /* 2. Hover State: High Contrast Border, Lift Shadow & Subtle Primary Tint */
     .stTabs [data-baseweb="tab"]:hover {{
         color: {"#38BDF8" if theme.lower()=="dark" else primary_blue} !important;
-        border: none !important;
-        border-bottom: 2.5px solid {"rgba(56, 189, 248, 0.4)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.4)"} !important;
-        background: transparent !important;
-        box-shadow: none !important;
+        border: {"1px solid #38BDF8" if theme.lower()=="dark" else f"1px solid {primary_blue}"} !important;
+        background-color: {"rgba(56, 189, 248, 0.15)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.08)"} !important;
+        box-shadow: {"0 4px 14px rgba(0, 0, 0, 0.4), 0 0 10px rgba(56, 189, 248, 0.2)" if theme.lower()=="dark" else "0 3px 10px rgba(2, 132, 199, 0.15)"} !important;
+        transform: translateY(-1px) !important;
     }}
 
+    /* 3. Active / Selected Tab State: Accent Border, 20%/12% Primary Tint & Bold Brand Color */
     .stTabs [aria-selected="true"] {{
-        background: transparent !important;
+        background-color: {"rgba(56, 189, 248, 0.22)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.12)"} !important;
         color: {"#38BDF8" if theme.lower()=="dark" else primary_blue} !important;
         font-weight: 800 !important;
-        border: none !important;
-        border-bottom: 2.5px solid {"#38BDF8" if theme.lower()=="dark" else primary_blue} !important;
-        box-shadow: none !important;
+        border: {"1.5px solid #38BDF8" if theme.lower()=="dark" else f"1.5px solid {primary_blue}"} !important;
+        border-bottom: {"3px solid #38BDF8" if theme.lower()=="dark" else f"3px solid {primary_blue}"} !important;
+        box-shadow: {"0 4px 16px rgba(56, 189, 248, 0.3)" if theme.lower()=="dark" else "0 4px 14px rgba(2, 132, 199, 0.2)"} !important;
+    }}
+
+    .stTabs [aria-selected="true"] * {{
+        color: {"#38BDF8" if theme.lower()=="dark" else primary_blue} !important;
+        font-weight: 800 !important;
     }}
 
     /* Tab Content Padding & Alignment Inside Container */
