@@ -348,9 +348,9 @@ def get_custom_css(theme="dark"):
     [data-testid="stSidebar"] div[data-baseweb="input"] > div,
     [data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label,
     div[data-baseweb="select"] > div {{
-        background-color: {"#0A162E" if theme.lower()=="dark" else "#FFFFFF"} !important;
-        border: {"1.5px solid rgba(56, 189, 248, 0.35)" if theme.lower()=="dark" else "1.5px solid #CBD5E1"} !important;
-        box-shadow: {"0 2px 8px rgba(0, 0, 0, 0.25)" if theme.lower()=="dark" else "0 2px 6px rgba(15, 23, 42, 0.08)"} !important;
+        background-color: {"#111C35" if theme.lower()=="dark" else "#FFFFFF"} !important;
+        border: {"1.5px solid rgba(56, 189, 248, 0.42)" if theme.lower()=="dark" else "1.5px solid #CBD5E1"} !important;
+        box-shadow: {"0 3px 10px rgba(0, 0, 0, 0.35)" if theme.lower()=="dark" else "0 2px 6px rgba(15, 23, 42, 0.08)"} !important;
         border-radius: 8px !important;
         transition: all 0.25s ease !important;
     }}
@@ -404,13 +404,18 @@ def get_custom_css(theme="dark"):
     [data-testid="stSidebar"] div[data-baseweb="select"] input::placeholder,
     [data-testid="stSidebar"] div[data-baseweb="select"] [data-aria-hidden="true"],
     [data-testid="stSidebar"] div[data-baseweb="select"] div[class*="placeholder"],
+    [data-testid="stSidebar"] div[data-baseweb="select"] div[class*="Placeholder"],
+    [data-testid="stSidebar"] div[data-baseweb="select"] div[data-baseweb="input"] + div,
     div[data-baseweb="select"] input::placeholder,
-    div[data-baseweb="select"] [data-aria-hidden="true"] {{
-        color: {"#94A3B8" if theme.lower()=="dark" else "#64748B"} !important;
-        -webkit-text-fill-color: {"#94A3B8" if theme.lower()=="dark" else "#64748B"} !important;
+    div[data-baseweb="select"] [data-aria-hidden="true"],
+    div[data-baseweb="select"] div[class*="placeholder"],
+    div[data-baseweb="select"] div[class*="Placeholder"] {{
+        color: {"#94A3B8" if theme.lower()=="dark" else "#475569"} !important;
+        -webkit-text-fill-color: {"#94A3B8" if theme.lower()=="dark" else "#475569"} !important;
         font-weight: 500 !important;
-        font-size: 0.86rem !important;
+        font-size: 0.88rem !important;
         opacity: 1 !important;
+        visibility: visible !important;
     }}
 
     div[data-baseweb="select"] svg {{
@@ -455,6 +460,7 @@ def get_custom_css(theme="dark"):
         background: {"rgba(30, 41, 59, 0.8)" if theme.lower()=="dark" else "#E2E8F0"} !important;
         height: 6px !important;
         border-radius: 6px !important;
+        border: {"1px solid rgba(56, 189, 248, 0.25)" if theme.lower()=="dark" else "1px solid #CBD5E1"} !important;
     }}
 
     [data-testid="stSidebar"] [data-testid="stSlider"] div[data-baseweb="slider"] div[style*="background"],
