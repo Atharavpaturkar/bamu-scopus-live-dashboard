@@ -954,23 +954,24 @@ def get_custom_css(theme="dark"):
 
     /* Streamlit Tabs Navigation Styling & Container */
     .stTabs {{
-        background: {card_bg} !important;
-        border: {card_border} !important;
-        border-radius: 18px !important;
-        box-shadow: {card_shadow} !important;
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
         padding: 0 !important;
         margin-bottom: 1.8rem !important;
-        overflow: hidden !important;
+        overflow: visible !important;
     }}
 
     /* CHANGE 2: Tab Navigation Overflow & Hidden Browser Scrollbar */
     .stTabs [data-baseweb="tab-list"] {{
         gap: 6px !important;
-        background-color: {tab_bg} !important;
-        padding: 8px 14px 0 14px !important;
-        border: none !important;
-        border-bottom: {card_border} !important;
-        border-radius: 18px 18px 0 0 !important;
+        background-color: {card_bg} !important;
+        padding: 6px 14px !important;
+        border: {card_border} !important;
+        border-radius: 14px !important;
+        box-shadow: {card_shadow} !important;
+        backdrop-filter: blur(12px) !important;
         display: inline-flex !important;
         align-items: center !important;
         flex-wrap: nowrap !important;
@@ -979,8 +980,7 @@ def get_custom_css(theme="dark"):
         overflow-x: auto !important;
         scrollbar-width: none !important;
         -ms-overflow-style: none !important;
-        margin-bottom: 0 !important;
-        box-shadow: none !important;
+        margin-bottom: 1.2rem !important;
     }}
 
     .stTabs [data-baseweb="tab-list"]::-webkit-scrollbar {{
@@ -1039,8 +1039,8 @@ def get_custom_css(theme="dark"):
     [data-testid="stTabContent"] {{
         background: transparent !important;
         border: none !important;
-        border-radius: 0 0 18px 18px !important;
-        padding: 1.4rem 1.6rem !important;
+        border-radius: 0 !important;
+        padding: 0.4rem 0 !important;
         box-shadow: none !important;
     }}
 
