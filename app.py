@@ -985,7 +985,30 @@ with tab5:
                         font=layout_opts["font"],
                         height=320,
                         margin=dict(l=30, r=30, t=30, b=30),
-                        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1, font=layout_opts["legend"]["font"])
+                        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1, font=layout_opts["legend"]["font"]),
+                        hoverlabel=layout_opts["hoverlabel"]
+                    )
+                    fig_auth_trend.update_xaxes(
+                        gridcolor=layout_opts["xaxis"]["gridcolor"],
+                        zerolinecolor=layout_opts["xaxis"]["zerolinecolor"],
+                        tickfont=layout_opts["xaxis"]["tickfont"],
+                        title_font=layout_opts["xaxis"]["title"]["font"]
+                    )
+                    fig_auth_trend.update_yaxes(
+                        title_text="Papers",
+                        secondary_y=False,
+                        gridcolor=layout_opts["yaxis"]["gridcolor"],
+                        zerolinecolor=layout_opts["yaxis"]["zerolinecolor"],
+                        tickfont=layout_opts["yaxis"]["tickfont"],
+                        title_font=layout_opts["yaxis"]["title"]["font"]
+                    )
+                    fig_auth_trend.update_yaxes(
+                        title_text="Citations",
+                        secondary_y=True,
+                        showgrid=False,
+                        zerolinecolor=layout_opts["yaxis"]["zerolinecolor"],
+                        tickfont=layout_opts["yaxis"]["tickfont"],
+                        title_font=layout_opts["yaxis"]["title"]["font"]
                     )
                     st.plotly_chart(fig_auth_trend, use_container_width=True)
 
