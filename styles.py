@@ -822,7 +822,6 @@ def get_custom_css(theme="dark"):
         background: {"linear-gradient(135deg, rgba(2, 132, 199, 0.18) 0%, rgba(3, 105, 161, 0.12) 100%)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.08)"} !important;
         border-bottom: {"1px solid rgba(56, 189, 248, 0.25)" if theme.lower()=="dark" else "1px solid rgba(2, 132, 199, 0.2)"} !important;
         color: {text_primary} !important;
-        font-family: 'Outfit', sans-serif !important;
         font-weight: 800 !important;
         font-size: 1.02rem !important;
         padding: 0.85rem 1.2rem !important;
@@ -834,10 +833,10 @@ def get_custom_css(theme="dark"):
         background: {"linear-gradient(135deg, rgba(2, 132, 199, 0.28) 0%, rgba(3, 105, 161, 0.22) 100%)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.15)"} !important;
     }}
 
-    .stExpander summary *,
+    /* Title Typography - Target ONLY title text container & paragraphs inside summary */
     .stExpander summary p,
-    .stExpander summary span,
-    .stExpander summary div {{
+    .stExpander summary [data-testid="stMarkdownContainer"],
+    .stExpander summary [data-testid="stMarkdownContainer"] * {{
         color: {text_primary} !important;
         font-family: 'Outfit', sans-serif !important;
         font-weight: 800 !important;
@@ -846,8 +845,22 @@ def get_custom_css(theme="dark"):
         visibility: visible !important;
     }}
 
-    /* Expander Toggle Icon Badge */
-    [data-testid="stExpanderToggleIcon"] {{
+    /* Expander Toggle Icon Badge & Native Material Icon Font Protection */
+    .stExpander summary [data-testid="stIconMaterial"],
+    .stExpander summary [data-testid="stIconMaterial"] *,
+    .stExpander summary [data-testid="stIcon"],
+    .stExpander summary [data-testid="stIcon"] *,
+    .stExpander summary > span > span:first-child,
+    .stExpander summary > span > span:first-child *,
+    [data-testid="stExpanderToggleIcon"],
+    [data-testid="stExpanderToggleIcon"] * {{
+        font-family: 'Material Symbols Rounded', 'Material Symbols Outlined', 'Material Icons', sans-serif !important;
+        color: {"#38BDF8" if theme.lower()=="dark" else "#0284C7"} !important;
+    }}
+
+    /* Toggle Icon Badge Container Styling */
+    [data-testid="stExpanderToggleIcon"],
+    .stExpander summary > span > span:first-child {{
         background: {"rgba(56, 189, 248, 0.2)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.15)"} !important;
         border: {"1px solid rgba(56, 189, 248, 0.35)" if theme.lower()=="dark" else "1px solid rgba(2, 132, 199, 0.25)"} !important;
         border-radius: 8px !important;
@@ -857,7 +870,8 @@ def get_custom_css(theme="dark"):
         justify-content: center !important;
     }}
 
-    [data-testid="stExpanderToggleIcon"] svg {{
+    [data-testid="stExpanderToggleIcon"] svg,
+    [data-testid="stIconMaterial"] svg {{
         color: {"#38BDF8" if theme.lower()=="dark" else "#0284C7"} !important;
         fill: {"#38BDF8" if theme.lower()=="dark" else "#0284C7"} !important;
         width: 1.1rem !important;
