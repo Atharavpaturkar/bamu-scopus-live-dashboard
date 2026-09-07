@@ -28,7 +28,7 @@ from styles import get_custom_css, render_icare_topbar, render_icare_hero, get_b
 # Page Configuration
 st.set_page_config(
     page_title=UNIVERSITY_CONFIG['app_title'],
-    page_icon="assets/bamu_logo_transparent.png",
+    page_icon="bamu_logo_transparent.png",
     layout="wide",
     initial_sidebar_state="expanded"
 )

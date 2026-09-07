@@ -411,17 +411,26 @@ def get_custom_css(theme="dark"):
         font-weight: 600 !important;
     }}
 
-    [data-testid="stSidebar"] div[data-baseweb="select"] input::placeholder,
+    [data-testid="stSidebar"] [data-baseweb="select"] div[class*="placeholder"],
+    [data-testid="stSidebar"] [data-baseweb="select"] div[class*="Placeholder"],
+    [data-testid="stSidebar"] [data-baseweb="select"] span[class*="placeholder"],
+    [data-testid="stSidebar"] [data-baseweb="select"] span[class*="Placeholder"],
+    [data-testid="stSidebar"] [data-baseweb="select"] div[class*="placeholder"] span,
+    [data-testid="stSidebar"] [data-baseweb="select"] div[class*="Placeholder"] span,
+    [data-testid="stSidebar"] [data-baseweb="select"] input::placeholder,
+    [data-testid="stSidebar"] [data-baseweb="input"] input::placeholder,
     [data-testid="stSidebar"] div[data-baseweb="select"] [data-aria-hidden="true"],
-    [data-testid="stSidebar"] div[data-baseweb="select"] div[class*="placeholder"],
-    [data-testid="stSidebar"] div[data-baseweb="select"] div[class*="Placeholder"],
     [data-testid="stSidebar"] div[data-baseweb="select"] div[data-baseweb="input"] + div,
     div[data-baseweb="select"] input::placeholder,
     div[data-baseweb="select"] [data-aria-hidden="true"],
     div[data-baseweb="select"] div[class*="placeholder"],
-    div[data-baseweb="select"] div[class*="Placeholder"] {{
-        color: {"#94A3B8" if theme.lower()=="dark" else "#475569"} !important;
-        -webkit-text-fill-color: {"#94A3B8" if theme.lower()=="dark" else "#475569"} !important;
+    div[data-baseweb="select"] div[class*="Placeholder"],
+    div[data-baseweb="select"] span[class*="placeholder"],
+    div[data-baseweb="select"] span[class*="Placeholder"],
+    div[data-baseweb="select"] div[class*="placeholder"] span,
+    div[data-baseweb="select"] div[class*="Placeholder"] span {{
+        color: {"#CBD5E1" if theme.lower()=="dark" else "#475569"} !important;
+        -webkit-text-fill-color: {"#CBD5E1" if theme.lower()=="dark" else "#475569"} !important;
         font-weight: 500 !important;
         font-size: 0.88rem !important;
         opacity: 1 !important;
