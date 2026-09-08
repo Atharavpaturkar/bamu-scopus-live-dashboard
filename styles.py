@@ -357,6 +357,11 @@ def get_custom_css(theme="dark"):
     }}
 
     /* CRITICAL FIX: Sidebar Control Borders & Outlines (Dark/Light High Visibility) */
+    [data-testid="stSidebar"] [data-testid="stMultiSelect"] div[role="group"],
+    [data-testid="stSidebar"] [data-testid="stMultiSelect"] [data-testid="stMultiSelectTagsContainer"],
+    [data-testid="stSidebar"] [data-testid="stMultiSelect"] .react-aria-ComboBox,
+    [data-testid="stSidebar"] [data-testid="stSelectbox"] div[role="group"],
+    [data-testid="stSidebar"] [data-testid="stSelectbox"] .react-aria-ComboBox,
     [data-testid="stSidebar"] [data-testid="stMultiSelect"] [data-baseweb="select"],
     [data-testid="stSidebar"] [data-testid="stSelectbox"] [data-baseweb="select"],
     [data-testid="stSidebar"] [data-testid="stNumberInput"] [data-baseweb="input"],
@@ -375,6 +380,8 @@ def get_custom_css(theme="dark"):
 
     [data-testid="stSidebar"] [data-baseweb="select"]:hover,
     [data-testid="stSidebar"] [data-baseweb="select"] > div:hover,
+    [data-testid="stSidebar"] [data-testid="stMultiSelect"] div[role="group"]:hover,
+    [data-testid="stSidebar"] [data-testid="stSelectbox"] div[role="group"]:hover,
     [data-testid="stSidebar"] [data-testid="stMultiSelect"] [data-baseweb="select"]:hover,
     [data-testid="stSidebar"] [data-testid="stSelectbox"] [data-baseweb="select"]:hover,
     [data-testid="stSidebar"] [data-testid="stNumberInput"] [data-baseweb="input"]:hover,
@@ -419,7 +426,37 @@ def get_custom_css(theme="dark"):
         font-weight: 600 !important;
     }}
 
-    /* Sidebar Multiselect & Selectbox Placeholder ("Choose options") Color Compatibility */
+    /* Sidebar & Main Multiselect & Selectbox Placeholder ("Choose options") Color Compatibility */
+    [data-testid="stSidebar"] [data-testid="stMultiSelect"] input,
+    [data-testid="stSidebar"] [data-testid="stMultiSelect"] input::placeholder,
+    [data-testid="stSidebar"] [data-testid="stMultiSelect"] input::-webkit-input-placeholder,
+    [data-testid="stSidebar"] [data-testid="stMultiSelect"] input::-moz-placeholder,
+    [data-testid="stSidebar"] [data-testid="stMultiSelect"] input:-ms-input-placeholder,
+    [data-testid="stSidebar"] [data-testid="stSelectbox"] input,
+    [data-testid="stSidebar"] [data-testid="stSelectbox"] input::placeholder,
+    [data-testid="stSidebar"] [data-testid="stSelectbox"] input::-webkit-input-placeholder,
+    [data-testid="stSidebar"] [data-testid="stSelectbox"] input::-moz-placeholder,
+    [data-testid="stSidebar"] [data-testid="stSelectbox"] input:-ms-input-placeholder,
+    [data-testid="stSidebar"] [data-testid="stMultiSelectTagsContainer"] input,
+    [data-testid="stSidebar"] [data-testid="stMultiSelectTagsContainer"] input::placeholder,
+    [data-testid="stSidebar"] [data-testid="stMultiSelectTagsContainer"] input::-webkit-input-placeholder,
+    [data-testid="stSidebar"] .react-aria-ComboBox input,
+    [data-testid="stSidebar"] .react-aria-ComboBox input::placeholder,
+    [data-testid="stSidebar"] .react-aria-ComboBox input::-webkit-input-placeholder,
+    [data-testid="stMultiSelect"] input,
+    [data-testid="stMultiSelect"] input::placeholder,
+    [data-testid="stMultiSelect"] input::-webkit-input-placeholder,
+    [data-testid="stSelectbox"] input,
+    [data-testid="stSelectbox"] input::placeholder,
+    [data-testid="stSelectbox"] input::-webkit-input-placeholder,
+    input[placeholder*="Choose"],
+    input[placeholder*="Choose"]::placeholder,
+    input[placeholder*="Choose"]::-webkit-input-placeholder,
+    input[placeholder*="Choose"]::-moz-placeholder,
+    input[placeholder*="Choose"]:-ms-input-placeholder,
+    [data-testid="stSidebar"] input[placeholder*="Choose"],
+    [data-testid="stSidebar"] input[placeholder*="Choose"]::placeholder,
+    [data-testid="stSidebar"] input[placeholder*="Choose"]::-webkit-input-placeholder,
     [data-testid="stSidebar"] [data-baseweb="select"] [class*="placeholder"],
     [data-testid="stSidebar"] [data-baseweb="select"] [class*="Placeholder"],
     [data-testid="stSidebar"] [data-baseweb="select"] [class*="placeholder"] *,
