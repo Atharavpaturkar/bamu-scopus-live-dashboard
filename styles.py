@@ -404,38 +404,42 @@ def get_custom_css(theme="dark"):
         box-shadow: 0 0 12px {"rgba(2, 132, 199, 0.35)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.2)"} !important;
     }}
 
-    /* Sidebar Multiselect & Selectbox Placeholder ("Choose options") Color Compatibility */
-    div[data-baseweb="select"] span {{
+    /* Sidebar Multiselect & Selectbox Selected Value Styling */
+    div[data-baseweb="select"] span:not([class*="placeholder"]):not([class*="Placeholder"]):not([data-aria-hidden="true"]) {
         color: {text_primary} !important;
         font-size: 0.88rem !important;
         font-weight: 600 !important;
-    }}
+    }
 
-    [data-testid="stSidebar"] [data-baseweb="select"] div[class*="placeholder"],
-    [data-testid="stSidebar"] [data-baseweb="select"] div[class*="Placeholder"],
-    [data-testid="stSidebar"] [data-baseweb="select"] span[class*="placeholder"],
-    [data-testid="stSidebar"] [data-baseweb="select"] span[class*="Placeholder"],
-    [data-testid="stSidebar"] [data-baseweb="select"] div[class*="placeholder"] span,
-    [data-testid="stSidebar"] [data-baseweb="select"] div[class*="Placeholder"] span,
+    /* Sidebar Multiselect & Selectbox Placeholder ("Choose options") Color Compatibility */
+    [data-testid="stSidebar"] [data-baseweb="select"] [class*="placeholder"],
+    [data-testid="stSidebar"] [data-baseweb="select"] [class*="Placeholder"],
+    [data-testid="stSidebar"] [data-baseweb="select"] [class*="placeholder"] *,
+    [data-testid="stSidebar"] [data-baseweb="select"] [class*="Placeholder"] *,
+    [data-testid="stSidebar"] [data-baseweb="select"] [data-aria-hidden="true"],
+    [data-testid="stSidebar"] [data-baseweb="select"] [aria-hidden="true"],
+    [data-testid="stSidebar"] [data-baseweb="select"] [data-aria-hidden="true"] *,
+    [data-testid="stSidebar"] [data-baseweb="select"] [aria-hidden="true"] *,
+    [data-testid="stSidebar"] [data-baseweb="select"] div[data-baseweb="input"] + div,
+    [data-testid="stSidebar"] [data-baseweb="select"] div[data-baseweb="input"] + div *,
     [data-testid="stSidebar"] [data-baseweb="select"] input::placeholder,
     [data-testid="stSidebar"] [data-baseweb="input"] input::placeholder,
-    [data-testid="stSidebar"] div[data-baseweb="select"] [data-aria-hidden="true"],
-    [data-testid="stSidebar"] div[data-baseweb="select"] div[data-baseweb="input"] + div,
-    div[data-baseweb="select"] input::placeholder,
+    div[data-baseweb="select"] [class*="placeholder"],
+    div[data-baseweb="select"] [class*="Placeholder"],
+    div[data-baseweb="select"] [class*="placeholder"] *,
+    div[data-baseweb="select"] [class*="Placeholder"] *,
     div[data-baseweb="select"] [data-aria-hidden="true"],
-    div[data-baseweb="select"] div[class*="placeholder"],
-    div[data-baseweb="select"] div[class*="Placeholder"],
-    div[data-baseweb="select"] span[class*="placeholder"],
-    div[data-baseweb="select"] span[class*="Placeholder"],
-    div[data-baseweb="select"] div[class*="placeholder"] span,
-    div[data-baseweb="select"] div[class*="Placeholder"] span {{
+    div[data-baseweb="select"] [aria-hidden="true"],
+    div[data-baseweb="select"] [data-aria-hidden="true"] *,
+    div[data-baseweb="select"] [aria-hidden="true"] *,
+    div[data-baseweb="select"] input::placeholder {
         color: {"#CBD5E1" if theme.lower()=="dark" else "#475569"} !important;
         -webkit-text-fill-color: {"#CBD5E1" if theme.lower()=="dark" else "#475569"} !important;
         font-weight: 500 !important;
         font-size: 0.88rem !important;
         opacity: 1 !important;
         visibility: visible !important;
-    }}
+    }
 
     div[data-baseweb="select"] svg {{
         fill: {"#38BDF8" if theme.lower()=="dark" else "#0284C7"} !important;
@@ -1187,23 +1191,46 @@ def get_custom_css(theme="dark"):
         color: {text_primary} !important;
     }}
 
-    [data-testid="stChatInput"] {{
-        background: {input_bg} !important;
-        border: 1px solid {input_border} !important;
+    /* AI COPILOT CHAT INPUT — BORDER & FOCUS THEME COMPATIBILITY */
+    [data-testid="stChatInput"],
+    [data-testid="stChatInput"] form,
+    [data-testid="stChatInput"] [data-baseweb="base-input"],
+    [data-testid="stChatInput"] [data-baseweb="input"] {
+        background-color: {input_bg} !important;
+        border: {"1px solid rgba(56, 189, 248, 0.40)" if theme.lower() == "dark" else "1px solid #CBD5E1"} !important;
         border-radius: 14px !important;
-    }}
+        transition: border-color 0.25s ease, box-shadow 0.25s ease !important;
+    }
 
     [data-testid="stChatInput"] textarea,
-    [data-testid="stChatInput"] input {{
+    [data-testid="stChatInput"] input {
         color: {text_primary} !important;
-    }}
+        background: transparent !important;
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
+    /* Focused state MUST NOT become red, remains consistent blue/cyan */
+    [data-testid="stChatInput"]:focus-within,
+    [data-testid="stChatInput"]:focus,
+    [data-testid="stChatInput"] form:focus-within,
+    [data-testid="stChatInput"] [data-baseweb="base-input"]:focus-within,
+    [data-testid="stChatInput"] [data-baseweb="input"]:focus-within,
+    [data-testid="stChatInput"] textarea:focus,
+    [data-testid="stChatInput"] textarea:focus-visible {
+        border: {"1px solid #38BDF8" if theme.lower() == "dark" else "1px solid #0284C7"} !important;
+        border-color: {"#38BDF8" if theme.lower() == "dark" else "#0284C7"} !important;
+        box-shadow: {"0 0 12px rgba(56, 189, 248, 0.35)" if theme.lower() == "dark" else "0 0 10px rgba(2, 132, 199, 0.25)"} !important;
+        outline: none !important;
+    }
 
     [data-testid="stChatInput"] textarea::placeholder,
     [data-testid="stChatInput"] input::placeholder,
-    div[data-testid="stChatInput"] [data-baseweb="base-input"] ::placeholder {{
+    div[data-testid="stChatInput"] [data-baseweb="base-input"] ::placeholder {
         color: {"rgba(248, 250, 252, 0.65)" if theme.lower() == "dark" else "rgba(15, 23, 42, 0.55)"} !important;
         opacity: 1 !important;
-    }}
+    }
 
     /* Custom Scrollbar */
     ::-webkit-scrollbar {{
