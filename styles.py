@@ -1045,21 +1045,22 @@ def get_custom_css(theme="dark"):
         overflow: visible !important;
     }}
 
-    /* Tab Navigation Bar (Horizontal Scrollable Row) */
+    /* Tab Navigation Bar (Responsive Flex Layout for Main Analytics Navigation) */
     .stTabs [data-baseweb="tab-list"] {{
-        gap: 8px !important;
+        gap: 5px !important;
         background-color: var(--background-muted) !important;
-        padding: 8px 12px !important;
+        padding: 6px 8px !important;
         border: 1px solid var(--border-color) !important;
         border-radius: 14px !important;
         box-shadow: 0 4px 20px var(--shadow-color) !important;
         backdrop-filter: blur(12px) !important;
-        display: inline-flex !important;
-        align-items: center !important;
+        display: flex !important;
+        align-items: stretch !important;
+        justify-content: space-between !important;
         flex-wrap: nowrap !important;
         width: 100% !important;
         max-width: 100% !important;
-        overflow-x: auto !important;
+        overflow-x: visible !important;
         scrollbar-width: none !important;
         -ms-overflow-style: none !important;
         margin-bottom: 1.2rem !important;
@@ -1079,26 +1080,46 @@ def get_custom_css(theme="dark"):
         display: none !important;
     }}
 
-    /* 1. Inactive Tabs (Physical Button Pill Shape & Theme Border with CSS variables) */
+    /* 1. Desktop & Laptop Tab Buttons: Flex 1 Share Space & Controlled Wrap */
     .stTabs [data-baseweb="tab"] {{
-        height: 40px !important;
-        line-height: 40px !important;
+        flex: 1 1 0 !important;
+        min-width: 0 !important;
+        height: auto !important;
+        min-height: 44px !important;
         border: 1px solid var(--border-color) !important;
         border-radius: 10px !important;
         color: var(--tab-text) !important;
         font-weight: 600 !important;
-        font-size: 0.90rem !important;
-        padding: 0 14px !important;
+        font-size: 0.88rem !important;
+        padding: 6px 8px !important;
         background-color: var(--background-muted) !important;
         box-shadow: 0 2px 6px var(--shadow-color) !important;
         transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        white-space: nowrap !important;
+        white-space: normal !important;
+        word-break: normal !important;
+        overflow-wrap: break-word !important;
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
-        gap: 0.4rem !important;
-        flex-shrink: 0 !important;
+        text-align: center !important;
+        line-height: 1.25 !important;
+        gap: 0.35rem !important;
+        flex-shrink: 1 !important;
         cursor: pointer !important;
+    }}
+
+    /* Inner Label Typography Container Fix */
+    .stTabs [data-baseweb="tab"] [data-testid="stMarkdownContainer"],
+    .stTabs [data-baseweb="tab"] p {{
+        white-space: normal !important;
+        word-break: normal !important;
+        overflow-wrap: break-word !important;
+        text-align: center !important;
+        line-height: 1.25 !important;
+        font-size: 0.88rem !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        color: inherit !important;
     }}
 
     .stTabs [data-baseweb="tab"] * {{
@@ -1119,7 +1140,7 @@ def get_custom_css(theme="dark"):
         color: var(--primary) !important;
     }}
 
-    /* 3. Active / Selected Tab State: Accent Border, 20%/12% Primary Tint & Bold Brand Color */
+    /* 3. Active / Selected Tab State: Accent Border, Primary Tint & Bold Brand Color */
     .stTabs [aria-selected="true"] {{
         background-color: var(--tab-active-bg) !important;
         color: var(--primary) !important;
@@ -1132,6 +1153,41 @@ def get_custom_css(theme="dark"):
     .stTabs [aria-selected="true"] * {{
         color: var(--primary) !important;
         font-weight: 800 !important;
+    }}
+
+    /* Large Screens (1600px+): Slightly larger font size */
+    @media (min-width: 1600px) {{
+        .stTabs [data-baseweb="tab"] {{
+            font-size: 0.92rem !important;
+            padding: 6px 10px !important;
+        }}
+        .stTabs [data-baseweb="tab"] [data-testid="stMarkdownContainer"],
+        .stTabs [data-baseweb="tab"] p {{
+            font-size: 0.92rem !important;
+        }}
+    }}
+
+    /* Mobile / Tablet Narrow Screens (<992px): Native Scrollbar Fallback */
+    @media (max-width: 991px) {{
+        .stTabs [data-baseweb="tab-list"] {{
+            display: inline-flex !important;
+            overflow-x: auto !important;
+            justify-content: flex-start !important;
+            gap: 8px !important;
+            padding: 8px 12px !important;
+        }}
+        .stTabs [data-baseweb="tab"] {{
+            flex: 0 0 auto !important;
+            min-width: max-content !important;
+            height: 40px !important;
+            padding: 0 14px !important;
+            white-space: nowrap !important;
+        }}
+        .stTabs [data-baseweb="tab"] [data-testid="stMarkdownContainer"],
+        .stTabs [data-baseweb="tab"] p {{
+            white-space: nowrap !important;
+            font-size: 0.90rem !important;
+        }}
     }}
 
     /* Tab Content Padding & Alignment Inside Container */
