@@ -659,16 +659,35 @@ def get_custom_css(theme="dark"):
         box-shadow: {card_shadow};
     }}
 
+    .icare-brand-group {{
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        flex-shrink: 0;
+    }}
+
     .icare-logo-badge {{
         background: {subtle_bg};
-        border: 1px solid {"rgba(56, 189, 248, 0.25)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.2)"};
+        border: 1px solid {"rgba(56, 189, 248, 0.35)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.25)"};
         border-radius: 9px;
         padding: 0.28rem 0.65rem;
         display: inline-flex;
         align-items: center;
-        gap: 0.55rem;
+        justify-content: center;
         flex-shrink: 0;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+        box-shadow: {"0 2px 8px rgba(0, 0, 0, 0.25)" if theme.lower()=="dark" else "0 2px 6px rgba(15, 23, 42, 0.06)"};
+    }}
+
+    .icare-portal-badge {{
+        background: {subtle_bg};
+        border: 1px solid {"rgba(56, 189, 248, 0.35)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.25)"};
+        border-radius: 9px;
+        padding: 0.45rem 0.75rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        box-shadow: {"0 2px 8px rgba(0, 0, 0, 0.25)" if theme.lower()=="dark" else "0 2px 6px rgba(15, 23, 42, 0.06)"};
     }}
 
     .icare-logo-img {{
@@ -686,29 +705,25 @@ def get_custom_css(theme="dark"):
 
     .icare-subtext {{
         font-family: 'Outfit', sans-serif;
-        font-size: 0.70rem;
+        font-size: 0.72rem;
         font-weight: 800;
         letter-spacing: 0.08em;
         color: {primary_blue};
         text-transform: uppercase;
         white-space: nowrap;
-        padding: 0.15rem 0.45rem;
-        background: {badge_bg};
-        border-radius: 4px;
-        border: 1px solid {"rgba(56, 189, 248, 0.2)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.15)"};
     }}
 
     .univ-header-card {{
-        background: {"rgba(2, 132, 199, 0.14)" if theme.lower()=="dark" else "rgba(2, 132, 199, 0.07)"} !important;
-        border: {"1px solid rgba(56, 189, 248, 0.3)" if theme.lower()=="dark" else "1px solid rgba(2, 132, 199, 0.25)"} !important;
-        border-left: {"3.5px solid #38BDF8" if theme.lower()=="dark" else "3.5px solid #0284C7"} !important;
-        border-radius: 10px !important;
-        padding: 0.35rem 0.85rem !important;
+        background: transparent !important;
+        border: none !important;
+        border-left: none !important;
+        border-radius: 0 !important;
+        padding: 0 0.4rem !important;
         display: flex !important;
         flex-direction: column !important;
         justify-content: center !important;
-        box-shadow: {"0 4px 14px rgba(0, 0, 0, 0.25)" if theme.lower()=="dark" else "0 2px 8px rgba(15, 23, 42, 0.06)"} !important;
-        backdrop-filter: blur(10px) !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
     }}
 
     .univ-title {{
@@ -1438,17 +1453,21 @@ def render_icare_topbar(theme="dark"):
 
     html = f"""
     <div class="icare-topbar">
-        <div style="display: flex; align-items: center; gap: 0.85rem;">
-            <div class="icare-logo-badge">
-                {logo_html}
-                <span class="icare-subtext">PORTAL INTELLIGENCE</span>
+        <div style="display: flex; align-items: center; gap: 0.85rem; flex-wrap: wrap;">
+            <div class="icare-brand-group">
+                <div class="icare-logo-badge">
+                    {logo_html}
+                </div>
+                <div class="icare-portal-badge">
+                    <span class="icare-subtext">PORTAL INTELLIGENCE</span>
+                </div>
             </div>
             <div class="univ-header-card">
                 <h2 class="univ-title">{univ_name}</h2>
                 <div class="univ-subtitle"><b>{nirf_id}</b> • {city}</div>
             </div>
         </div>
-        <div style="text-align: right;">
+        <div style="text-align: right; flex-shrink: 0;">
             <span class="live-status-pill">
                 <span style="height: 8px; width: 8px; background-color: #10B981; border-radius: 50%; display: inline-block; box-shadow: 0 0 8px #10B981;"></span>
                 Live Scopus API Engine Active
